@@ -60,7 +60,7 @@ struct OlmecGameView: View {
                         .bold()
                         .padding()
                     
-                    Text("Find the 3 colossal heads and learn fun facts!")
+                    Text("Your journey begins in the lush jungles of Mesoamerica. The Olmec civilization, known for their monumental stone heads, once flourished here. But these colossal sculptures have hidden secrets. Will you be the one to discover them?")
                         .font(.title3)
                         .foregroundColor(.white)
                         .multilineTextAlignment(.center)
