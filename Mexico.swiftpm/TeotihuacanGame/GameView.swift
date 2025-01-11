@@ -7,15 +7,20 @@
 import SwiftUI
 import SpriteKit
 
-struct GameView: UIViewRepresentable {
-    func makeUIView(context: Context) -> SKView {
-        let skView = SKView()
-        let scene = GameScene(size: CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
-        scene.scaleMode = .aspectFill // Asegura que la escena ocupe toda la pantalla y mantenga proporción
-        skView.presentScene(scene)
-        return skView
-    }
+class GameView: UIViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
 
-    func updateUIView(_ uiView: SKView, context: Context) {}
+        // Crear la escena de SpriteKit
+        let scene = GameScene(size: view.bounds.size)
+        let skView = SKView(frame: view.bounds)
+        skView.showsFPS = true
+        skView.showsNodeCount = true
+        view.addSubview(skView)
+
+        // Presentar la escena
+        skView.presentScene(scene)
+    }
 }
+
 
