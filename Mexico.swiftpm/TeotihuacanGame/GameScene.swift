@@ -6,10 +6,8 @@
 //
 import SpriteKit
 import UIKit
-import AVFoundation
 
 class GameScene: SKScene {
-    // Variables globales para rastrear el progreso del juego
     var timerLabel: SKLabelNode!
     var gameTimer: Timer?
     var timeRemaining = 60
@@ -29,13 +27,21 @@ class GameScene: SKScene {
 
     var pyramidBase: SKSpriteNode!
     var isBuildingPhase = false
-    var playerVoice = AVAudioPlayer()
 
     override func didMove(to view: SKView) {
+        // Configuración inicial de la vista
+        view.isMultipleTouchEnabled = true
+        view.preferredFramesPerSecond = 60
+        isUserInteractionEnabled = true
+        
         backgroundColor = .white
 
-        // Reproducir voz en off de introducción
-        playIntroVoice()
+        // Agregar el fondo
+        let background = SKSpriteNode(imageNamed: "teotihuacan")
+        background.position = CGPoint(x: size.width / 2, y: size.height / 2)
+        background.size = CGSize(width: size.width, height: size.height)
+        background.zPosition = -1
+        addChild(background)
 
         // Configurar temporizador
         timerLabel = SKLabelNode(text: "Time: 60")
@@ -49,35 +55,12 @@ class GameScene: SKScene {
         pyramidBase.position = CGPoint(x: size.width / 2, y: 100)
         addChild(pyramidBase)
 
-        // Comenzar la fase de selección de materiales
+        // Instrucciones iniciales
+        showMessage("¡Bienvenido al juego! Selecciona los materiales correctos para construir la pirámide.")
+
+        // Comenzar el juego
         startMaterialSelectionPhase()
         startTimer()
-    }
-
-    func playIntroVoice() {
-        guard let introSound = Bundle.main.path(forResource: "introVoice", ofType: "mp3") else { return }
-        do {
-            playerVoice = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: introSound))
-            playerVoice.play()
-        } catch {
-            print("Error al reproducir la voz en off: \(error)")
-        }
-
-        // Mostrar mensaje de introducción en pantalla
-        let introLabel = SKLabelNode(text: "Welcome to Teotihuacán! Your task is to gather the right materials and help build the Pyramid of the Sun. Let's go!")
-        introLabel.fontName = "AvenirNext-Bold"
-        introLabel.fontSize = 20
-        introLabel.position = CGPoint(x: size.width / 2, y: size.height - 50)
-        introLabel.fontColor = .black
-        addChild(introLabel)
-
-        // Hacer que el mensaje desaparezca después de 5 segundos
-        introLabel.run(SKAction.sequence([
-            SKAction.fadeIn(withDuration: 0.5),
-            SKAction.wait(forDuration: 5.0),
-            SKAction.fadeOut(withDuration: 0.5),
-            SKAction.removeFromParent()
-        ]))
     }
 
     func startTimer() {
@@ -89,7 +72,6 @@ class GameScene: SKScene {
         timerLabel.text = "Time: \(timeRemaining)"
 
         if timeRemaining == 30 && !isBuildingPhase {
-            // Cambiar a la fase de construcción
             startBuildingPhase()
         }
 
@@ -101,13 +83,26 @@ class GameScene: SKScene {
 
     func startMaterialSelectionPhase() {
         for (index, material) in materials.enumerated() {
-            let materialNode = SKLabelNode(text: material)
-            materialNode.name = material
-            materialNode.fontName = "AvenirNext-Bold"
-            materialNode.fontSize = 18
-            materialNode.position = CGPoint(x: size.width / 2, y: size.height - CGFloat(100 + index * 30))
-            materialNode.isUserInteractionEnabled = true
-            addChild(materialNode)
+            if let materialNode = materialImages[material] {
+                materialNode.name = material
+                materialNode.size = CGSize(width: 100, height: 100)
+                materialNode.position = CGPoint(x: CGFloat.random(in: 50...(size.width - 50)),
+                                             y: size.height - CGFloat(100 + index * 130))
+                
+                // Hacer el nodo interactivo
+                materialNode.isUserInteractionEnabled = true
+                materialNode.zPosition = 1
+                
+                // Crear un botón transparente para mejorar la interacción
+                let button = SKShapeNode(rectOf: CGSize(width: 100, height: 100))
+                button.fillColor = .clear
+                button.strokeColor = .clear
+                button.name = "\(material)_button"
+                button.position = .zero
+                materialNode.addChild(button)
+                
+                addChild(materialNode)
+            }
         }
     }
 
@@ -117,36 +112,49 @@ class GameScene: SKScene {
 
         backgroundColor = .cyan
 
-        let buildLabel = SKLabelNode(text: "Place the blocks to build the pyramid!")
+        let buildLabel = SKLabelNode(text: "¡Coloca los bloques para construir la pirámide!")
         buildLabel.fontName = "AvenirNext-Bold"
         buildLabel.fontSize = 20
         buildLabel.position = CGPoint(x: size.width / 2, y: size.height - 50)
         addChild(buildLabel)
 
-        addChild(timerLabel) // Re-agregar temporizador a la escena
+        addChild(timerLabel)
 
+        // Crear bloques
         for _ in 0..<10 {
             let block = SKSpriteNode(color: .brown, size: CGSize(width: 50, height: 20))
             block.position = CGPoint(x: CGFloat.random(in: 50...(size.width - 50)), y: size.height - 50)
             block.name = "Block"
+            block.isUserInteractionEnabled = true
             addChild(block)
         }
     }
 
     func showMessage(_ text: String) {
+        // Fondo de mensaje
+        let background = SKSpriteNode(color: .white, size: CGSize(width: 400, height: 60))
+        background.position = CGPoint(x: size.width / 2, y: size.height / 2)
+        background.alpha = 0.8
+        background.zPosition = 100
+        addChild(background)
+
         let messageLabel = SKLabelNode(text: text)
         messageLabel.fontName = "AvenirNext-Bold"
         messageLabel.fontSize = 18
         messageLabel.fontColor = .red
         messageLabel.position = CGPoint(x: size.width / 2, y: size.height / 2)
+        messageLabel.zPosition = 101
         addChild(messageLabel)
 
-        messageLabel.run(SKAction.sequence([
+        let fadeSequence = SKAction.sequence([
             SKAction.fadeIn(withDuration: 0.5),
             SKAction.wait(forDuration: 1.0),
             SKAction.fadeOut(withDuration: 0.5),
             SKAction.removeFromParent()
-        ]))
+        ])
+        
+        background.run(fadeSequence)
+        messageLabel.run(fadeSequence)
     }
 
     func showCuriosity(for material: String) {
@@ -154,68 +162,101 @@ class GameScene: SKScene {
 
         switch material {
         case "Obsidiana":
-            curiosityText = "Obsidiana: This volcanic glass was used to make sharp tools and weapons!"
+            curiosityText = "Obsidiana: ¡Este vidrio volcánico se usaba para hacer herramientas y armas afiladas!"
         case "Adobe":
-            curiosityText = "Adobe: Light and easy to transport, adobe was perfect for building in this vast city."
+            curiosityText = "Adobe: Ligero y fácil de transportar, ¡el adobe era perfecto para construir en esta vasta ciudad!"
         case "Piedra Volcánica":
-            curiosityText = "Piedra Volcánica: Strong volcanic stone helped the pyramid stand for centuries."
+            curiosityText = "Piedra Volcánica: ¡La fuerte piedra volcánica ayudó a que la pirámide resistiera durante siglos!"
         case "Cal":
-            curiosityText = "Cal: Mixed with water, cal helped bind the stones together securely."
-        case "Arena":
-            curiosityText = "Arena: Used to fill the gaps between the stones, sand was an essential material."
-        case "Madera":
-            curiosityText = "Madera: Wood was used for scaffolding and temporary structures during the building process."
+            curiosityText = "Cal: Al mezclarla con agua, la cal ayudaba a unir las piedras con firmeza."
         default:
-            curiosityText = "This material has an interesting history!"
+            curiosityText = "¡Este material tiene una historia interesante!"
         }
 
         showMessage(curiosityText)
     }
 
+    func validateMaterial(_ material: String) {
+        if correctMaterials.contains(material) {
+            showMessage("\(material) es un material válido. ¡Buen trabajo!")
+        } else {
+            showMessage("\(material) no es un material válido. ¡Intenta de nuevo!")
+        }
+    }
+
+    func handleMaterialSelection(_ materialName: String, node: SKNode) {
+        validateMaterial(materialName)
+        showCuriosity(for: materialName)
+        
+        // Efecto visual
+        if let materialNode = node.parent as? SKSpriteNode ?? node as? SKSpriteNode {
+            let scaleUp = SKAction.scale(to: 1.2, duration: 0.1)
+            let scaleDown = SKAction.scale(to: 1.0, duration: 0.1)
+            let highlight = SKAction.sequence([scaleUp, scaleDown])
+            materialNode.run(highlight)
+        }
+        
+        // Actualizar selección
+        if correctMaterials.contains(materialName) && !selectedMaterials.contains(materialName) {
+            selectedMaterials.append(materialName)
+        }
+    }
+
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
+        
         let location = touch.location(in: self)
-
-        if let node = nodes(at: location).first(where: { materials.contains($0.name ?? "") }) {
-            showCuriosity(for: node.name ?? "")
+        let touchedNodes = nodes(at: location)
+        
+        for node in touchedNodes {
+            // Buscar el material en la jerarquía de nodos
+            var currentNode: SKNode? = node
+            while let nodeToCheck = currentNode {
+                if let materialName = nodeToCheck.name?.replacingOccurrences(of: "_button", with: ""),
+                   materials.contains(materialName) {
+                    handleMaterialSelection(materialName, node: nodeToCheck)
+                    return
+                }
+                currentNode = nodeToCheck.parent
+            }
+            
+            // Manejar bloques en la fase de construcción
+            if isBuildingPhase && node.name == "Block" {
+                node.position = location
+            }
         }
     }
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard let touch = touches.first else { return }
+        guard isBuildingPhase, let touch = touches.first else { return }
         let location = touch.location(in: self)
-
-        if let node = nodes(at: location).first(where: { $0.name == "Block" || correctMaterials.contains($0.name ?? "") }) {
-            node.position = location
+        
+        if let block = nodes(at: location).first(where: { $0.name == "Block" }) {
+            block.position = location
         }
     }
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard let touch = touches.first else { return }
+        guard isBuildingPhase, let touch = touches.first else { return }
         let location = touch.location(in: self)
-
-        if let node = nodes(at: location).first(where: { $0.name == "Block" }) {
-            if node.frame.intersects(pyramidBase.frame) {
-                node.removeFromParent()
-                showMessage("This layer represents a vital part of the structure!")
+        
+        if let block = nodes(at: location).first(where: { $0.name == "Block" }) {
+            if block.frame.intersects(pyramidBase.frame) {
+                block.removeFromParent()
+                showMessage("¡Esta capa representa una parte vital de la estructura!")
             } else {
-                node.run(SKAction.sequence([
-                    SKAction.scale(to: 0.5, duration: 0.1),
-                    SKAction.scale(to: 1.0, duration: 0.1)
-                ]))
-                showMessage("Incorrect placement! Try again.")
+                block.position = CGPoint(x: CGFloat.random(in: 50...(size.width - 50)), y: size.height - 50)
+                showMessage("¡Intenta de nuevo! Colócalo correctamente.")
             }
         }
     }
 
     func endGame() {
-        removeAllChildren()
-
-        let endLabel = SKLabelNode(text: "Great job! You’ve built the Pyramid of the Sun!")
-        endLabel.fontName = "AvenirNext-Bold"
-        endLabel.fontSize = 20
-        endLabel.position = CGPoint(x: size.width / 2, y: size.height / 2)
-        addChild(endLabel)
+        let endMessage = SKLabelNode(text: "¡Buen trabajo! Has ayudado a construir una de las pirámides más grandes de Mesoamérica.")
+        endMessage.fontName = "AvenirNext-Bold"
+        endMessage.fontSize = 30
+        endMessage.position = CGPoint(x: size.width / 2, y: size.height / 2)
+        endMessage.fontColor = .red
+        addChild(endMessage)
     }
 }
-
