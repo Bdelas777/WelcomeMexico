@@ -180,15 +180,6 @@ class GameViewModelIndependence: ObservableObject {
             score += 10
             endGame()  // Fin del juego
         }
-        
         showDialog = true
     }
 }
-
-
-
-
-
-
-
-
