@@ -10,24 +10,31 @@ import SwiftUI
 struct FactsView: View {
     @ObservedObject var viewModel: GameViewModel
     
+    let facts = [
+        "The Tlaxcalteca alliance with Cortés was crucial in the fall of the Aztec Empire.",
+        "Tlaxcala maintained significant autonomy under Spanish rule due to their alliance.",
+        "The Tlaxcaltecas provided thousands of warriors to support Cortés."
+    ]
+    
     var body: some View {
         VStack {
-            Text("Did You Know?")
+            Text("Historical Facts")
                 .font(.largeTitle)
                 .padding()
             
-            VStack(spacing: 20) {
-                FactCard(text: "The Tlaxcaltecas wanted freedom from the Aztecs, so they allied with Cortés!")
-                FactCard(text: "Without the Tlaxcaltecas' 50,000 warriors, Cortés wouldn't have won!")
-                FactCard(text: "The Totonacas supported the Spanish later, but they weren't key allies at first!")
+            ForEach(facts, id: \.self) { fact in
+                FactCard(text: fact)
+                    .padding()
             }
-            .padding()
             
             Button("Continue") {
-                withAnimation {
-                    viewModel.showVictory()
-                }
+                viewModel.showVictory()
             }
+            .font(.title)
+            .padding()
+            .background(Color.blue)
+            .foregroundColor(.white)
+            .cornerRadius(10)
             .padding()
         }
     }
