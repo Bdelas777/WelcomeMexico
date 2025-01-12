@@ -1,5 +1,5 @@
 //
-//  SwiftUIView.swift
+//  File.swift
 //  
 //
 //  Created by Alumno on 11/01/25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct GameplayView: View {
+struct GameplaysView: View {
     @ObservedObject var viewModel: GameViewModel
     @State private var feedbackMessage: String = ""
     @State private var showFeedback: Bool = false

@@ -6,8 +6,7 @@
 //
 
 import Foundation
-
-import Foundation
+import CoreGraphics
 
 class GameViewModel: ObservableObject {
     @Published var gameState: GameState = .introduction
@@ -17,27 +16,30 @@ class GameViewModel: ObservableObject {
     private var timer: Timer?
     @Published var gameDuration: Double = 40.0
     
-    @Published var cultures: [Culture] = [
-        Culture(name: "Tlaxcaltecas", isAlly: true,
-               description: "The main allies of Cortés",
-               position: CGPoint(x: 100, y: 200)),
-        Culture(name: "Mexicas", isAlly: false,
-               description: "The enemies of Cortés",
-               position: CGPoint(x: 200, y: 200)),
-        Culture(name: "Totonacas", isAlly: false,
-               description: "Later supporters",
-               position: CGPoint(x: 300, y: 200))
-    ]
+    @Published var cultures: [Culture]
     @Published var culturePositions: [UUID: CGPoint]
     @Published var score: Int = 0
     
     private var initialPositions: [UUID: CGPoint]
     
     init() {
-        // Inicializar culturePositions y initialPositions
-        self.culturePositions = Dictionary(uniqueKeysWithValues:
-            cultures.map { ($0.id, $0.position) })
-        self.initialPositions = self.culturePositions
+        // Inicializamos cultures
+        let initialCultures = [
+            Culture(name: "Tlaxcaltecas", isAlly: true,
+                    description: "The main allies of Cortés",
+                    position: CGPoint(x: 100, y: 200)),
+            Culture(name: "Mexicas", isAlly: false,
+                    description: "The enemies of Cortés",
+                    position: CGPoint(x: 200, y: 200)),
+            Culture(name: "Totonacas", isAlly: false,
+                    description: "Later supporters",
+                    position: CGPoint(x: 300, y: 200))
+        ]
+        // Inicializamos todas las propiedades necesarias
+        self.cultures = initialCultures
+        let positions = Dictionary(uniqueKeysWithValues: initialCultures.map { ($0.id, $0.position) })
+        self.culturePositions = positions
+        self.initialPositions = positions
     }
     
     func updateCulturePosition(_ id: UUID, position: CGPoint) {
@@ -54,7 +56,7 @@ class GameViewModel: ObservableObject {
         guard let culture = cultures.first(where: { $0.id == id }) else { return false }
         
         let isCorrectZone = (zone == "Allies" && culture.isAlly) ||
-                           (zone == "Non-Allies" && !culture.isAlly)
+                            (zone == "Non-Allies" && !culture.isAlly)
         return isCorrectZone
     }
     
@@ -103,3 +105,4 @@ class GameViewModel: ObservableObject {
         timer?.invalidate()
     }
 }
+
