@@ -16,7 +16,7 @@ struct GameView: View {
             case .introduction:
                 IntroductionView(viewModel: viewModel)
             case .playing:
-                GameplaysView(viewModel: viewModel)
+                GameplayView(viewModel: viewModel)
             case .facts:
                 FactsView(viewModel: viewModel)
             case .victory:
