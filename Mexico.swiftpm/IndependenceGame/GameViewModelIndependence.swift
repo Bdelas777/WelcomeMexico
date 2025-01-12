@@ -28,59 +28,106 @@ class GameViewModelIndependence: ObservableObject {
     var timer: Timer?
     
     // Más preguntas agregadas
-    let questions: [Question] = [
-        Question(text: "¿Cómo empezarías la lucha por la independencia?", options: [
-            DialogOption(text: "Iniciar con una alianza con Vicente Guerrero", nextQuestion: 1, result: "La alianza fortalece la causa, pero requiere negociación constante."),
-            DialogOption(text: "Luchar sin aliados, solo con los insurgentes", nextQuestion: 2, result: "La falta de recursos y apoyo externo hace que los insurgentes tengan muchas bajas."),
-            DialogOption(text: "Buscar apoyo en el extranjero, por ejemplo, en Estados Unidos", nextQuestion: 3, result: "El apoyo externo llega con algunos recursos, pero también genera desconfianza entre los locales."),
-            DialogOption(text: "Apostar por la resistencia pacífica", nextQuestion: 4, result: "La resistencia pacífica crece, pero la falta de acción militar lleva a un lento avance.")
-        ]),
-        
-        // Nueva pregunta
-        Question(text: "Tus soldados tienen hambre y el suministro es limitado. ¿Qué haces?", options: [
-            DialogOption(text: "Distribuir los alimentos equitativamente entre todos", nextQuestion: 5, result: "La distribución justa mantiene la moral, pero las reservas se agotan rápidamente."),
-            DialogOption(text: "Dar más alimentos a los soldados más fuertes", nextQuestion: 6, result: "Esto genera resentimiento, pero los más fuertes siguen en pie para la lucha."),
-            DialogOption(text: "Racionar estrictamente para que todos sobrevivan más tiempo", nextQuestion: 7, result: "La ración estricta ayuda a que todos sobrevivan más tiempo, pero afecta la moral de algunos."),
-            DialogOption(text: "Enfrentar la falta de suministros con una ofensiva sorpresa", nextQuestion: 8, result: "La ofensiva tiene éxito, pero las bajas son altas y los suministros siguen siendo escasos.")
-        ]),
-        
-        Question(text: "El ejército realista ataca. ¿Cuál es tu plan?", options: [
-            DialogOption(text: "Organizar una defensa sólida en las montañas", nextQuestion: 9, result: "La defensa en las montañas es exitosa, pero las fuerzas insurgentes sufren bajas."),
-            DialogOption(text: "Atacar por sorpresa al ejército realista", nextQuestion: 10, result: "La sorpresa permite una victoria, pero las bajas son grandes."),
-            DialogOption(text: "Retirarse y reagruparse en un lugar más seguro", nextQuestion: 11, result: "La retirada crea confusión, pero algunos soldados prefieren huir."),
-            DialogOption(text: "Pedir una tregua con los realistas", nextQuestion: 12, result: "La tregua se firma, pero muchos insurgentes no la apoyan y se sienten traicionados.")
-        ]),
-        
-        // Nueva pregunta
-        Question(text: "El clima ha empeorado y se avecina una tormenta. ¿Qué haces?", options: [
-            DialogOption(text: "Esperar a que pase la tormenta y seguir adelante", nextQuestion: 13, result: "La espera es larga, pero la moral se mantiene alta al sobrevivir al mal clima."),
-            DialogOption(text: "Buscar refugio y reorganizar a las tropas", nextQuestion: 14, result: "El refugio es seguro, pero algunos soldados pierden el enfoque y la estrategia se retrasa."),
-            DialogOption(text: "Seguir marchando bajo la tormenta para llegar rápido a la próxima ciudad", nextQuestion: 15, result: "El avance rápido es efectivo, pero algunos soldados se enferman por la exposición."),
-            DialogOption(text: "Detenerse completamente hasta que el clima mejore", nextQuestion: 16, result: "La parada crea incertidumbre, pero se evitan más bajas debido al mal tiempo.")
-        ]),
-        
-        Question(text: "Un traidor ha infiltrado tus filas. ¿Cómo actuarías?", options: [
-            DialogOption(text: "Ejecutarlo para dar ejemplo", nextQuestion: 17, result: "La ejecución fortalece el control, pero la moral del ejército se ve afectada."),
-            DialogOption(text: "Tratar de convencerlo de unirse a la causa", nextQuestion: 18, result: "Algunos lo ven como una oportunidad, pero otros lo perciben como una debilidad."),
-            DialogOption(text: "Destituirlo y mantenerlo prisionero", nextQuestion: 19, result: "La destitución crea desconfianza, pero la situación no empeora."),
-            DialogOption(text: "Ignorarlo y continuar con la lucha", nextQuestion: 20, result: "Ignorar al traidor provoca más deserciones dentro del ejército.")
-        ]),
-        
-        // Nueva pregunta
-        Question(text: "Un aliado importante ha muerto en combate. ¿Cómo reaccionas?", options: [
-            DialogOption(text: "Llamar a una pausa para honrar su memoria", nextQuestion: 21, result: "La pausa es respetuosa, pero la moral del ejército disminuye por la pérdida."),
-            DialogOption(text: "No perder tiempo y continuar con la misión", nextQuestion: 22, result: "La misión continúa, pero algunos soldados sienten que no se les da espacio para el luto."),
-            DialogOption(text: "Convocar a todos los líderes para tomar decisiones sobre el futuro", nextQuestion: 23, result: "La reunión crea incertidumbre, pero permite tomar decisiones estratégicas claras."),
-            DialogOption(text: "Reemplazar rápidamente su puesto con un nuevo líder", nextQuestion: 24, result: "El nuevo líder tiene la fuerza para continuar, pero algunos dudan de su capacidad.")
-        ]),
-        
-        Question(text: "Finalmente, ¿cómo evaluarías tu estrategia?", options: [
-            DialogOption(text: "Logré la independencia de México, aunque con grandes sacrificios", nextQuestion: -1, result: "La independencia se logra a costa de muchas vidas, pero el país es libre."),
-            DialogOption(text: "La lucha por la independencia fue fallida, pero valió la pena", nextQuestion: -1, result: "Aunque no alcanzaron la independencia, los ideales persisten y la lucha sigue viva."),
-            DialogOption(text: "Mi estrategia causó más divisiones que avances", nextQuestion: -1, result: "Las divisiones internas retrasaron la independencia, pero la causa aún está viva."),
-            DialogOption(text: "La paz nunca llegó, pero finalmente la independencia fue alcanzada", nextQuestion: -1, result: "La lucha no fue fácil, pero la victoria trajo consigo una independencia costosa.")
-        ])
-    ]
+        let questions: [Question] = [
+            // Question 1
+            Question(text: "¿Cómo prefieres comenzar la negociación para la consumación de la independencia?", options: [
+                DialogOption(text: "Buscar el apoyo de los insurgentes", nextQuestion: 1),
+                DialogOption(text: "Negociar directamente con la Corona española", nextQuestion: 2),
+                DialogOption(text: "Declarar la independencia unilateralmente", nextQuestion: 3)
+            ]),
+
+            // Question 2
+            Question(text: "¿Cómo planeas obtener el apoyo de los insurgentes?", options: [
+                DialogOption(text: "Prometerles poder en el nuevo gobierno", nextQuestion: 4),
+                DialogOption(text: "Ofrecerles respeto a sus derechos y autonomía", nextQuestion: 5)
+            ]),
+
+            // Question 3
+            Question(text: "¿Qué acción tomarías si la Corona española rechaza la negociación?", options: [
+                DialogOption(text: "Buscar apoyo de otras naciones", nextQuestion: 6),
+                DialogOption(text: "Intentar un acuerdo con los Estados Unidos", nextQuestion: 7)
+            ]),
+
+            // Question 4
+            Question(text: "¿Cómo enfrentarás la reacción de España ante tu declaración de independencia?", options: [
+                DialogOption(text: "Resistir con la fuerza militar", nextQuestion: 8),
+                DialogOption(text: "Intentar negociar un tratado de paz", nextQuestion: 9)
+            ]),
+
+            // Question 5
+            Question(text: "Si prometes poder en el gobierno a los insurgentes, ¿quién sería el líder de la nueva nación?", options: [
+                DialogOption(text: "Yo mismo, como emperador", nextQuestion: 10),
+                DialogOption(text: "Un líder insurgente reconocido", nextQuestion: 11)
+            ]),
+
+            // Question 6
+            Question(text: "Si aseguras respeto a los derechos de los insurgentes, ¿cómo manejarás la distribución de tierras?", options: [
+                DialogOption(text: "Distribuir tierras de manera equitativa entre todos", nextQuestion: 12),
+                DialogOption(text: "Concentrar tierras en las zonas estratégicas", nextQuestion: 12)
+            ]),
+
+            // Question 7
+            Question(text: "Si buscas apoyo de otras naciones, ¿a quién contactarías primero?", options: [
+                DialogOption(text: "Francia", nextQuestion: 14),
+                DialogOption(text: "Estados Unidos", nextQuestion: 14)
+            ]),
+
+            // Question 8
+            Question(text: "Si intentas un acuerdo con los Estados Unidos, ¿qué oferta les harías?", options: [
+                DialogOption(text: "Ofrecer tierras del norte", nextQuestion: 14),
+                DialogOption(text: "Pedir apoyo militar a cambio de una alianza", nextQuestion: 14)
+            ]),
+
+            // Question 9
+            Question(text: "Si decides resistir con la fuerza, ¿cómo organizarías la defensa?", options: [
+                DialogOption(text: "Formar un ejército profesional", nextQuestion: 15),
+                DialogOption(text: "Usar guerrillas locales", nextQuestion: 15)
+            ]),
+
+            // Question 10
+            Question(text: "Si negocias un tratado de paz con España, ¿qué condiciones aceptarías?", options: [
+                DialogOption(text: "Aceptar la independencia, pero con limitaciones comerciales", nextQuestion: 14),
+                DialogOption(text: "Exigir la independencia total sin condiciones", nextQuestion: 16)
+            ]),
+
+            // Question 11
+            Question(text: "Te has coronado emperador de México y has firmado los tratados de Córdoba", options: [
+                DialogOption(text: "Que viva el imperio mexicano de Agustín de Iturbide", nextQuestion: -1)
+            ]),
+
+            // Question 12
+            Question(text: "Al escoger un líder insurgente se ha escogido a Vicente Guerrero", options: [
+                DialogOption(text: "Se ha formado la república mexicana y se han firmado los tratados de Córdoba", nextQuestion: -1)
+            ]),
+
+            // Question 13
+            Question(text: "Los insurgentes se te han aliado", options: [
+                DialogOption(text: "Marchas a Córdoba en búsqueda de la independencia", nextQuestion: -1)
+            ]),
+
+            // Question 14
+            Question(text: "Los insurgentes se han asentado", options: [
+                DialogOption(text: "Sigues siendo parte del imperio español", nextQuestion: -1)
+            ]),
+
+            // Question 15
+            Question(text: "Una nación extranjera se ha unido a tu lucha", options: [
+                DialogOption(text: "Formar alianzas con potencias extranjeras y la guerra se está prolongando a un conflicto de escala mayor", nextQuestion: -1)
+            ]),
+
+            // Question 16
+            Question(text: "España ha traído más fuerzas y ha aplastado la rebelión", options: [
+                DialogOption(text: "Sigues siendo parte del imperio español", nextQuestion: -1)
+            ]),
+            
+            // Question 16
+            Question(text: "Los insurgentes se han negado", options: [
+                DialogOption(text: "El conflicto se prolomga mas", nextQuestion: -1)
+            ])
+        ]
+    
+
+
     
     func startGame(with route: Route) {
         currentRoute = route
@@ -125,13 +172,12 @@ class GameViewModelIndependence: ObservableObject {
     func handleSelection(_ option: DialogOption) {
         // Avanzar a la siguiente pregunta según la opción seleccionada
         if option.nextQuestion >= 0 {
-            gameMessage = option.result
+
             score += 20
             currentQuestionIndex = option.nextQuestion
             loadNextQuestion()
         } else {
-            score += 10 
-            gameMessage = option.result
+            score += 10
             endGame()  // Fin del juego
         }
         
