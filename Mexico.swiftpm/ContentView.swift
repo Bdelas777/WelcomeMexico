@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var showMyPresentation = true 
+    @State private var showMyPresentation = true
 
     var body: some View {
         
