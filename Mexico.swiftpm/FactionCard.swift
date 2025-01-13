@@ -10,6 +10,7 @@ import SwiftUI
 struct FactionCard: View {
     let faction: Faction
     @Binding var isVisible: Bool
+    let onPlay: () -> Void // Acción para iniciar el juego
     
     var body: some View {
         VStack(spacing: 20) {
@@ -30,7 +31,7 @@ struct FactionCard: View {
                 .padding()
             
             Button(action: {
-                print("Starting game for \(faction.name)")
+                onPlay()
                 isVisible = false
             }) {
                 Text("Play")

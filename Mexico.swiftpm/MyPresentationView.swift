@@ -40,11 +40,11 @@ struct MyPresentationView: View {
             Spacer()
         }
         .padding()
-        .background(
+        /*.background(
             Image("backgroundImage") // Reemplaza con el nombre de tu imagen de fondo
                 .resizable()
                 .scaledToFill()
                 .edgesIgnoringSafeArea(.all)
-        )
+        )*/
     }
 }

@@ -1,10 +1,10 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var showMyPresentation = true // Controla si se muestra la introducción
-    
+    @State private var showMyPresentation = true 
+
     var body: some View {
-        Group {
+        
             if showMyPresentation {
                 MyPresentationView(onDismiss: {
                     withAnimation {
@@ -12,9 +12,11 @@ struct ContentView: View {
                     }
                 })
             } else {
-                EraSelectionView()
-                    .edgesIgnoringSafeArea(.all)
+              
+                    EraSelectionView()
+                        .edgesIgnoringSafeArea(.all)
+                
             }
-        }
+        
     }
 }
