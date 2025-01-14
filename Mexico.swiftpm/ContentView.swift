@@ -6,7 +6,7 @@ struct ContentView: View {
     var body: some View {
         
             if showMyPresentation {
-                MyPresentationView(onDismiss: {
+                WelcomeMexicoView(onDismiss: {
                     withAnimation {
                         showMyPresentation = false
                     }

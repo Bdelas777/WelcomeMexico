@@ -17,7 +17,6 @@ struct EraSelectionView: View {
         NavigationStack {
             GeometryReader { geometry in
                 ZStack {
-                    // Fondo del mapa
                     Image("mexMap")
                         .resizable()
                         .scaledToFill()

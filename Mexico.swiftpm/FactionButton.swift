@@ -20,15 +20,19 @@ struct FactionButton: View {
             VStack {
                 Image(faction.imageName)
                     .resizable()
-                    .frame(width: 80, height: 80)
+                    .frame(width: 130, height: 130)
                     .shadow(radius: 5)
                     .scaleEffect(isSelected && animateIcon ? 1.2 : 1) // Escala de animación
                     .rotationEffect(isSelected && animateIcon ? .degrees(10) : .degrees(0)) // Giro suave
                     .animation(.easeInOut(duration: 0.3), value: animateIcon)
                 
                 Text(faction.name)
-                    .font(.caption)
+                    .font(.title)
                     .foregroundColor(.white)
+                    .padding(4)
+                    .background(Color.black.opacity(0.6)) // Fondo oscuro semitransparente
+                    .cornerRadius(5)
+
             }
         }
     }
