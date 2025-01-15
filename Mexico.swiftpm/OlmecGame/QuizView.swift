@@ -13,33 +13,48 @@ struct QuizView: View {
     let correctAnswer: String
     @Binding var isVisible: Bool
     @Binding var isAnswered: Bool
+    let onCorrectAnswer: () -> Void
     
     @State private var selectedOption: String?
     @State private var showFeedback = false
+    @State private var feedbackMessage: String = ""
     @State private var shake = false
     
     var body: some View {
         VStack(spacing: 20) {
+            // Pregunta con estilo pixel art
             Text(question)
-                .font(.title2)
+                .font(.custom("PressStart2P-Regular", size: 14)) // Fuente tipo pixel art
                 .multilineTextAlignment(.center)
                 .foregroundColor(.white)
-                .padding()
+                .padding(8)
+                .background(Color.black)
+                .cornerRadius(5)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 5)
+                        .stroke(Color.white, lineWidth: 2)
+                )
             
+            // Opciones estilo pixel art
             ForEach(options, id: \.self) { option in
                 Button(action: {
                     handleAnswer(option: option)
                 }) {
                     Text(option)
-                        .padding()
+                        .font(.custom("PressStart2P-Regular", size: 12)) // Fuente tipo pixel art
+                        .padding(10)
                         .frame(maxWidth: .infinity)
                         .background(
                             selectedOption == option ?
                             (selectedOption == correctAnswer ? Color.green : Color.red) :
-                            Color.white
+                            Color.gray
                         )
-                        .foregroundColor(.black)
-                        .cornerRadius(10)
+                        .foregroundColor(.white)
+                        .cornerRadius(5)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 5)
+                                .stroke(Color.white, lineWidth: 2)
+                        )
                         .offset(x: selectedOption == option && selectedOption != correctAnswer && shake ? -5 : 0)
                         .animation(
                             shake ? Animation.default.repeatCount(5).speed(4) : .default,
@@ -48,32 +63,43 @@ struct QuizView: View {
                 }
             }
             
+            // Feedback de respuesta correcta o incorrecta
             if showFeedback {
-                Text(selectedOption == correctAnswer ? "¡Correcto!" : "¡Respuesta Incorrecta!")
-                    .font(.headline)
-                    .foregroundColor(selectedOption == correctAnswer ? .green : .red)
+                Text(feedbackMessage)
+                    .font(.custom("PressStart2P-Regular", size: 14))
+                    .foregroundColor(feedbackMessage == "¡Correcto!" ? .green : .red)
+                    .padding(8)
+                    .background(Color.black)
+                    .cornerRadius(5)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 5)
+                            .stroke(Color.white, lineWidth: 2)
+                    )
             }
-            
-            Button("Cerrar") {
-                isVisible = false
-                if selectedOption == correctAnswer {
-                    isAnswered = true
-                }
-            }
-            .padding(.top, 10)
-            .foregroundColor(.blue)
         }
         .padding()
-        .background(Color.black.opacity(0.8))
+        .background(Color.black)
         .cornerRadius(10)
-        .shadow(radius: 10)
+        .overlay(
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(Color.white, lineWidth: 3)
+        )
+        .shadow(color: .gray, radius: 5, x: 2, y: 2)
     }
     
     private func handleAnswer(option: String) {
         selectedOption = option
         showFeedback = true
+        feedbackMessage = option == correctAnswer ? "¡Correcto!" : "¡Incorrecto!"
         
-        if option != correctAnswer {
+        if option == correctAnswer {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                isVisible = false
+                isAnswered = true
+                onCorrectAnswer()
+            }
+        } else {
+            // Animación de shake para respuesta incorrecta
             shake = true
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 shake = false

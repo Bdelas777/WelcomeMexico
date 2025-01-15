@@ -6,30 +6,40 @@
 //
 import SwiftUI
 
+extension Array {
+    func mezclado() -> [Element] {
+        return self.shuffled()
+    }
+}
+
 struct SeleccionMaterialesView: View {
     @ObservedObject var estado: EstadoJuego
     @State private var mostrarDescripcion: String?
+    @State private var materialesBarajados: [Material] = []
     
     var body: some View {
         VStack {
             Text("Selecciona los materiales correctos")
                 .font(.title2)
+                .padding(.bottom, 10)
             
             ScrollView {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 150))], spacing: 20) {
-                    ForEach(estado.materiales) { material in
-                        MaterialCardView(material: material,
-                                      estaSeleccionado: estado.materialesSeleccionados.contains(material.id),
-                                      onTap: {
-                            withAnimation {
-                                if estado.materialesSeleccionados.contains(material.id) {
-                                    estado.materialesSeleccionados.remove(material.id)
-                                } else {
-                                    estado.materialesSeleccionados.insert(material.id)
-                                    mostrarDescripcion = material.descripcion
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 180))], spacing: 60) {
+                    ForEach(materialesBarajados) { material in
+                        MaterialCardView(
+                            material: material,
+                            estaSeleccionado: estado.materialesSeleccionados.contains(material.id),
+                            onTap: {
+                                withAnimation {
+                                    if estado.materialesSeleccionados.contains(material.id) {
+                                        estado.materialesSeleccionados.remove(material.id)
+                                    } else {
+                                        estado.materialesSeleccionados.insert(material.id)
+                                        mostrarDescripcion = material.descripcion
+                                    }
                                 }
                             }
-                        })
+                        )
                     }
                 }
             }
@@ -39,9 +49,13 @@ struct SeleccionMaterialesView: View {
                     .padding()
                     .background(Color.white.opacity(0.9))
                     .cornerRadius(10)
+                    .shadow(radius: 5)
                     .transition(.opacity)
             }
         }
         .padding()
+        .onAppear {
+            materialesBarajados = estado.materiales.mezclado()
+        }
     }
 }

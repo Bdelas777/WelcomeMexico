@@ -17,7 +17,7 @@ class EstadoJuego: ObservableObject {
     let materiales = [
         Material(nombre: "Obsidiana", descripcion: "This volcanic glass was used to make sharp tools and weapons!", esCorrectoParaPiramide: true),
         Material(nombre: "Adobe", descripcion: "Light and easy to transport, adobe was perfect for building in this vast city.", esCorrectoParaPiramide: true),
-        Material(nombre: "Piedra Volcánica", descripcion: "Strong volcanic stone helped the pyramid stand for centuries.", esCorrectoParaPiramide: true),
+        Material(nombre: "Piedra", descripcion: "Strong volcanic stone helped the pyramid stand for centuries.", esCorrectoParaPiramide: true),
         Material(nombre: "Cal", descripcion: "Mixed with water, cal helped bind the stones together securely.", esCorrectoParaPiramide: true),
         Material(nombre: "Madera", descripcion: "Not used in pyramid construction.", esCorrectoParaPiramide: false),
         Material(nombre: "Arena", descripcion: "Not suitable for pyramid building.", esCorrectoParaPiramide: false)

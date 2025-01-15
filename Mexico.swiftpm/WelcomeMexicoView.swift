@@ -72,8 +72,6 @@ struct WelcomeMexicoView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.black)
-        .onAppear {
-            UIDevice.current.setValue(UIInterfaceOrientation.landscapeLeft.rawValue, forKey: "orientation")
-        }
+       
     }
 }

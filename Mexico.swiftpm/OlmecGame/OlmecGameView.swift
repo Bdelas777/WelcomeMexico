@@ -16,6 +16,7 @@ struct OlmecGameView: View {
     @State private var currentHead: ColossalHead?
     @State private var isAnswered = false
     @State private var gameObjects: [PositionedGameObject] = []
+    @State private var answeredQuestions = 0
     
     let screenWidth: CGFloat = UIScreen.main.bounds.width
     let screenHeight: CGFloat = UIScreen.main.bounds.height
@@ -75,7 +76,8 @@ struct OlmecGameView: View {
                     options: head.options,
                     correctAnswer: head.correctAnswer,
                     isVisible: $showQuiz,
-                    isAnswered: $isAnswered
+                    isAnswered: $isAnswered,
+                    onCorrectAnswer: { handleCorrectAnswer() }
                 )
             }
             
@@ -86,6 +88,14 @@ struct OlmecGameView: View {
                     resetGame: resetGame
                 )
             }
+        }
+    }
+    
+    private func handleCorrectAnswer() {
+        answeredQuestions += 1
+        if answeredQuestions == 3 {
+            timeRemaining = 0
+            endGame()
         }
     }
     
@@ -169,10 +179,10 @@ struct OlmecGameView: View {
         gameObjects = []
         currentHead = nil
         isAnswered = false
+        answeredQuestions = 0
     }
 }
 
-// MARK: - IntroView.swift
 struct IntroView: View {
     @Binding var showIntro: Bool
     let startGame: () -> Void
@@ -208,4 +218,7 @@ struct IntroView: View {
         .padding()
     }
 }
+
+
+
 
