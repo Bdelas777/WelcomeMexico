@@ -9,7 +9,7 @@ import SwiftUI
 
 struct VictoryView: View {
     @ObservedObject var viewModel: GameViewModel
-    @Environment(\.dismiss) var dismiss // Utilizamos dismiss para cerrar la vista actual
+    @Environment(\.dismiss) var dismiss 
     
     var body: some View {
         VStack {
@@ -31,7 +31,7 @@ struct VictoryView: View {
             Button(action: {
                 dismiss() // Cierra la vista actual (VictoryView)
             }) {
-                Text("Return to Era Selection")
+                Text("Return to main menu")
                     .font(.title)
                     .padding()
                     .background(Color.blue)

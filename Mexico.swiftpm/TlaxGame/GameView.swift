@@ -19,7 +19,7 @@ struct GameView: View {
                 GameplayView(viewModel: viewModel)
             case .facts:
                 FactsView(viewModel: viewModel)
-            case .victory:
+             case .victory:
                 VictoryView(viewModel: viewModel)
             }
         }

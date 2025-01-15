@@ -18,3 +18,5 @@ struct DistractingObject: Identifiable {
         DistractingObject(name: "Stone Altar", imageName: "altar")
     ]
 }
+
+

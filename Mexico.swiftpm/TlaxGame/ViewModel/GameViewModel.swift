@@ -23,7 +23,6 @@ class GameViewModel: ObservableObject {
     private var initialPositions: [UUID: CGPoint]
     
     init() {
-        // Inicializamos cultures
         let initialCultures = [
             Culture(name: "Tlaxcaltecas", isAlly: true,
                     description: "The main allies of Cortés",
@@ -35,7 +34,6 @@ class GameViewModel: ObservableObject {
                     description: "Later supporters",
                     position: CGPoint(x: 300, y: 200))
         ]
-        // Inicializamos todas las propiedades necesarias
         self.cultures = initialCultures
         let positions = Dictionary(uniqueKeysWithValues: initialCultures.map { ($0.id, $0.position) })
         self.culturePositions = positions
