@@ -10,14 +10,22 @@ import SwiftUI
 struct ColossalHeadView: View {
     let head: ColossalHead
     let onFound: () -> Void
+    @State private var scale: CGFloat = 1.0
     
     var body: some View {
         VStack {
-            Image("olmec") // Usa el nombre correcto de la imagen en tus assets
+            Image("olmec")
                 .resizable()
                 .frame(width: 100, height: 100)
+                .scaleEffect(scale)
                 .onTapGesture {
-                    onFound()
+                    withAnimation(.spring()) {
+                        scale = 1.2
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                            scale = 1.0
+                            onFound()
+                        }
+                    }
                 }
             
             Text(head.name)
@@ -26,11 +34,3 @@ struct ColossalHeadView: View {
         }
     }
 }
-
-struct ColossalHeadView_Previews: PreviewProvider {
-    static var previews: some View {
-        ColossalHeadView(head: ColossalHead.sampleHeads[0]) {}
-            .background(Color.black)
-    }
-}
-
