@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+import SwiftUI
+
 class EstadoJuego: ObservableObject {
     @Published var fase: FaseJuego = .inicio
     @Published var tiempoRestante: Int = 60
@@ -51,9 +53,18 @@ class EstadoJuego: ObservableObject {
     }
     
     func iniciarFaseConstruccion() {
-        fase = .construccion
-        tiempoRestante = 30
-        generarBloques()
+        if materialesCorrectosSeleccionados() {
+            fase = .construccion
+            tiempoRestante = 30
+            generarBloques()
+        }
+    }
+    
+    private func materialesCorrectosSeleccionados() -> Bool {
+        let seleccionCorrecta = materiales.filter { $0.esCorrectoParaPiramide }
+        return seleccionCorrecta.allSatisfy { material in
+            materialesSeleccionados.contains(material.id)
+        }
     }
     
     private func generarBloques() {

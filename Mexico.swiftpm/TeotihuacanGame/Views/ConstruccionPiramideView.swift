@@ -6,6 +6,7 @@
 //
 import SwiftUI
 
+
 struct ConstruccionPiramideView: View {
     @ObservedObject var estado: EstadoJuego
     
@@ -15,7 +16,7 @@ struct ConstruccionPiramideView: View {
                 VStack {
                     ForEach(0..<4) { fila in
                         HStack(spacing: 2) {
-                            ForEach(0..<(4-fila)) { columna in
+                            ForEach(0..<(fila + 1)) { columna in
                                 Rectangle()
                                     .fill(Color.gray.opacity(0.3))
                                     .frame(width: 50, height: 50)
@@ -66,11 +67,11 @@ struct ConstruccionPiramideView: View {
         let baseX = 100.0
         let baseY = 400.0
         let tamano = 50.0
-
+        
         for fila in 0..<4 {
-            for columna in 0..<(4-fila) {
+            for columna in 0..<(fila + 1) {
                 let x = baseX + Double(columna) * tamano - Double(fila) * tamano / 2
-                let y = baseY - Double(fila) * tamano
+                let y = baseY + Double(fila) * tamano
                 celdas.append(CGPoint(x: x, y: y))
             }
         }

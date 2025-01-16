@@ -17,7 +17,6 @@ struct SeleccionMaterialesView: View {
     @State private var mostrarDescripcion: String?
     @State private var materialesBarajados: [Material] = []
     
-    // Grid layout para tablet
     let columns = [
         GridItem(.flexible()),
         GridItem(.flexible()),
@@ -48,7 +47,7 @@ struct SeleccionMaterialesView: View {
                                 }
                             }
                         )
-                        .frame(height: 400) // Altura fija para las cartas
+                        .frame(height: 400)
                     }
                 }
                 .padding(.horizontal)
@@ -56,29 +55,20 @@ struct SeleccionMaterialesView: View {
             
             if let descripcion = mostrarDescripcion {
                 Text(descripcion)
+                    .font(.body)
                     .padding()
-                    .background(Color.white.opacity(0.9))
+                    .background(Color.yellow.opacity(0.2))
                     .cornerRadius(10)
-                    .shadow(radius: 5)
-                    .transition(.opacity)
             }
         }
-        .padding()
         .onAppear {
             materialesBarajados = estado.materiales.mezclado()
         }
     }
     
     private func verificarSeleccionCorrecta() {
-        let materialesCorrectos = estado.materiales.filter { $0.esCorrectoParaPiramide }
-        let idsCorrectos = Set(materialesCorrectos.map { $0.id })
-        
-        if estado.materialesSeleccionados == idsCorrectos {
-            // Esperar 2 segundos y pasar a la siguiente fase
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                estado.iniciarFaseConstruccion()
-            }
+        if estado.materialesSeleccionados.count == estado.materiales.filter({ $0.esCorrectoParaPiramide }).count {
+            estado.iniciarFaseConstruccion()
         }
     }
 }
-

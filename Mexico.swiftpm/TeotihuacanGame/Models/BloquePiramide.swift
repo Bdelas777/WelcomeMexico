@@ -6,9 +6,10 @@
 //
 
 import Foundation
+import CoreGraphics
 
 struct BloquePiramide: Identifiable {
     let id = UUID()
     var posicion: CGPoint
-    var estaColocado: Bool = false
+    var estaColocado = false
 }
