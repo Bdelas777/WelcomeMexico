@@ -53,31 +53,48 @@ class EstadoJuego: ObservableObject {
     func iniciarFaseConstruccion() {
         // Lógica ajustada para verificar materiales correctos
         if materialesCorrectosSeleccionados() {
-            tiempoRestante = 0
-            fase = .construccion
-            generarBloques()
-        } else {
-            // Si los materiales no son correctos, continuar con tiempo adicional
-            fase = .construccion
             tiempoRestante = 40
+            fase = .construccion
             generarBloques()
         }
     }
     
     private func materialesCorrectosSeleccionados() -> Bool {
-        // Obtener los materiales correctos
-        let materialesCorrectos = materiales.filter { $0.esCorrectoParaPiramide }
+        // Obtener los IDs de los materiales correctos
+        let idsCorrectos = materiales.filter { $0.esCorrectoParaPiramide }.map { $0.id }
+        print("IDs correctos: \(idsCorrectos)")
+
+        // Filtrar los materiales seleccionados que son correctos
+        let materialesCorrectosSeleccionados = materialesSeleccionados.filter { idsCorrectos.contains($0) }
         
-        // Verificar que los seleccionados coincidan exactamente con los correctos
-        return materialesSeleccionados.count == materialesCorrectos.count &&
-               materialesCorrectos.allSatisfy { material in
-                   materialesSeleccionados.contains(material.id)
-               }
+        print("Materiales correctos seleccionados: \(materialesCorrectosSeleccionados)")
+        print("Cantidad de materiales correctos seleccionados: \(materialesCorrectosSeleccionados.count)")
+
+        // Si los 4 materiales correctos están seleccionados, pasar
+        return materialesCorrectosSeleccionados.count == 4
     }
     
+    // Función para agregar o quitar materiales seleccionados
+    func cambiarSeleccionDeMaterial(id: UUID) {
+        if materialesSeleccionados.contains(id) {
+            materialesSeleccionados.remove(id) // Si ya está seleccionado, lo deselecciona
+        } else {
+            materialesSeleccionados.insert(id) // Si no está seleccionado, lo agrega
+        }
+        
+        // Llamamos a la función que verifica si los materiales correctos están seleccionados
+        verificarFaseConstruccion() // Ahora verificamos la fase solo aquí
+    }
+
+    private func verificarFaseConstruccion() {
+        if materialesCorrectosSeleccionados() {
+            iniciarFaseConstruccion() // Cambia la fase si los materiales correctos son seleccionados
+        }
+    }
+
     private func generarBloques() {
         // Generar 12 bloques con posiciones aleatorias
-        bloques = (0..<12).map { _ in
+        bloques = (0..<10).map { _ in
             BloquePiramide(posicion: CGPoint(x: Int.random(in: 100...600), y: Int.random(in: 100...700)))
         }
     }
@@ -95,3 +112,4 @@ class EstadoJuego: ObservableObject {
         timer?.invalidate()
     }
 }
+

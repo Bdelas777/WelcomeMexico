@@ -25,7 +25,7 @@ struct SeleccionMaterialesView: View {
     
     var body: some View {
         VStack {
-            Text("Selecciona los materiales correctos")
+            Text("Selecciona los materiales correctos y evita seleccionar los materiales incorrectos")
                 .font(.title2)
                 .padding(.bottom, 10)
             
@@ -38,11 +38,11 @@ struct SeleccionMaterialesView: View {
                             onTap: {
                                 withAnimation {
                                     if estado.materialesSeleccionados.contains(material.id) {
-                                        estado.materialesSeleccionados.remove(material.id)
+                                        estado.cambiarSeleccionDeMaterial(id: material.id)
+                                        mostrarDescripcion = nil // Limpiar descripción si se deselecciona
                                     } else {
-                                        estado.materialesSeleccionados.insert(material.id)
+                                        estado.cambiarSeleccionDeMaterial(id: material.id)
                                         mostrarDescripcion = material.descripcion
-                                        verificarSeleccionCorrecta()
                                     }
                                 }
                             }
@@ -63,12 +63,6 @@ struct SeleccionMaterialesView: View {
         }
         .onAppear {
             materialesBarajados = estado.materiales.mezclado()
-        }
-    }
-    
-    private func verificarSeleccionCorrecta() {
-        if estado.materialesSeleccionados.count == estado.materiales.filter({ $0.esCorrectoParaPiramide }).count {
-            estado.iniciarFaseConstruccion()
         }
     }
 }
