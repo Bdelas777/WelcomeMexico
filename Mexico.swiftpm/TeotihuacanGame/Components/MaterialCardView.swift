@@ -15,16 +15,14 @@ struct MaterialCardView: View {
     var body: some View {
         Button(action: onTap) {
             VStack {
-   
-                Image(material.nombre) // Usa el nombre como el nombre de la imagen en assets
+                Image(material.nombre)
                     .resizable()
                     .scaledToFit()
-                    .frame(height: 320)
+                    .frame(height: 250) // Ajustado para mejor proporción
                     .cornerRadius(8)
                 
-       
                 Text(material.nombre)
-                    .font(.title)
+                    .font(.title2) // Ajustado el tamaño de la fuente
                     .padding(.top, 5)
             }
             .frame(maxWidth: .infinity)

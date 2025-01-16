@@ -17,6 +17,13 @@ struct SeleccionMaterialesView: View {
     @State private var mostrarDescripcion: String?
     @State private var materialesBarajados: [Material] = []
     
+    // Grid layout para tablet
+    let columns = [
+        GridItem(.flexible()),
+        GridItem(.flexible()),
+        GridItem(.flexible())
+    ]
+    
     var body: some View {
         VStack {
             Text("Selecciona los materiales correctos")
@@ -24,7 +31,7 @@ struct SeleccionMaterialesView: View {
                 .padding(.bottom, 10)
             
             ScrollView {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 180))], spacing: 60) {
+                LazyVGrid(columns: columns, spacing: 30) {
                     ForEach(materialesBarajados) { material in
                         MaterialCardView(
                             material: material,
@@ -36,12 +43,15 @@ struct SeleccionMaterialesView: View {
                                     } else {
                                         estado.materialesSeleccionados.insert(material.id)
                                         mostrarDescripcion = material.descripcion
+                                        verificarSeleccionCorrecta()
                                     }
                                 }
                             }
                         )
+                        .frame(height: 400) // Altura fija para las cartas
                     }
                 }
+                .padding(.horizontal)
             }
             
             if let descripcion = mostrarDescripcion {
@@ -58,4 +68,17 @@ struct SeleccionMaterialesView: View {
             materialesBarajados = estado.materiales.mezclado()
         }
     }
+    
+    private func verificarSeleccionCorrecta() {
+        let materialesCorrectos = estado.materiales.filter { $0.esCorrectoParaPiramide }
+        let idsCorrectos = Set(materialesCorrectos.map { $0.id })
+        
+        if estado.materialesSeleccionados == idsCorrectos {
+            // Esperar 2 segundos y pasar a la siguiente fase
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                estado.iniciarFaseConstruccion()
+            }
+        }
+    }
 }
+
