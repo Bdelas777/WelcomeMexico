@@ -51,7 +51,6 @@ class EstadoJuego: ObservableObject {
     }
     
     func iniciarFaseConstruccion() {
-        // Lógica ajustada para verificar materiales correctos
         if materialesCorrectosSeleccionados() {
             tiempoRestante = 40
             fase = .construccion
@@ -60,56 +59,43 @@ class EstadoJuego: ObservableObject {
     }
     
     private func materialesCorrectosSeleccionados() -> Bool {
-        // Obtener los IDs de los materiales correctos
         let idsCorrectos = materiales.filter { $0.esCorrectoParaPiramide }.map { $0.id }
-        print("IDs correctos: \(idsCorrectos)")
-
-        // Filtrar los materiales seleccionados que son correctos
         let materialesCorrectosSeleccionados = materialesSeleccionados.filter { idsCorrectos.contains($0) }
-        
-        print("Materiales correctos seleccionados: \(materialesCorrectosSeleccionados)")
-        print("Cantidad de materiales correctos seleccionados: \(materialesCorrectosSeleccionados.count)")
-
-        // Si los 4 materiales correctos están seleccionados, pasar
         return materialesCorrectosSeleccionados.count == 4
     }
     
-    // Función para agregar o quitar materiales seleccionados
     func cambiarSeleccionDeMaterial(id: UUID) {
         if materialesSeleccionados.contains(id) {
-            materialesSeleccionados.remove(id) // Si ya está seleccionado, lo deselecciona
+            materialesSeleccionados.remove(id)
         } else {
-            materialesSeleccionados.insert(id) // Si no está seleccionado, lo agrega
+            materialesSeleccionados.insert(id)
         }
-        
-        // Llamamos a la función que verifica si los materiales correctos están seleccionados
-        verificarFaseConstruccion() // Ahora verificamos la fase solo aquí
+        verificarFaseConstruccion()
     }
 
     private func verificarFaseConstruccion() {
         if materialesCorrectosSeleccionados() {
-            iniciarFaseConstruccion() // Cambia la fase si los materiales correctos son seleccionados
+            iniciarFaseConstruccion()
         }
     }
 
     private func generarBloques() {
-        // Generar 12 bloques con posiciones aleatorias
         bloques = (0..<10).map { _ in
-            BloquePiramide(posicion: CGPoint(x: Int.random(in: 100...600), y: Int.random(in: 100...700)))
+            BloquePiramide(posicion: CGPoint(x: Int.random(in: 50...300), y: Int.random(in: 50...500)))
         }
     }
     
     func verificarFinConstruccion() {
-        // Verificar si todos los bloques están colocados
-        if bloques.allSatisfy({ $0.estaColocado }) {
-            tiempoRestante = 0
+        let todosColocados = bloques.allSatisfy { $0.estaColocado }
+        if todosColocados {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+                self?.finalizarJuego()
+            }
         }
     }
     
     func finalizarJuego() {
-        // Finalizar el juego y detener el temporizador
         fase = .finalizado
         timer?.invalidate()
     }
 }
-
