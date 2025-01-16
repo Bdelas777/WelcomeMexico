@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-import SwiftUI
-
 class EstadoJuego: ObservableObject {
     @Published var fase: FaseJuego = .inicio
     @Published var tiempoRestante: Int = 60
@@ -29,7 +27,7 @@ class EstadoJuego: ObservableObject {
     
     func iniciarJuego() {
         fase = .seleccionMateriales
-        tiempoRestante = 30
+        tiempoRestante = 20
         iniciarTimer()
     }
     
@@ -53,27 +51,46 @@ class EstadoJuego: ObservableObject {
     }
     
     func iniciarFaseConstruccion() {
+        // Lógica ajustada para verificar materiales correctos
         if materialesCorrectosSeleccionados() {
+            tiempoRestante = 0
             fase = .construccion
-            tiempoRestante = 30
+            generarBloques()
+        } else {
+            // Si los materiales no son correctos, continuar con tiempo adicional
+            fase = .construccion
+            tiempoRestante = 40
             generarBloques()
         }
     }
     
     private func materialesCorrectosSeleccionados() -> Bool {
-        let seleccionCorrecta = materiales.filter { $0.esCorrectoParaPiramide }
-        return seleccionCorrecta.allSatisfy { material in
-            materialesSeleccionados.contains(material.id)
-        }
+        // Obtener los materiales correctos
+        let materialesCorrectos = materiales.filter { $0.esCorrectoParaPiramide }
+        
+        // Verificar que los seleccionados coincidan exactamente con los correctos
+        return materialesSeleccionados.count == materialesCorrectos.count &&
+               materialesCorrectos.allSatisfy { material in
+                   materialesSeleccionados.contains(material.id)
+               }
     }
     
     private func generarBloques() {
+        // Generar 12 bloques con posiciones aleatorias
         bloques = (0..<12).map { _ in
-            BloquePiramide(posicion: CGPoint(x: Int.random(in: 50...300), y: Int.random(in: 50...500)))
+            BloquePiramide(posicion: CGPoint(x: Int.random(in: 100...600), y: Int.random(in: 100...700)))
+        }
+    }
+    
+    func verificarFinConstruccion() {
+        // Verificar si todos los bloques están colocados
+        if bloques.allSatisfy({ $0.estaColocado }) {
+            tiempoRestante = 0
         }
     }
     
     func finalizarJuego() {
+        // Finalizar el juego y detener el temporizador
         fase = .finalizado
         timer?.invalidate()
     }
