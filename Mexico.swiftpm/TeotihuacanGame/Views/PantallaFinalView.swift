@@ -9,6 +9,7 @@ import SwiftUI
 
 struct PantallaFinalView: View {
     @ObservedObject var estado: EstadoJuego
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         VStack(spacing: 20) {
@@ -21,13 +22,16 @@ struct PantallaFinalView: View {
             Text("Puntuación final: \(estado.puntuacion)")
                 .font(.headline)
             
-            Button("Jugar de nuevo") {
-                estado.iniciarJuego()
+            Button(action: {
+                dismiss()
+            }) {
+                Text("Return to main menu")
+                    .font(.title)
+                    .padding()
+                    .background(Color.green)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
             }
-            .padding()
-            .background(Color.blue)
-            .foregroundColor(.white)
-            .cornerRadius(10)
         }
         .padding()
     }
