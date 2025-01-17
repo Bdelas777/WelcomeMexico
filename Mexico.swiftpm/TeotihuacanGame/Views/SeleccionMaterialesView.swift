@@ -28,6 +28,7 @@ struct SeleccionMaterialesView: View {
             Text("Selecciona los materiales correctos y evita seleccionar los materiales incorrectos")
                 .font(.title2)
                 .padding(.bottom, 10)
+                .foregroundColor(.white)
             
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 30) {
@@ -59,6 +60,7 @@ struct SeleccionMaterialesView: View {
                     .padding()
                     .background(Color.yellow.opacity(0.2))
                     .cornerRadius(10)
+                    .foregroundColor(.white)
             }
         }
         .onAppear {

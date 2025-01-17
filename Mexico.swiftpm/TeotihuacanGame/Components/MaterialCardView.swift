@@ -24,6 +24,8 @@ struct MaterialCardView: View {
                 Text(material.nombre)
                     .font(.title2) // Ajustado el tamaño de la fuente
                     .padding(.top, 5)
+                    .foregroundColor(.black)
+                
             }
             .frame(maxWidth: .infinity)
             .padding()
