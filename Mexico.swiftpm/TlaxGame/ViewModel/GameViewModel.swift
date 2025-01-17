@@ -22,6 +22,7 @@ class GameViewModel: ObservableObject {
     @Published var culturePositions: [UUID: CGPoint]
     @Published var score: Int = 0
     @Published var message: String? // Para almacenar el mensaje de resultado
+    @Published var isCorrectPlacement: Bool = false // Para indicar si la colocación es correcta o incorrecta
     
     private var initialPositions: [UUID: CGPoint]
     
@@ -34,8 +35,8 @@ class GameViewModel: ObservableObject {
                     description: "The enemies of Cortés",
                     position: CGPoint(x: 200, y: 200)),
             Culture(name: "Totonacas", isAlly: false,
-                    description: "The last enemies",
-                    position: CGPoint(x: 200, y: 200)),
+                    description: "Later supporters",
+                    position: CGPoint(x: 300, y: 200))
         ]
         self.cultures = initialCultures
         let positions = Dictionary(uniqueKeysWithValues: initialCultures.map { ($0.id, $0.position) })
@@ -59,11 +60,14 @@ class GameViewModel: ObservableObject {
         
         let isCorrectZone = (zoneName == "Allies" && culture.isAlly) ||
                             (zoneName == "Non-Allies" && !culture.isAlly)
+        
+        isCorrectPlacement = isCorrectZone
         return isCorrectZone
     }
     
-    func showMessage(message: String) {
+    func showMessage(message: String, isCorrect: Bool) {
         self.message = message
+        self.isCorrectPlacement = isCorrect
     }
     
     enum GameState {

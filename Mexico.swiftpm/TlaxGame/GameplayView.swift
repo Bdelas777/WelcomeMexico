@@ -60,10 +60,10 @@ struct GameplayView: View {
                                                 }
                                                 
                                                 // Mostrar la descripción de la cultura
-                                                viewModel.showMessage(message: culture.description)
+                                                viewModel.showMessage(message: culture.description, isCorrect: true)
                                             } else {
                                                 // Mensaje de "wrong side"
-                                                viewModel.showMessage(message: "Wrong side!")
+                                                viewModel.showMessage(message: "Wrong side!", isCorrect: false)
                                                 
                                                 viewModel.resetCulturePosition(culture.id)
                                             }
@@ -87,9 +87,9 @@ struct GameplayView: View {
                 // Mostrar mensaje
                 if let message = viewModel.message {
                     Text(message)
-                        .font(.title2)
+                        .font(.title) // Aumenta el tamaño del texto
                         .padding()
-                        .foregroundColor(.green)
+                        .foregroundColor(viewModel.isCorrectPlacement ? .green : .red) // Cambiar color según la colocación
                         .background(Color.white)
                         .cornerRadius(10)
                         .transition(.opacity)
