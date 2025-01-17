@@ -7,11 +7,14 @@
 
 import Foundation
 import CoreGraphics
+import SwiftUI
 
 class GameViewModel: ObservableObject {
     @Published var gameState: GameState = .introduction
     @Published var timeRemaining: Double = 40.0
     @Published var draggedCulture: Culture?
+    private var lockedCultures: Set<UUID> = []
+
     
     private var timer: Timer?
     @Published var gameDuration: Double = 40.0
@@ -30,7 +33,10 @@ class GameViewModel: ObservableObject {
             Culture(name: "Mexicas", isAlly: false,
                     description: "The enemies of Cortés",
                     position: CGPoint(x: 200, y: 200)),
-            Culture(name: "Totonacas", isAlly: false,
+            Culture(name: "Tlatelolco", isAlly: false,
+                    description: "The enemies of Cortés",
+                    position: CGPoint(x: 200, y: 200)),
+            Culture(name: "Totonacas", isAlly: true,
                     description: "Later supporters",
                     position: CGPoint(x: 300, y: 200))
         ]
@@ -102,5 +108,24 @@ class GameViewModel: ObservableObject {
     deinit {
         timer?.invalidate()
     }
+    
+    func randomizeCulturePositions() {
+            let screenWidth = UIScreen.main.bounds.width
+            let screenHeight = UIScreen.main.bounds.height
+            
+            for culture in cultures {
+                let randomX = CGFloat.random(in: 50...(screenWidth - 50))
+                let randomY = CGFloat.random(in: 100...(screenHeight - 200))
+                culturePositions[culture.id] = CGPoint(x: randomX, y: randomY)
+            }
+        }
+    func lockCulture(_ id: UUID) {
+        lockedCultures.insert(id)
+    }
+
+    func isCultureLocked(_ id: UUID) -> Bool {
+        return lockedCultures.contains(id)
+    }
+
 }
 

@@ -10,61 +10,76 @@ struct GameplayView: View {
     @ObservedObject var viewModel: GameViewModel
     
     var body: some View {
-        VStack {
-            // Progress bar
-            ProgressView(value: viewModel.timeRemaining, total: viewModel.gameDuration)
-                .padding()
+        ZStack {
+            // Fondo del mapa
+            Image("mesoamerica_map")
+                .resizable()
+                .scaledToFill()
+                .ignoresSafeArea() // Asegura que cubra toda la pantalla
             
-            Text(String(format: "Time: %.1f", viewModel.timeRemaining))
-                .font(.headline)
-                .padding(.bottom)
-            
-            ScoreView(viewModel: viewModel)
-            
-            ZStack {
-                Image(systemName: "map")
-                    .resizable()
-                    .frame(width: 300, height: 200)
+            VStack {
+                // Barra de progreso
+                ProgressView(value: viewModel.timeRemaining, total: viewModel.gameDuration)
+                    .padding()
                 
-                ForEach(viewModel.cultures) { culture in
-                    CultureIcon(culture: culture)
-                        .position(viewModel.culturePositions[culture.id] ?? culture.position)
-                        .gesture(
-                            DragGesture()
-                                .onChanged { value in
-                                    viewModel.draggedCulture = culture
-                                    viewModel.updateCulturePosition(culture.id, position: value.location)
-                                }
-                                .onEnded { value in
-                                    let dropPoint = value.location
-                                    // Check which zone it was dropped in
-                                    if dropPoint.y > 400 { // Assuming zones are at bottom
-                                        let isLeftZone = dropPoint.x < UIScreen.main.bounds.width / 2
-                                        let zoneName = isLeftZone ? "Allies" : "Non-Allies"
+                Text(String(format: "Time: %.1f seconds", viewModel.timeRemaining))
+                    .font(.headline)
+                    .padding(.bottom)
+                
+                // Puntuación
+                Text("Score: \(viewModel.score)")
+                    .font(.title)
+                    .bold()
+                    .padding()
+                
+                ZStack {
+                    // Íconos de culturas
+                    ForEach(viewModel.cultures) { culture in
+                        CultureIcon(culture: culture)
+                            .position(viewModel.culturePositions[culture.id] ?? culture.position)
+                            .gesture(
+                                DragGesture()
+                                    .onChanged { value in
+                                        viewModel.draggedCulture = culture
+                                        viewModel.updateCulturePosition(culture.id, position: value.location)
+                                    }
+                                    .onEnded { value in
+                                        let dropPoint = value.location
+                                        let screenHeight = UIScreen.main.bounds.height
+                                        let screenWidth = UIScreen.main.bounds.width
                                         
-                                        if viewModel.checkPlacement(culture.id, at: dropPoint, in: zoneName) {
-                                            viewModel.score += 100
-                                            if viewModel.score >= 300 { // Win condition
-                                                viewModel.showVictory()
+                                        if dropPoint.y > screenHeight * 0.6 {
+                                            let isLeftZone = dropPoint.x < screenWidth / 2
+                                            let zoneName = isLeftZone ? "Allies" : "Non-Allies"
+                                            
+                                            if viewModel.checkPlacement(culture.id, at: dropPoint, in: zoneName) {
+                                                viewModel.score += 100
+                                                if viewModel.score >= 300 {
+                                                    viewModel.showVictory()
+                                                }
+                                            } else {
+                                                viewModel.resetCulturePosition(culture.id)
                                             }
                                         } else {
                                             viewModel.resetCulturePosition(culture.id)
                                         }
-                                    } else {
-                                        viewModel.resetCulturePosition(culture.id)
+                                        viewModel.draggedCulture = nil
                                     }
-                                    viewModel.draggedCulture = nil
-                                }
-                        )
+                            )
+                    }
+                }
+                
+                Spacer()
+                
+                // Zonas de aliados y enemigos
+                HStack {
+                    DropZone(title: "Allies")
+                    DropZone(title: "Non-Allies")
                 }
             }
-            
-            Spacer()
-            
-            HStack {
-                DropZone(title: "Allies")
-                DropZone(title: "Non-Allies")
-            }
+        }
+        .onAppear {
+            viewModel.randomizeCulturePositions()
         }
     }
 }

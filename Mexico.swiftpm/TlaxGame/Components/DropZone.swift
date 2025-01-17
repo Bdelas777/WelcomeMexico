@@ -14,10 +14,10 @@ struct DropZone: View {
         VStack {
             Text(title)
                 .font(.headline)
-            Rectangle()
-                .stroke(style: StrokeStyle(lineWidth: 2, dash: [5]))
-                .frame(width: 150, height: 100)
-                .background(Color.blue.opacity(0.1))
+                .padding()
+                .frame(maxWidth: .infinity)
+                .background(title == "Allies" ? Color.green.opacity(0.3) : Color.red.opacity(0.3))
+                .cornerRadius(10)
         }
         .padding()
     }
