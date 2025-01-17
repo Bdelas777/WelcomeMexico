@@ -40,6 +40,6 @@ let factions = [
         name: "Realistas",
         imageName: "goal",
         description: "Loyalists who opposed Mexican independence. Played a crucial role during the War of Independence.",
-        destination: AnyView(LibertadEnMarchaGame())
+        destination: AnyView(IndepeView())
     )
 ]

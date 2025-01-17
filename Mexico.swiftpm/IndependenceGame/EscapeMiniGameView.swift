@@ -23,26 +23,29 @@ struct EscapeMiniGameView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                // Fondo del juego
-                Rectangle()
-                    .fill(Color.green)
-                    .edgesIgnoringSafeArea(.all)
+                // Fondo del juego con una imagen
+                Image("Bosque") // Reemplaza con el nombre de tu imagen de fondo
+                    .resizable()
+                    .scaledToFill()
+                    .edgesIgnoringSafeArea(.all) // Asegura que la imagen cubra todo el área disponible
 
                 // Meta
                 Image(goalImage)
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 60, height: 60)
+                    .frame(width: 100, height: 100) // Aumenta el tamaño de la meta
                     .position(
                         x: goalPosition.width * geometry.size.width,
                         y: goalPosition.height * geometry.size.height
                     )
+                    .shadow(radius: 10)
+                    .padding(.trailing, 80) // Espaciado a la izquierda
 
                 // Jugador
                 Image(playerImage)
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 50, height: 50)
+                    .frame(width: 80, height: 80) // Aumenta el tamaño del jugador
                     .position(
                         x: playerPosition.width * geometry.size.width,
                         y: playerPosition.height * geometry.size.height
@@ -53,17 +56,33 @@ struct EscapeMiniGameView: View {
                                 movePlayer(to: value.location, bounds: geometry.size)
                             }
                     )
+                    .shadow(radius: 10)
+                    .padding(.leading, 40) // Espaciado a la izquierda
 
                 // Enemigos
                 ForEach(0..<enemyPositions.count, id: \.self) { index in
                     Image(enemyImage)
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 50, height: 50)
+                        .frame(width: 80, height: 80) // Aumenta el tamaño de los enemigos
                         .position(
                             x: enemyPositions[index].width * geometry.size.width,
                             y: enemyPositions[index].height * geometry.size.height
                         )
+                        .shadow(radius: 10)
+                        .padding(.leading, 40) // Espaciado a la izquierda
+                }
+
+                // Indicador de progreso de tiempo o animación de acción
+                VStack {
+                    Spacer()
+                    HStack {
+                        Text("Score: \(viewModel.score)")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .padding()
+                        Spacer()
+                    }
                 }
             }
             .onAppear {
@@ -81,8 +100,11 @@ struct EscapeMiniGameView: View {
 
     // Mueve al jugador al arrastrar
     private func movePlayer(to location: CGPoint, bounds: CGSize) {
-        playerPosition.width = min(max(location.x / bounds.width, 0.0), 1.0)
-        playerPosition.height = min(max(location.y / bounds.height, 0.0), 1.0)
+        withAnimation(.easeInOut(duration: 0.1)) {
+            // Limitar la posición del jugador para que se quede dentro de los límites de la pantalla
+            playerPosition.width = min(max(location.x / bounds.width, 0.0), 1.0)
+            playerPosition.height = min(max(location.y / bounds.height, 0.0), 1.0)
+        }
     }
 
     // Movimiento de enemigos hacia el jugador (más lento)

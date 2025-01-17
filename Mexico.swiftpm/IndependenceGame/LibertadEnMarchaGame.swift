@@ -46,7 +46,7 @@ struct LibertadEnMarchaGame: View {
     }
     
     private var backgroundView: some View {
-        Image("jungle")
+        Image("Indepe")
             .resizable()
             .aspectRatio(contentMode: .fill)
             .edgesIgnoringSafeArea(.all)
@@ -64,11 +64,11 @@ struct LibertadEnMarchaGame: View {
                                 viewModel.startGame(with: route)
                             }
                         }
-                    }
-            }
+                    }            }
         }
         .padding()
     }
+
     
     private var gamePlayView: some View {
         VStack {

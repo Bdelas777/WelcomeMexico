@@ -19,31 +19,44 @@ struct FinalQuestionView: View {
     ]
     
     var body: some View {
-        VStack(spacing: 20) {
-            Text(question)
-                .font(.title)
-                .multilineTextAlignment(.center)
-                .padding()
+        ZStack {
+            // Fondo con opacidad para destacar la vista
+            Color.black.opacity(0.6).edgesIgnoringSafeArea(.all)
             
-            ForEach(options, id: \.self) { option in
-                Button(action: {
-                    handleAnswer(option)
-                }) {
-                    Text(option)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(
-                            selectedAnswer == option ?
-                                (option == "Tratado de Córdoba" ? Color.green : Color.red) :
-                                Color.blue
-                        )
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
+            VStack(spacing: 30) {
+                // Título con mayor énfasis
+                Text(question)
+                    .font(.title)
+                    .foregroundColor(.white)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal)
+                    .shadow(radius: 5)
+                
+                // Opciones de respuesta con estilo mejorado
+                ForEach(options, id: \.self) { option in
+                    Button(action: {
+                        handleAnswer(option)
+                    }) {
+                        Text(option)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(
+                                selectedAnswer == option ?
+                                    (option == "Tratado de Córdoba" ? Color.green : Color.red) :
+                                    Color.blue.opacity(0.8)
+                            )
+                            .foregroundColor(.white)
+                            .cornerRadius(15)
+                            .shadow(radius: 5)
+                            .scaleEffect(selectedAnswer == nil ? 1.0 : 0.95) // Animación de reducción al seleccionar
+                            .animation(.spring(), value: selectedAnswer) // Animación suave al seleccionar
+                    }
+                    .disabled(selectedAnswer != nil)
+                    .padding(.horizontal)
                 }
-                .disabled(selectedAnswer != nil)
             }
+            .padding()
         }
-        .padding()
     }
     
     private func handleAnswer(_ answer: String) {

@@ -10,6 +10,7 @@ import SwiftUI
 struct GameOverView: View {
     let score: Int
     let isVictory: Bool
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         VStack(spacing: 30) {
@@ -30,13 +31,19 @@ struct GameOverView: View {
                     .padding()
             }
             
-            Button("Volver a Jugar") {
-                // Lógica para reiniciar el juego
+            Button(action: {
+                dismiss() // Cierra la vista actual (VictoryView)
+            }) {
+                Text("Return to main menu")
+                    .font(.title)
+                    .padding()
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+                    .shadow(radius: 5)
+                   
             }
             .padding()
-            .background(Color.blue)
-            .foregroundColor(.white)
-            .cornerRadius(10)
         }
         .padding()
         .background(Color.white.opacity(0.9))
