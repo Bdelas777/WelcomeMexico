@@ -52,12 +52,19 @@ struct GameplayView: View {
                                             let isLeftZone = dropPoint.x < screenWidth / 2
                                             let zoneName = isLeftZone ? "Allies" : "Non-Allies"
                                             
-                                            if viewModel.checkPlacement(culture.id, at: dropPoint, in: zoneName) {
+                                            // Verificar si la colocación es correcta
+                                            if viewModel.checkPlacement(cultureID: culture.id, location: dropPoint, zoneName: zoneName) {
                                                 viewModel.score += 100
                                                 if viewModel.score >= 300 {
                                                     viewModel.showVictory()
                                                 }
+                                                
+                                                // Mostrar la descripción de la cultura
+                                                viewModel.showMessage(message: culture.description)
                                             } else {
+                                                // Mensaje de "wrong side"
+                                                viewModel.showMessage(message: "Wrong side!")
+                                                
                                                 viewModel.resetCulturePosition(culture.id)
                                             }
                                         } else {
@@ -75,6 +82,17 @@ struct GameplayView: View {
                 HStack {
                     DropZone(title: "Allies")
                     DropZone(title: "Non-Allies")
+                }
+                
+                // Mostrar mensaje
+                if let message = viewModel.message {
+                    Text(message)
+                        .font(.title2)
+                        .padding()
+                        .foregroundColor(.green)
+                        .background(Color.white)
+                        .cornerRadius(10)
+                        .transition(.opacity)
                 }
             }
         }
