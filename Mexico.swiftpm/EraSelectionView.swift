@@ -22,7 +22,6 @@ struct EraSelectionView: View {
                         .scaledToFill()
                         .edgesIgnoringSafeArea(.all)
 
-                    // Íconos interactivos distribuidos horizontalmente
                     HStack {
                         Spacer()
                         HStack(spacing: 50) { // Espaciado entre íconos

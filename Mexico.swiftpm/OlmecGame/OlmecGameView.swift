@@ -218,7 +218,3 @@ struct IntroView: View {
         .padding()
     }
 }
-
-
-
-

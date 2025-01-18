@@ -19,11 +19,7 @@ struct CelebrationView: View {
     
     var body: some View {
         ZStack {
-            // Fondo con imagen personalizada (puedes ajustarlo a tu gusto)
-            Image("celebration_background") // Asume que tienes una imagen de fondo "celebration_background"
-                .resizable()
-                .scaledToFill()
-                .edgesIgnoringSafeArea(.all)
+          
             
             // Capa oscura con opacidad para hacer los textos más legibles
             Color.black.opacity(0.7)
