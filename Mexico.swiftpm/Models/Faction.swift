@@ -13,11 +13,9 @@ struct Faction: Identifiable {
     let name: String
     let imageName: String
     let description: String
-    let destination: AnyView // Vista a la que navega
+    let destination: AnyView
 }
 
-// Lista de facciones
-// Faction list
 let factions = [
     Faction(
         name: "Olmecs",

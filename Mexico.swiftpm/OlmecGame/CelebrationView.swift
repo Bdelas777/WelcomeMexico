@@ -20,14 +20,11 @@ struct CelebrationView: View {
     var body: some View {
         ZStack {
           
-            
-            // Capa oscura con opacidad para hacer los textos más legibles
             Color.black.opacity(0.7)
                 .edgesIgnoringSafeArea(.all)
             
             VStack(spacing: 20) {
-                // Título con animación de escala
-                Text("¡Felicitaciones!")
+                Text("¡Congratulations!")
                     .font(.system(size: 50, weight: .bold, design: .rounded))
                     .foregroundColor(.yellow)
                     .shadow(color: .white, radius: 10, x: 0, y: 0)
@@ -39,7 +36,7 @@ struct CelebrationView: View {
                     }
                 
                 // Texto de celebración
-                Text("Encontraste \(foundCount) de \(totalCount) cabezas colosales!")
+                Text("You found \(foundCount) of \(totalCount) monumental stone heads")
                     .font(.title2)
                     .foregroundColor(.white)
                     .padding()

@@ -12,8 +12,8 @@ struct EraSelectionView: View {
     @State private var selectedFaction: Faction? = nil
     @State private var showModal = false
     @State private var showGameView = false
-    @State private var showAchievements = false // Controla la pantalla de logros
-    @State private var completedGames: Set<UUID> = [] // Juegos completados
+    @State private var showAchievements = false
+    @State private var completedGames: Set<UUID> = []
     
     var body: some View {
         NavigationStack {
@@ -54,7 +54,6 @@ struct EraSelectionView: View {
                         .cornerRadius(10)
                     }
 
-                    // Tarjeta emergente
                     if let faction = selectedFaction, showModal {
                         FactionCard(faction: faction, isVisible: $showModal, onPlay: {
                             showGameView = true
@@ -89,7 +88,6 @@ struct EraSelectionView: View {
     }
 
     private func canPlay(_ faction: Faction) -> Bool {
-        // Habilita el juego si es el primero o el anterior está completado
         if let index = factions.firstIndex(where: { $0.id == faction.id }) {
             if index == 0 { return true }
             let previousFaction = factions[index - 1]

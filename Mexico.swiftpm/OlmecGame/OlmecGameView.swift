@@ -189,19 +189,19 @@ struct IntroView: View {
     
     var body: some View {
         VStack(spacing: 20) {
-            Text("¡Bienvenido a la Jungla Olmeca!")
+            Text("Welcono to the Olmeca Jungle!")
                 .font(.largeTitle)
                 .foregroundColor(.white)
                 .bold()
                 .padding()
             
-            Text("Tu viaje comienza en las exuberantes junglas de Mesoamérica. La civilización Olmeca, conocida por sus monumentales cabezas de piedra, floreció aquí. Estas esculturas colosales tienen secretos ocultos. ¿Serás tú quien los descubra?")
+            Text("Your journey begins in the lush jungles of Mesoamerica. The Olmec civilization, renowned for its monumental stone heads, thrived here. These colossal sculptures hide ancient secrets. Will you be the one to uncover them?")
                 .font(.title3)
                 .foregroundColor(.white)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal)
             
-            Button("Comenzar Juego") {
+            Button("Start") {
                 withAnimation {
                     showIntro = false
                     startGame()

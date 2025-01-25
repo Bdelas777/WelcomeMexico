@@ -34,7 +34,7 @@ struct FactionButton: View {
                     .font(.title)
                                     .foregroundColor(.white)
                                     .padding(4)
-                                    .background(Color.black.opacity(0.6)) // Fondo oscuro semitransparente
+                                    .background(Color.black.opacity(0.6))
                                     .cornerRadius(5)
                     .foregroundColor(isLocked ? .gray : .primary)
             }
