@@ -22,9 +22,8 @@ struct QuizView: View {
     
     var body: some View {
         VStack(spacing: 20) {
-            // Pregunta con estilo pixel art
             Text(question)
-                .font(.custom("PressStart2P-Regular", size: 14)) // Fuente tipo pixel art
+                .font(.custom("PressStart2P-Regular", size: 14))
                 .multilineTextAlignment(.center)
                 .foregroundColor(.white)
                 .padding(8)
@@ -35,13 +34,12 @@ struct QuizView: View {
                         .stroke(Color.white, lineWidth: 2)
                 )
             
-            // Opciones estilo pixel art
             ForEach(options, id: \.self) { option in
                 Button(action: {
                     handleAnswer(option: option)
                 }) {
                     Text(option)
-                        .font(.custom("PressStart2P-Regular", size: 12)) // Fuente tipo pixel art
+                        .font(.custom("PressStart2P-Regular", size: 12))
                         .padding(10)
                         .frame(maxWidth: .infinity)
                         .background(
@@ -63,11 +61,10 @@ struct QuizView: View {
                 }
             }
             
-            // Feedback de respuesta correcta o incorrecta
             if showFeedback {
                 Text(feedbackMessage)
                     .font(.custom("PressStart2P-Regular", size: 14))
-                    .foregroundColor(feedbackMessage == "¡Correcto!" ? .green : .red)
+                    .foregroundColor(feedbackMessage == "Correct!" ? .green : .red)
                     .padding(8)
                     .background(Color.black)
                     .cornerRadius(5)
@@ -90,7 +87,7 @@ struct QuizView: View {
     private func handleAnswer(option: String) {
         selectedOption = option
         showFeedback = true
-        feedbackMessage = option == correctAnswer ? "¡Correcto!" : "¡Incorrecto!"
+        feedbackMessage = option == correctAnswer ? "Correct!" : "Wrong!"
         
         if option == correctAnswer {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -99,7 +96,6 @@ struct QuizView: View {
                 onCorrectAnswer()
             }
         } else {
-            // Animación de shake para respuesta incorrecta
             shake = true
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 shake = false

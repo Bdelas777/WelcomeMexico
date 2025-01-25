@@ -12,36 +12,32 @@ struct JuegoPiramideView: View {
     
     var body: some View {
         ZStack {
-            // Fondo con una imagen personalizada
-            Image("teotihua") // Asegúrate de tener la imagen en el proyecto con este nombre
+            Image("teotihua")
                 .resizable()
                 .scaledToFill()
-                .edgesIgnoringSafeArea(.all) // Hace que la imagen cubra toda la pantalla
+                .edgesIgnoringSafeArea(.all)
             
-            // Capa con opacidad para mejorar la legibilidad del contenido
             Color.black.opacity(0.5)
                 .edgesIgnoringSafeArea(.all)
             
             VStack {
-                // Barra superior con tiempo y puntos
                 HStack {
-                    Text("Tiempo: \(estado.tiempoRestante)s")
+                    Text("Time: \(estado.tiempoRestante)s")
                         .font(.title2)
                         .fontWeight(.bold)
                         .foregroundColor(.white)
-                        .padding(.leading, 40) // Espaciado a la izquierda
+                        .padding(.leading, 40)
                     Spacer()
-                    Text("Puntos: \(estado.puntuacion)")
+                    Text("Points: \(estado.puntuacion)")
                         .font(.title2)
                         .fontWeight(.bold)
                         .foregroundColor(.white)
-                        .padding(.trailing, 40) // Espaciado a la derecha
+                        .padding(.trailing, 40)
                 }
-                .padding(.top, 20) // Añadir un poco de espacio en la parte superior
+                .padding(.top, 20)
 
-                Spacer() // Esto empuja el contenido hacia la parte superior
+                Spacer()
 
-                // Switch entre las diferentes fases del juego
                 switch estado.fase {
                 case .inicio:
                     PantallaInicioView(estado: estado)
@@ -53,8 +49,8 @@ struct JuegoPiramideView: View {
                     PantallaFinalView(estado: estado)
                 }
                 
-                Spacer() // Esto empuja el contenido hacia la parte inferior
-            }
+                Spacer()
+                
             .padding()
         }
     }
