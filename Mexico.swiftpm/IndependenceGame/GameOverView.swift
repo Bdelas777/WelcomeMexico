@@ -14,7 +14,6 @@ struct GameOverView: View {
     
     var body: some View {
         ZStack {
-                    // Fondo degradado dinámico basado en victoria o derrota
                     LinearGradient(
                         gradient: Gradient(colors: isVictory ? [Color.green, Color.blue] : [Color.red, Color.black]),
                         startPoint: .top,
@@ -23,7 +22,6 @@ struct GameOverView: View {
                     .ignoresSafeArea()
 
                     VStack(spacing: 20) {
-                        // Título dinámico
                         Text(isVictory ? "🏆 ¡Victoria! 🏆" : "🚫 ¡Fin del Juego! 🚫")
                             .font(.system(size: 50, weight: .bold, design: .rounded))
                             .foregroundColor(.white)

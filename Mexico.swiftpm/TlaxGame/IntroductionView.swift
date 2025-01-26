@@ -12,26 +12,24 @@ struct IntroductionView: View {
     
     var body: some View {
         ZStack {
-            // Fondo de códice
             Image("citytlax")
                 .resizable()
                 .scaledToFill()
                 .edgesIgnoringSafeArea(.all)
-                .blur(radius: 5) // Desenfoque sutil para el fondo
+                .blur(radius: 5)
             
-            Color.black.opacity(0.6) // Opacidad para mejorar la legibilidad
+            Color.black.opacity(0.6)
                 .edgesIgnoringSafeArea(.all)
             
             VStack {
                 Spacer()
                 
-                // Mensaje principal con un borde para mayor visibilidad
                 Text("The Tlaxcaltecs saw Cortés arrive and said, 'Freedom may be near.'")
                     .font(.custom("PressStart2P-Regular", size: 28))
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
                     .padding()
-                    .background(Color.black.opacity(0.5)) // Fondo semitransparente para el texto
+                    .background(Color.black.opacity(0.5))
                     .cornerRadius(10)
                     .shadow(radius: 5)
                 
@@ -45,7 +43,7 @@ struct IntroductionView: View {
                     .shadow(radius: 5)
                 
                 // Instrucciones con un toque más cálido
-                Text("Choose your allies to rewrite history!")
+                Text("Choose your allies to save the Tlaxcaltecas")
                     .font(.custom("PressStart2P-Regular", size: 24))
                     .foregroundColor(.yellow)
                     .padding()
@@ -53,7 +51,6 @@ struct IntroductionView: View {
                     .cornerRadius(10)
                     .shadow(radius: 5)
                 
-                // Botón con efecto de animación
                 Button("Start Game") {
                     withAnimation {
                         viewModel.startGame()
@@ -65,8 +62,8 @@ struct IntroductionView: View {
                 .foregroundColor(.white)
                 .cornerRadius(12)
                 .shadow(radius: 10)
-                .scaleEffect(1.1) // Efecto de escala al pulsar
-                .animation(.easeInOut, value: 1) // Animación de botón al presionar
+                .scaleEffect(1.1)
+                .animation(.easeInOut, value: 1)
                 
                 Spacer()
             }

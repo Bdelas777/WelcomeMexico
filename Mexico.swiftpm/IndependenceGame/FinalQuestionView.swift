@@ -11,20 +11,18 @@ struct FinalQuestionView: View {
     @ObservedObject var viewModel: GameViewModelIndependence
     @State private var selectedAnswer: String?
     
-    let question = "¿Qué documento marcó el fin de la Guerra de Independencia de México?"
-    let options = [
-        "Tratado de Versalles",
-        "Tratado de Córdoba",
-        "Declaración de Independencia"
-    ]
+    let question = "Which document marked the end of the Mexican War of Independence?"
+        let options = [
+            "Treaty of Soledad",
+            "Treaty of Córdoba",
+            "Treaty of Guadalupe-Hidalgo"
+        ]
     
     var body: some View {
         ZStack {
-            // Fondo con opacidad para destacar la vista
             Color.black.opacity(0.6).edgesIgnoringSafeArea(.all)
             
             VStack(spacing: 30) {
-                // Título con mayor énfasis
                 Text(question)
                     .font(.title)
                     .foregroundColor(.white)
@@ -32,7 +30,6 @@ struct FinalQuestionView: View {
                     .padding(.horizontal)
                     .shadow(radius: 5)
                 
-                // Opciones de respuesta con estilo mejorado
                 ForEach(options, id: \.self) { option in
                     Button(action: {
                         handleAnswer(option)
@@ -42,14 +39,14 @@ struct FinalQuestionView: View {
                             .frame(maxWidth: .infinity)
                             .background(
                                 selectedAnswer == option ?
-                                    (option == "Tratado de Córdoba" ? Color.green : Color.red) :
+                                    (option == "Treaty of Córdoba" ? Color.green : Color.red) :
                                     Color.blue.opacity(0.8)
                             )
                             .foregroundColor(.white)
                             .cornerRadius(15)
                             .shadow(radius: 5)
-                            .scaleEffect(selectedAnswer == nil ? 1.0 : 0.95) // Animación de reducción al seleccionar
-                            .animation(.spring(), value: selectedAnswer) // Animación suave al seleccionar
+                            .scaleEffect(selectedAnswer == nil ? 1.0 : 0.95)
+                            .animation(.spring(), value: selectedAnswer)
                     }
                     .disabled(selectedAnswer != nil)
                     .padding(.horizontal)

@@ -7,10 +7,9 @@
 
 import SwiftUI
 
-// Enum para representar los tipos de ejércitos
 enum ArmyType: String {
-    case realistic = "Ejército Realista"
-    case insurgent = "Ejército Insurgente"
+    case realistic = "Realistic Army"
+    case insurgent = "Insurgent Army"
 }
 
 struct TacticalMiniGameView: View {
@@ -21,79 +20,78 @@ struct TacticalMiniGameView: View {
     @State private var playerHealth: Int = 100
     @State private var isPlayerTurn: Bool = true
     @State private var battleMessage: String = ""
-    @State private var showEndGameModal: Bool = false  // Estado para mostrar el modal
-    @State private var endGameMessage: String = ""     // Mensaje del modal
-    @State private var playerAction: String = ""       // Acción del jugador para animación
-    @State private var enemyAction: String = ""        // Acción del enemigo para animación
-    
+    @State private var showEndGameModal: Bool = false
+    @State private var endGameMessage: String = ""
+    @State private var playerAction: String = ""
+    @State private var enemyAction: String = ""
+
     let decisions = [
-        ("Ataque Realista", "Defender"),
-        ("Recuperar", "Esperar")
+        ("Realistic Attack", "Defend"),
+        ("Recover", "Wait")
     ]
-    
+
     var body: some View {
         ZStack {
-            // Imagen de fondo ajustada
-            Image("Indepe") // Reemplaza con el nombre de tu imagen de fondo
+            Image("Indepe")
                 .resizable()
                 .scaledToFill()
                 .edgesIgnoringSafeArea(.all)
-            
+
             VStack(spacing: 20) {
-                Text("¡Batalla contra el Ejército Insurgente!")
+                Text("Battle Against the Insurgent Army!")
                     .font(.title)
                     .fontWeight(.bold)
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
                     .padding()
-                
-                // Barra de vida del enemigo y jugador
-                ProgressView("Ejército Insurgente", value: Float(insurgentArmyHealth), total: 100)
+
+                ProgressView("Insurgent Army", value: Float(insurgentArmyHealth), total: 100)
                     .progressViewStyle(LinearProgressViewStyle(tint: .red))
                     .padding(.horizontal)
-                
-                ProgressView("Tu vida (Ejército Realista)", value: Float(playerHealth), total: 100)
+
+                ProgressView("Your Health (Realistic Army)", value: Float(playerHealth), total: 100)
                     .progressViewStyle(LinearProgressViewStyle(tint: .green))
                     .padding(.horizontal)
-                
-                // Mensaje de la batalla
+
                 Text(battleMessage)
                     .font(.body)
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
                     .padding(.bottom, 20)
-                
-                // Animación de los personajes
+
                 HStack(spacing: 40) {
                     VStack {
-                        Image("player") // Reemplaza con el asset del jugador
+                        Image("player")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 120, height: 120)
-                            .scaleEffect(playerAction == "Defender" ? 1.1 : 1) // Animación de defensa
-                            .rotationEffect(.degrees(playerAction == "Atacar" ? 30 : 0)) // Animación de ataque
+                            .scaleEffect(playerAction == "Defend" ? 1.1 : 1)
+                            .rotationEffect(.degrees(playerAction == "Attack" ? 30 : 0))
                             .animation(.easeInOut(duration: 0.3), value: playerAction)
-                        Text("Jugador")
+                            .opacity(playerAction == "Recover" ? 0.7 : 1)
+                            .animation(.easeInOut(duration: 0.3), value: playerAction)
+                        Text("Player")
                             .foregroundColor(.white)
                             .fontWeight(.bold)
                     }
-                    
+
                     VStack {
-                        Image("enemy") // Reemplaza con el asset del enemigo
+                        Image("enemy")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 120, height: 120)
-                            .scaleEffect(enemyAction == "Defender" ? 1.1 : 1) // Animación de defensa
-                            .rotationEffect(.degrees(enemyAction == "Atacar" ? -30 : 0)) // Animación de ataque
+                            .scaleEffect(enemyAction == "Defend" ? 1.1 : 1)
+                            .rotationEffect(.degrees(enemyAction == "Attack" ? -30 : 0))
                             .animation(.easeInOut(duration: 0.3), value: enemyAction)
-                        Text("Enemigo")
+                            .opacity(enemyAction == "Recover" ? 0.7 : 1)
+                            .animation(.easeInOut(duration: 0.3), value: enemyAction)
+                        Text("Enemy")
                             .foregroundColor(.white)
                             .fontWeight(.bold)
                     }
                 }
-                
-                // Botones de decisión
-                ForEach(decisions, id: \.0) { decision in
+
+                ForEach(decisions, id: \ .0) { decision in
                     HStack(spacing: 20) {
                         tacticalButton(decision.0, color: .blue)
                         tacticalButton(decision.1, color: .orange)
@@ -105,14 +103,14 @@ struct TacticalMiniGameView: View {
             .shadow(radius: 10)
             .padding()
             .onAppear {
-                battleMessage = "La batalla comienza... Elige tu ataque."
+                battleMessage = "The battle begins... Choose your action."
             }
-            .alert(isPresented: $showEndGameModal) {  // Modal de fin de juego
+            .alert(isPresented: $showEndGameModal) {
                 Alert(
-                    title: Text("Fin del juego"),
+                    title: Text("Game Over"),
                     message: Text(endGameMessage),
-                    dismissButton: .default(Text("Continuar")) {
-                        viewModel.gameState = .finalQuestion  // Cambiar estado a endgame
+                    dismissButton: .default(Text("Continue")) {
+                        viewModel.gameState = .finalQuestion
                     }
                 )
             }
@@ -137,59 +135,59 @@ struct TacticalMiniGameView: View {
 
     private func handleDecision(_ decision: String) {
         currentDecision = decision
-        
+
         if isPlayerTurn {
             playerTurn(decision)
-            isPlayerTurn = false // Cambio de turno
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { // Simula el tiempo de respuesta del enemigo
+            isPlayerTurn = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 enemyTurn()
                 isPlayerTurn = true
             }
         }
     }
-    
+
     private func playerTurn(_ decision: String) {
-        if decision == "Ataque Realista" {
-            playerAction = "Atacar"
+        if decision == "Realistic Attack" {
+            playerAction = "Attack"
             let damage = Int.random(in: 20...35)
             insurgentArmyHealth -= damage
             insurgentArmyHealth = max(insurgentArmyHealth, 0)
-            battleMessage = "¡Has atacado al Ejército Insurgente e infligido \(damage) de daño!"
-            
+            battleMessage = "You attacked the Insurgent Army and dealt \(damage) damage!"
+
             if insurgentArmyHealth <= 0 {
-                battleMessage = "¡Has derrotado al Ejército Insurgente!"
-                endGame(with: "¡Has ganado! El Ejército Insurgente ha sido derrotado.")
+                battleMessage = "You defeated the Insurgent Army!"
+                endGame(with: "You won! The Insurgent Army has been defeated.")
             }
-        } else if decision == "Recuperar" {
-            playerAction = "Recuperar"
+        } else if decision == "Recover" {
+            playerAction = "Recover"
             let recovery = Int.random(in: 15...25)
             playerHealth += recovery
             playerHealth = min(playerHealth, 100)
-            battleMessage = "¡Has recuperado \(recovery) de salud!"
-        } else if decision == "Defender" {
-            playerAction = "Defender"
-            battleMessage = "¡Te has defendido, minimizando el daño!"
-        } else if decision == "Esperar" {
-            playerAction = "Esperar"
-            battleMessage = "Esperas el siguiente ataque del enemigo."
+            battleMessage = "You recovered \(recovery) health!"
+        } else if decision == "Defend" {
+            playerAction = "Defend"
+            battleMessage = "You defended, minimizing damage!"
+        } else if decision == "Wait" {
+            playerAction = "Wait"
+            battleMessage = "You wait for the enemy's next move."
         }
     }
 
     private func enemyTurn() {
         if insurgentArmyHealth > 0 {
-            enemyAction = "Atacar"
+            enemyAction = "Attack"
             let damage = Int.random(in: 10...20)
             playerHealth -= damage
             playerHealth = max(playerHealth, 0)
-            battleMessage += "\nEl Ejército Insurgente te ataca e inflige \(damage) de daño."
-            
+            battleMessage += "\nThe Insurgent Army attacked you and dealt \(damage) damage."
+
             if playerHealth <= 0 {
-                battleMessage += "\n¡Has sido derrotado!"
-                endGame(with: "¡Has perdido! El Ejército Realista ha sido derrotado.")
+                battleMessage += "\nYou have been defeated!"
+                endGame(with: "You lost! The Realistic Army has been defeated.")
             }
         }
     }
-    
+
     private func endGame(with message: String) {
         endGameMessage = message
         showEndGameModal = true

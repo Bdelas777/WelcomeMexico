@@ -24,7 +24,7 @@ struct RouteCardView: View {
                 .multilineTextAlignment(.center)
                 .foregroundColor(.secondary)
                 .padding([.top, .bottom], 8)
-                .frame(maxWidth: 180) // Limitar el ancho del texto para mayor legibilidad
+                .frame(maxWidth: 180) 
             
             Image(systemName: route.difficulty == .safe ? "shield.fill" : "exclamationmark.triangle.fill")
                 .font(.title)
@@ -36,13 +36,13 @@ struct RouteCardView: View {
         .background(
             RoundedRectangle(cornerRadius: 15)
                 .fill(isSelected ? Color.yellow.opacity(0.3) : Color.white.opacity(0.9))
-                .shadow(radius: 10) // Agregar sombra para profundidad
+                .shadow(radius: 10)
         )
         .overlay(
             RoundedRectangle(cornerRadius: 15)
                 .stroke(isSelected ? Color.yellow : Color.clear, lineWidth: 3)
         )
-        .animation(.easeInOut(duration: 0.2), value: isSelected) // Animación suave al seleccionar
+        .animation(.easeInOut(duration: 0.2), value: isSelected)
     }
 }
 

@@ -11,14 +11,13 @@ struct GameplayView: View {
     
     var body: some View {
         ZStack {
-            // Fondo del mapa
+    
             Image("mesoamerica_map")
                 .resizable()
                 .scaledToFill()
-                .ignoresSafeArea() // Asegura que cubra toda la pantalla
+                .ignoresSafeArea()
             
             VStack {
-                // Barra de progreso
                 ProgressView(value: viewModel.timeRemaining, total: viewModel.gameDuration)
                     .padding()
                 
@@ -26,14 +25,12 @@ struct GameplayView: View {
                     .font(.headline)
                     .padding(.bottom)
                 
-                // Puntuación
                 Text("Score: \(viewModel.score)")
                     .font(.title)
                     .bold()
                     .padding()
                 
                 ZStack {
-                    // Íconos de culturas
                     ForEach(viewModel.cultures) { culture in
                         CultureIcon(culture: culture)
                             .position(viewModel.culturePositions[culture.id] ?? culture.position)
@@ -78,18 +75,17 @@ struct GameplayView: View {
                 
                 Spacer()
                 
-                // Zonas de aliados y enemigos
                 HStack {
                     DropZone(title: "Allies")
                     DropZone(title: "Non-Allies")
                 }
                 
-                // Mostrar mensaje
+            
                 if let message = viewModel.message {
                     Text(message)
-                        .font(.title) // Aumenta el tamaño del texto
+                        .font(.title)
                         .padding()
-                        .foregroundColor(viewModel.isCorrectPlacement ? .green : .red) // Cambiar color según la colocación
+                        .foregroundColor(viewModel.isCorrectPlacement ? .green : .red)
                         .background(Color.white)
                         .cornerRadius(10)
                         .transition(.opacity)

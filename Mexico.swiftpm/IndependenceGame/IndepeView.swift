@@ -19,29 +19,38 @@ struct IndepeView: View {
             VStack {
                 Spacer()
                 
-                Text("¡Bienvenido a Córdoba!")
+                Text("Welcome to Córdoba!")
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .foregroundColor(.white)
-                    .scaleEffect(animateText ? 1 : 0.5) // Animación de escala
+                    .scaleEffect(animateText ? 1 : 0.5) 
                     .opacity(animateText ? 1 : 0)
                     .animation(.easeOut(duration: 1).delay(0.5), value: animateText)
+                Text("In this game, you’ll step into the boots of Agustín de Iturbide, leading the Realists during the Mexican War of Independence.")
+                                   .font(.title2)
+                                   .foregroundColor(.white)
+                                   .multilineTextAlignment(.center)
+                                   .padding(.top, 20)
+                                   .scaleEffect(animateText ? 1 : 0.5) // Scale animation
+                                   .opacity(animateText ? 1 : 0)
+                                   .animation(.easeOut(duration: 1).delay(1), value: animateText)
                 
-                Text("En este juego podrás elegir entre 3 mini juegos con el objetivo de conocer la independencia de México.")
+                Text("Your mission: choose one of three exciting mini-games to strategize, negotiate, or outsmart the insurgents! But be warned, surprises await at every turn.")
                     .font(.title2)
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
                     .padding(.top, 20)
-                    .scaleEffect(animateText ? 1 : 0.5) // Animación de escala
+                    .scaleEffect(animateText ? 1 : 0.5)
                     .opacity(animateText ? 1 : 0)
                     .animation(.easeOut(duration: 1).delay(1), value: animateText)
                 
-                Text("Al final, se te hará una pregunta curiosa para ver si realmente lo has aprendido.")
+                Text("At the end, you’ll face a tricky quiz to see if you’ve mastered the art of leadership. Will you secure your place in history?")
+                    .font(.title3)
                     .font(.title3)
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
                     .padding(.top, 20)
-                    .scaleEffect(animateText ? 1 : 0.5) // Animación de escala
+                    .scaleEffect(animateText ? 1 : 0.5)
                     .opacity(animateText ? 1 : 0)
                     .animation(.easeOut(duration: 1).delay(1.5), value: animateText)
                 
@@ -52,7 +61,7 @@ struct IndepeView: View {
                         showMainGame = true
                     }
                 }) {
-                    Text("¡Comenzar el juego!")
+                    Text("Start")
                         .font(.title)
                         .foregroundColor(.white)
                         .padding()
@@ -66,10 +75,9 @@ struct IndepeView: View {
             }
             .padding()
             .onAppear {
-                animateText = true // Activar animaciones cuando la vista aparezca
+                animateText = true
             }
-            
-            // Mostrar el juego cuando el botón es presionado
+  
             if showMainGame {
                 LibertadEnMarchaGame()
             }
@@ -77,11 +85,11 @@ struct IndepeView: View {
     }
     
     private var backgroundView: some View {
-        Image("Indepe") // Asegúrate de que esta imagen exista
+        Image("Indepe")
             .resizable()
             .scaledToFill()
             .edgesIgnoringSafeArea(.all)
-            .overlay(Color.black.opacity(0.5)) // Capa para mejorar la visibilidad del texto
+            .overlay(Color.black.opacity(0.5))
     }
 }
 

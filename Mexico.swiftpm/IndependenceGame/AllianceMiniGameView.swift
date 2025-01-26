@@ -12,11 +12,9 @@ struct AllianceMiniGameView: View {
     
     var body: some View {
         ZStack {
-            // Fondo translúcido
             Color.black.opacity(0.5).edgesIgnoringSafeArea(.all)
             
             VStack(spacing: 20) {
-                // Pregunta central con estilo más destacado
                 Text(viewModel.questions[viewModel.currentQuestionIndex].text)
                     .font(.title)
                     .multilineTextAlignment(.center)
@@ -24,7 +22,6 @@ struct AllianceMiniGameView: View {
                     .padding(.horizontal)
                     .shadow(radius: 5)
                 
-                // Opciones de diálogo con estilo mejorado
                 ForEach(viewModel.dialogOptions) { option in
                     Button(action: {
                         viewModel.handleSelection(option)
@@ -36,17 +33,15 @@ struct AllianceMiniGameView: View {
                             .foregroundColor(.white)
                             .cornerRadius(15)
                             .shadow(radius: 5)
-                            .scaleEffect(viewModel.showDialog ? 1.05 : 1.0) // Animación suave al presionar
+                            .scaleEffect(viewModel.showDialog ? 1.05 : 1.0)
                             .animation(.spring(), value: viewModel.showDialog)
                     }
                     .padding(.horizontal)
                 }
                 
-                // Barra de progreso con diseño mejorado
                 ProgressBarView(value: viewModel.progressBarValue)
                     .padding()
                 
-                // Mensaje de estado en el juego
                 if viewModel.showDialog {
                     Text(viewModel.gameMessage)
                         .font(.body)
@@ -72,13 +67,11 @@ struct ProgressBarView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .leading) {
-                // Fondo de la barra
                 Rectangle()
                     .frame(width: geometry.size.width, height: 10)
                     .foregroundColor(.gray.opacity(0.3))
                     .cornerRadius(5)
                 
-                // Progreso visual
                 Rectangle()
                     .frame(width: CGFloat(value) * geometry.size.width, height: 10)
                     .foregroundColor(.green)
