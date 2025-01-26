@@ -6,10 +6,8 @@ struct ConstruccionPiramideView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                // Cálculo y visualización de las zonas de arrastre
                 let zonasDeArrastre = calcularZonasDeArrastre(geometry: geometry)
                 
-                // Mostrar zonas de arrastre sobre la pirámide
                 ForEach(zonasDeArrastre.indices, id: \.self) { index in
                     let zona = zonasDeArrastre[index]
                     Rectangle()
@@ -19,7 +17,6 @@ struct ConstruccionPiramideView: View {
                         .border(Color.blue, width: 2)
                 }
                 
-                // Bloques en movimiento
                 ForEach(estado.bloques.indices, id: \.self) { index in
                     if !estado.bloques[index].estaColocado {
                         Image("Piedra")
