@@ -25,7 +25,7 @@ struct SeleccionMaterialesView: View {
     
     var body: some View {
         VStack {
-            Text("Selecciona los materiales correctos y evita seleccionar los materiales incorrectos")
+            Text("Select the correct materials and avoid choosing the wrong ones.")
                 .font(.title2)
                 .padding(.bottom, 10)
                 .foregroundColor(.white)
@@ -40,7 +40,7 @@ struct SeleccionMaterialesView: View {
                                 withAnimation {
                                     if estado.materialesSeleccionados.contains(material.id) {
                                         estado.cambiarSeleccionDeMaterial(id: material.id)
-                                        mostrarDescripcion = nil // Limpiar descripción si se deselecciona
+                                        mostrarDescripcion = nil
                                     } else {
                                         estado.cambiarSeleccionDeMaterial(id: material.id)
                                         mostrarDescripcion = material.descripcion
@@ -56,7 +56,7 @@ struct SeleccionMaterialesView: View {
             
             if let descripcion = mostrarDescripcion {
                 Text(descripcion)
-                    .font(.body)
+                    .font(.title2)
                     .padding()
                     .background(Color.yellow.opacity(0.2))
                     .cornerRadius(10)

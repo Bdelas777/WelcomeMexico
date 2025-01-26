@@ -16,20 +16,17 @@ struct VictoryView: View {
     
     var body: some View {
         ZStack {
-            // Fondo personalizado (citytlax) con ajuste de opacidad
-            Image("citytlax")  // Usa la imagen de fondo "citytlax"
+            Image("citytlax")
                 .resizable()
                 .scaledToFill()
                 .edgesIgnoringSafeArea(.all)
             
-            // Capa de color negro con opacidad para resaltar los elementos
             Color.black.opacity(0.6)
                 .edgesIgnoringSafeArea(.all)
             
             VStack {
                 Spacer()
                 
-                // Título de victoria con efectos de sombra
                 Text("Victory!")
                     .font(.system(size: 50, weight: .bold, design: .rounded))
                     .foregroundColor(.yellow)
@@ -77,9 +74,8 @@ struct VictoryView: View {
                 }
                 .padding(.top)
                 
-                // Botón para regresar a la pantalla principal con animación
                 Button(action: {
-                    dismiss() // Cierra la vista actual (VictoryView)
+                    dismiss() 
                 }) {
                     Text("Return to main menu")
                         .font(.title)
@@ -96,9 +92,8 @@ struct VictoryView: View {
                 Spacer()
             }
         }
-        .navigationBarBackButtonHidden(true) // Ocultar el botón de retroceso de la barra de navegación si es necesario
+        .navigationBarBackButtonHidden(true)
         .onAppear {
-            // Agregar alguna animación inicial si es necesario
             withAnimation(.easeIn(duration: 1)) {
                 animateStars.toggle()
             }

@@ -51,9 +51,8 @@ struct ConstruccionPiramideView: View {
                     }
                 }
 
-                // Contador de bloques colocados
                 VStack {
-                    Text("Bloques colocados: \(estado.bloques.filter { $0.estaColocado }.count)/\(estado.bloques.count)")
+                    Text("Blocks placed: \(estado.bloques.filter { $0.estaColocado }.count)/\(estado.bloques.count)")
                         .font(.title2)
                         .padding()
                         .background(Color.white.opacity(0.8))
@@ -65,7 +64,6 @@ struct ConstruccionPiramideView: View {
         }
     }
 
-    // Calcula las posiciones de las zonas de arrastre con la pirámide volteada
     private func calcularZonasDeArrastre(geometry: GeometryProxy) -> [CGPoint] {
         var zonas: [CGPoint] = []
         let tamano = 120.0
@@ -85,11 +83,11 @@ struct ConstruccionPiramideView: View {
         for fila in 0..<4 {
             let bloquesEnFila = fila + 1
             let piramideWidthFila = CGFloat(bloquesEnFila) * tamano + CGFloat(bloquesEnFila - 1)
-            let startXFila = centerX - piramideWidthFila / 2 + tamano / 2 // Calcula el inicio X para cada fila
+            let startXFila = centerX - piramideWidthFila / 2 + tamano / 2
 
             for columna in 0..<bloquesEnFila {
                 let x = startXFila + Double(columna) * (tamano)
-                let y = baseY + Double(fila) * tamano // Invertimos la dirección del eje Y
+                let y = baseY + Double(fila) * tamano
                 zonas.append(CGPoint(x: x, y: y))
             }
         }

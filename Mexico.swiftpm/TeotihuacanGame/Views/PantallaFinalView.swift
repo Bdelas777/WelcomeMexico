@@ -11,39 +11,36 @@ struct PantallaFinalView: View {
     @ObservedObject var estado: EstadoJuego
     @Environment(\.dismiss) var dismiss
     
-    @State private var isAppearing = false // Estado para las animaciones
+    @State private var isAppearing = false
     
     var body: some View {
         ZStack {
-            // Fondo con la imagen de la pirámide
-          
-            
             VStack(spacing: 20) {
-                Text("¡Felicitaciones!")
+                Text("Congratulations!")
                     .font(.title)
                     .foregroundColor(.white)
                     .fontWeight(.bold)
-                    .scaleEffect(isAppearing ? 1 : 0.5) // Animación de escala
-                    .opacity(isAppearing ? 1 : 0) // Animación de opacidad
-                    .animation(.easeOut(duration: 0.7), value: isAppearing) // Animación de entrada
+                    .scaleEffect(isAppearing ? 1 : 0.5)
+                    .opacity(isAppearing ? 1 : 0)
+                    .animation(.easeOut(duration: 0.7), value: isAppearing)
                 
-                Text("Great job! You've helped build one of the largest pyramids in Mesoamerica.")
+                Text("Amazing work! You've contributed to the creation of one of the grandest pyramids in all of Mesoamerica—a true marvel of ancient ingenuity!")
                     .multilineTextAlignment(.center)
                     .foregroundColor(.white)
                     .padding(.horizontal)
-                    .scaleEffect(isAppearing ? 1 : 0.5) // Animación de escala
-                    .opacity(isAppearing ? 1 : 0) // Animación de opacidad
-                    .animation(.easeOut(duration: 0.7).delay(0.2), value: isAppearing) // Animación con retraso
+                    .scaleEffect(isAppearing ? 1 : 0.5)
+                    .opacity(isAppearing ? 1 : 0)
+                    .animation(.easeOut(duration: 0.7).delay(0.2), value: isAppearing)
                 
-                Text("Puntuación final: \(estado.puntuacion)")
+                Text("Final score: \(estado.puntuacion)")
                     .font(.headline)
                     .foregroundColor(.white)
-                    .scaleEffect(isAppearing ? 1 : 0.5) // Animación de escala
-                    .opacity(isAppearing ? 1 : 0) // Animación de opacidad
-                    .animation(.easeOut(duration: 0.7).delay(0.4), value: isAppearing) // Animación con retraso
+                    .scaleEffect(isAppearing ? 1 : 0.5)
+                    .opacity(isAppearing ? 1 : 0)
+                    .animation(.easeOut(duration: 0.7).delay(0.4), value: isAppearing)
                 
                 Button(action: {
-                    dismiss() // Regresar al menú principal
+                    dismiss()
                 }) {
                     Text("Return to main menu")
                         .font(.title)
@@ -51,16 +48,16 @@ struct PantallaFinalView: View {
                         .background(Color.green)
                         .foregroundColor(.white)
                         .cornerRadius(10)
-                        .shadow(radius: 5) // Sombra para hacer el botón más visible
-                        .scaleEffect(isAppearing ? 1 : 0.5) // Animación de escala
-                        .opacity(isAppearing ? 1 : 0) // Animación de opacidad
-                        .animation(.easeOut(duration: 0.7).delay(0.6), value: isAppearing) // Animación con retraso
+                        .shadow(radius: 5)
+                        .scaleEffect(isAppearing ? 1 : 0.5)
+                        .opacity(isAppearing ? 1 : 0)
+                        .animation(.easeOut(duration: 0.7).delay(0.6), value: isAppearing)
                 }
             }
             .padding()
         }
         .onAppear {
-            isAppearing = true // Al aparecer la vista, activa las animaciones
+            isAppearing = true 
         }
     }
 }

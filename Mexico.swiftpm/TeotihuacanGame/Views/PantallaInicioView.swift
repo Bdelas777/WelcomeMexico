@@ -12,13 +12,11 @@ struct PantallaInicioView: View {
     
     var body: some View {
         ZStack {
-            // Fondo con imagen de la pirámide
-            Image("teotihua") // Asegúrate de tener la imagen en el proyecto con este nombre
+            Image("teotihua")
                 .resizable()
                 .scaledToFill()
-                .edgesIgnoringSafeArea(.all) // Hace que la imagen cubra toda la pantalla
+                .edgesIgnoringSafeArea(.all)
             
-            // Capa semitransparente para mejorar la visibilidad del contenido
             Color.black.opacity(0.5)
                 .edgesIgnoringSafeArea(.all)
             
@@ -34,14 +32,14 @@ struct PantallaInicioView: View {
                     .padding(.horizontal)
                     .font(.title2)
                 
-                Button("¡Comenzar!") {
+                Button("Start") {
                     estado.iniciarJuego()
                 }
                 .padding()
                 .background(Color.blue)
                 .foregroundColor(.white)
                 .cornerRadius(10)
-                .shadow(radius: 5) // Agrega sombra al botón para destacarlo
+                .shadow(radius: 5)
                 
             }
             .padding()

@@ -12,10 +12,10 @@ struct JuegoPiramideView: View {
     
     var body: some View {
         ZStack {
-            Image("teotihua")
+            Image("teotihua") // Asegúrate de tener la imagen en el proyecto con este nombre
                 .resizable()
                 .scaledToFill()
-                .edgesIgnoringSafeArea(.all)
+                .edgesIgnoringSafeArea(.all) // Hace que la imagen cubra toda la pantalla
             
             Color.black.opacity(0.5)
                 .edgesIgnoringSafeArea(.all)
@@ -50,7 +50,7 @@ struct JuegoPiramideView: View {
                 }
                 
                 Spacer()
-                
+            }
             .padding()
         }
     }
