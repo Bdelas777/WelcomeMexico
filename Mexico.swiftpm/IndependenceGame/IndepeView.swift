@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-// Vista de introducción del juego
 struct IndepeView: View {
     @State private var showMainGame = false
     @State private var animateText = false
+    @StateObject private var musicManager = BackgroundMusicManager()
     
     var body: some View {
         ZStack {
@@ -31,7 +31,7 @@ struct IndepeView: View {
                                    .foregroundColor(.white)
                                    .multilineTextAlignment(.center)
                                    .padding(.top, 20)
-                                   .scaleEffect(animateText ? 1 : 0.5) // Scale animation
+                                   .scaleEffect(animateText ? 1 : 0.5)
                                    .opacity(animateText ? 1 : 0)
                                    .animation(.easeOut(duration: 1).delay(1), value: animateText)
                 
@@ -75,11 +75,16 @@ struct IndepeView: View {
             }
             .padding()
             .onAppear {
-                animateText = true
-            }
+                            animateText = true
+                            musicManager.playMusic(named: "indepe")
+                        }
+                        .onDisappear {
+                            musicManager.stopMusic()
+                        }
+              
   
             if showMainGame {
-                LibertadEnMarchaGame()
+                LibertadEnMarchaGame(musicManager: musicManager)
             }
         }
     }
@@ -92,6 +97,3 @@ struct IndepeView: View {
             .overlay(Color.black.opacity(0.5))
     }
 }
-
-
-

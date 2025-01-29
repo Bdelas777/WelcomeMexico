@@ -6,8 +6,11 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 struct OlmecGameView: View {
+    
+    @State private var audioPlayer: AVAudioPlayer?
     @State private var foundHeads: [UUID] = []
     @State private var showQuiz = false
     @State private var showIntro = true
@@ -17,6 +20,21 @@ struct OlmecGameView: View {
     @State private var isAnswered = false
     @State private var gameObjects: [PositionedGameObject] = []
     @State private var answeredQuestions = 0
+    
+    private func playBackgroundMusic() {
+        if let url = Bundle.main.url(forResource: "olmecs", withExtension: "mp3") {
+            do {
+                audioPlayer = try AVAudioPlayer(contentsOf: url)
+                audioPlayer?.numberOfLoops = -1
+                audioPlayer?.play()
+            } catch {
+                print("Error al reproducir la música: \(error.localizedDescription)")
+            }
+        } else {
+            print("No se encontró el archivo de audio en Resources")
+        }
+    }
+
     
     let screenWidth: CGFloat = UIScreen.main.bounds.width
     let screenHeight: CGFloat = UIScreen.main.bounds.height
@@ -88,7 +106,12 @@ struct OlmecGameView: View {
                     resetGame: resetGame
                 )
             }
+        }.onAppear {
+            playBackgroundMusic()
         }
+        .onDisappear {
+                audioPlayer?.stop()
+            }
     }
     
     private func handleCorrectAnswer() {
@@ -124,7 +147,6 @@ struct OlmecGameView: View {
             return position
         }
         
-        // Position heads
         for head in colossalHeads {
             let position = getRandomPosition(objectSize: CGSize(width: 100, height: 120))
             objects.append(PositionedGameObject(
@@ -133,7 +155,6 @@ struct OlmecGameView: View {
             ))
         }
         
-        // Position distracting objects
         for object in distractingObjects {
             let position = getRandomPosition(objectSize: CGSize(width: 80, height: 100))
             objects.append(PositionedGameObject(
@@ -166,6 +187,7 @@ struct OlmecGameView: View {
     }
     
     private func endGame() {
+        
         withAnimation {
             showCelebration = true
         }
@@ -217,4 +239,5 @@ struct IntroView: View {
         .cornerRadius(20)
         .padding()
     }
+    
 }

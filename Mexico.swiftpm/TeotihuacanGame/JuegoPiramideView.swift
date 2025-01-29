@@ -6,16 +6,32 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 struct JuegoPiramideView: View {
     @StateObject private var estado = EstadoJuego()
+    @State private var audioPlayer: AVAudioPlayer?
+    
+    private func playBackgroundMusic() {
+        if let url = Bundle.main.url(forResource: "teo", withExtension: "mp3") {
+            do {
+                audioPlayer = try AVAudioPlayer(contentsOf: url)
+                audioPlayer?.numberOfLoops = -1
+                audioPlayer?.play()
+            } catch {
+                print("Error al reproducir la música: \(error.localizedDescription)")
+            }
+        } else {
+            print("No se encontró el archivo de audio en Resources")
+        }
+    }
     
     var body: some View {
         ZStack {
-            Image("teotihua") // Asegúrate de tener la imagen en el proyecto con este nombre
+            Image("teotihua")
                 .resizable()
                 .scaledToFill()
-                .edgesIgnoringSafeArea(.all) // Hace que la imagen cubra toda la pantalla
+                .edgesIgnoringSafeArea(.all)
             
             Color.black.opacity(0.5)
                 .edgesIgnoringSafeArea(.all)
@@ -47,11 +63,17 @@ struct JuegoPiramideView: View {
                     ConstruccionPiramideView(estado: estado)
                 case .finalizado:
                     PantallaFinalView(estado: estado)
+                   
                 }
                 
                 Spacer()
             }
             .padding()
+        }.onAppear {
+            playBackgroundMusic()
         }
+        .onDisappear {
+                audioPlayer?.stop()
+            }
     }
 }

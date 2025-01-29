@@ -21,8 +21,8 @@ class GameViewModel: ObservableObject {
     @Published var cultures: [Culture]
     @Published var culturePositions: [UUID: CGPoint]
     @Published var score: Int = 0
-    @Published var message: String? // Para almacenar el mensaje de resultado
-    @Published var isCorrectPlacement: Bool = false // Para indicar si la colocación es correcta o incorrecta
+    @Published var message: String?
+    @Published var isCorrectPlacement: Bool = false
     
     private var initialPositions: [UUID: CGPoint]
     

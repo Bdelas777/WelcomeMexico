@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct EraSelectionView: View {
+    let audioManager: AudioManager
     @State private var selectedFaction: Faction? = nil
     @State private var showModal = false
     @State private var showGameView = false
@@ -23,10 +24,10 @@ struct EraSelectionView: View {
                         .resizable()
                         .scaledToFill()
                         .edgesIgnoringSafeArea(.all)
-
+                    
                     VStack {
                         Spacer()
-
+                        
                         HStack(spacing: 50) {
                             ForEach(factions) { faction in
                                 FactionButton(
@@ -42,9 +43,9 @@ struct EraSelectionView: View {
                                 )
                             }
                         }
-
+                        
                         Spacer()
-
+                        
                         Button("Ver Logros") {
                             showAchievements = true
                         }
@@ -53,19 +54,19 @@ struct EraSelectionView: View {
                         .foregroundColor(.white)
                         .cornerRadius(10)
                     }
-
+                    
                     if let faction = selectedFaction, showModal {
                         FactionCard(faction: faction, isVisible: $showModal, onPlay: {
                             showGameView = true
                         })
-                            .frame(width: geometry.size.width * 0.7, height: geometry.size.height * 0.5)
-                            .transition(
-                                .asymmetric(
-                                    insertion: .opacity.combined(with: .scale(scale: 0.8, anchor: .center)),
-                                    removal: .opacity.combined(with: .move(edge: .bottom))
-                                )
+                        .frame(width: geometry.size.width * 0.7, height: geometry.size.height * 0.5)
+                        .transition(
+                            .asymmetric(
+                                insertion: .opacity.combined(with: .scale(scale: 0.8, anchor: .center)),
+                                removal: .opacity.combined(with: .move(edge: .bottom))
                             )
-                            .animation(.spring(response: 0.5, dampingFraction: 0.7), value: showModal)
+                        )
+                        .animation(.spring(response: 0.5, dampingFraction: 0.7), value: showModal)
                     }
                 }
                 .frame(width: geometry.size.width, height: geometry.size.height)
@@ -78,15 +79,25 @@ struct EraSelectionView: View {
                             if let faction = selectedFaction {
                                 completedGames.insert(faction.id)
                             }
+                            audioManager.play()
+                        }
+                        .onAppear {
+                            audioManager.stop()
                         }
                 }
             }
             .sheet(isPresented: $showAchievements) {
                 AchievementView(completedGames: completedGames, factions: factions)
+                    .onAppear {
+                        audioManager.stop()
+                    }
+                    .onDisappear {
+                        audioManager.play()
+                    }
             }
         }
     }
-
+    
     private func canPlay(_ faction: Faction) -> Bool {
         if let index = factions.firstIndex(where: { $0.id == faction.id }) {
             if index == 0 { return true }
@@ -95,7 +106,7 @@ struct EraSelectionView: View {
         }
         return false
     }
-
+    
     private func selectFaction(faction: Faction) {
         selectedFaction = faction
         withAnimation(.spring(response: 0.4, dampingFraction: 0.6)) {

@@ -12,6 +12,7 @@ struct LibertadEnMarchaGame: View {
     @State private var selectedRoute: Route?
     @State private var showMiniGame = false
     @State private var animateRoute = false
+    @ObservedObject var musicManager: BackgroundMusicManager // Recibe la instancia de música
     
     var body: some View {
         GeometryReader { geometry in
@@ -43,6 +44,12 @@ struct LibertadEnMarchaGame: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .preferredColorScheme(.light)
+        .onAppear {
+                    musicManager.playMusic(named: "indepe") 
+                }
+                .onDisappear {
+                    musicManager.stopMusic()
+                }
     }
     
     private var backgroundView: some View {
@@ -94,5 +101,6 @@ struct LibertadEnMarchaGame: View {
                 }
             }
         }
+        
     }
 }
