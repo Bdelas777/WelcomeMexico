@@ -9,7 +9,7 @@ class AudioManager: ObservableObject {
     }
     
     private func setupAudio() {
-        if let url = Bundle.main.url(forResource: "indepe", withExtension: "mp3") {
+        if let url = Bundle.main.url(forResource: "flamenco", withExtension: "mp3") {
             do {
                 audioPlayer = try AVAudioPlayer(contentsOf: url)
                 audioPlayer?.numberOfLoops = -1 // Loop indefinitely
