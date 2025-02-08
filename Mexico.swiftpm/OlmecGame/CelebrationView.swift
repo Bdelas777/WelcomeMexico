@@ -34,8 +34,7 @@ struct CelebrationView: View {
                             animateText.toggle()
                         }
                     }
-                
-                // Texto de celebración
+
                 Text("You found \(foundCount) of \(totalCount) monumental stone heads")
                     .font(.title2)
                     .foregroundColor(.white)
@@ -44,9 +43,8 @@ struct CelebrationView: View {
                     .cornerRadius(15)
                     .shadow(radius: 10)
                 
-                // Botón para regresar al menú principal con animación
                 Button(action: {
-                    dismiss() // Cierra la vista actual (CelebrationView)
+                    dismiss()
                 }) {
                     Text("Return to main menu")
                         .font(.title)

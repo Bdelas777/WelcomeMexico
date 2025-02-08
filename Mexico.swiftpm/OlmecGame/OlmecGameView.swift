@@ -1,25 +1,19 @@
-//
-//  SwiftUIView.swift
-//  
-//
-//  Created by Alumno on 09/01/25.
-//
-
 import SwiftUI
 import AVFoundation
 
 struct OlmecGameView: View {
-    
     @State private var audioPlayer: AVAudioPlayer?
     @State private var foundHeads: [UUID] = []
     @State private var showQuiz = false
     @State private var showIntro = true
+    @State private var showInstructions = false
     @State private var timeRemaining = 30
     @State private var showCelebration = false
     @State private var currentHead: ColossalHead?
     @State private var isAnswered = false
     @State private var gameObjects: [PositionedGameObject] = []
     @State private var answeredQuestions = 0
+    @State private var timer: Timer? // Añadir el temporizador
     
     private func playBackgroundMusic() {
         if let url = Bundle.main.url(forResource: "olmecs", withExtension: "mp3") {
@@ -35,7 +29,6 @@ struct OlmecGameView: View {
         }
     }
 
-    
     let screenWidth: CGFloat = UIScreen.main.bounds.width
     let screenHeight: CGFloat = UIScreen.main.bounds.height
     
@@ -84,8 +77,22 @@ struct OlmecGameView: View {
                     .padding(.bottom, 20)
             }
             
+
+            if showInstructions {
+                InstructionsModal(showInstructions: $showInstructions)
+                    .onDisappear {
+                        startTimer()
+                    }
+            }
+            
+            // Mostrar el modal de introducción si showIntro es true
             if showIntro {
-                IntroView(showIntro: $showIntro, startGame: startGame)
+                IntroView(showIntro: $showIntro) {
+                    // Mostrar las instrucciones después de la introducción
+                    withAnimation {
+                        showInstructions = true
+                    }
+                }
             }
             
             if showQuiz, let head = currentHead {
@@ -106,12 +113,13 @@ struct OlmecGameView: View {
                     resetGame: resetGame
                 )
             }
-        }.onAppear {
+        }
+        .onAppear {
             playBackgroundMusic()
         }
         .onDisappear {
-                audioPlayer?.stop()
-            }
+            audioPlayer?.stop()
+        }
     }
     
     private func handleCorrectAnswer() {
@@ -166,33 +174,27 @@ struct OlmecGameView: View {
         gameObjects = objects
     }
     
-    private func handleHeadFound(_ head: ColossalHead) {
-        foundHeads.append(head.id)
-        currentHead = head
-        withAnimation {
-            showQuiz = true
-        }
-    }
-    
-    private func startGame() {
+    private func startTimer() {
         generateRandomPositions()
+        timer?.invalidate() // Detener cualquier temporizador anterior
         
-        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
-            timeRemaining -= 1
-            if timeRemaining <= 0 {
-                timer.invalidate()
-                endGame()
+        timeRemaining = 30 // Establecer el tiempo inicial
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+            if timeRemaining > 0 {
+                timeRemaining -= 1
+            } else {
+                self.endGame() // Finalizar el juego cuando el tiempo se acaba
             }
         }
     }
-    
+
     private func endGame() {
         
         withAnimation {
             showCelebration = true
         }
     }
-    
+
     private func resetGame() {
         foundHeads = []
         timeRemaining = 30
@@ -203,7 +205,49 @@ struct OlmecGameView: View {
         isAnswered = false
         answeredQuestions = 0
     }
+
+    private func handleHeadFound(_ head: ColossalHead) {
+        foundHeads.append(head.id)
+        currentHead = head
+        withAnimation {
+            showQuiz = true
+        }
+    }
 }
+
+
+struct InstructionsModal: View {
+    @Binding var showInstructions: Bool
+    
+    var body: some View {
+        ZStack {
+            Color.black.opacity(0.7)
+                .edgesIgnoringSafeArea(.all)
+                .onTapGesture {
+                    showInstructions = false
+                }
+            
+            VStack(spacing: 20) {
+                Text("Instrucciones")
+                    .font(.largeTitle)
+                    .foregroundColor(.white)
+                    .bold()
+                    .padding()
+                
+                Text("Encuentra las cabezas colosales ocultas en la selva y responde las preguntas correctamente para ganar.")
+                    .font(.title3)
+                    .foregroundColor(.white)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal)
+            }
+            .padding()
+            .background(Color.black.opacity(0.8))
+            .cornerRadius(20)
+            .padding()
+        }
+    }
+}
+
 
 struct IntroView: View {
     @Binding var showIntro: Bool
@@ -211,7 +255,7 @@ struct IntroView: View {
     
     var body: some View {
         VStack(spacing: 20) {
-            Text("Welcono to the Olmeca Jungle!")
+            Text("Welcome to the Olmeca Jungle!")
                 .font(.largeTitle)
                 .foregroundColor(.white)
                 .bold()
@@ -222,6 +266,7 @@ struct IntroView: View {
                 .foregroundColor(.white)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal)
+
             
             Button("Start") {
                 withAnimation {
@@ -241,3 +286,6 @@ struct IntroView: View {
     }
     
 }
+
+
+
