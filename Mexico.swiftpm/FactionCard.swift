@@ -1,10 +1,3 @@
-//
-//  File.swift
-//  Mexico
-//
-//  Created by Alumno on 09/01/25.
-//
-
 import SwiftUI
 
 struct FactionCard: View {
@@ -13,73 +6,79 @@ struct FactionCard: View {
     let onPlay: () -> Void
 
     var body: some View {
-        VStack(spacing: 40) {
+        VStack(spacing: 20) {
             Image(faction.imageName)
                 .resizable()
                 .scaledToFit()
-                .frame(height: 180)
-                .padding(16)
-                .background(Color.black.opacity(0.9))
+                .frame(height: 160)
+                .padding(8)
+                .background(Color.black)
                 .cornerRadius(16)
                 .overlay(
                     RoundedRectangle(cornerRadius: 16)
-                        .stroke(Color.yellow, lineWidth: 4)
+                        .stroke(Color.yellow, lineWidth: 6)
                 )
+                .shadow(color: .black, radius: 5, x: 0, y: 5)
 
+            // Nombre de la facción en estilo pixel art
             Text(faction.name.uppercased())
-                .font(.custom("PressStart2P-Regular", size: 24))
+                .font(.custom("PressStart2P-Regular", size: 28))
                 .foregroundColor(.yellow)
-                .padding(.horizontal, 16)
-                .padding(.vertical, 10)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 8)
                 .background(Color.black)
-                .cornerRadius(12)
-                .shadow(color: .yellow, radius: 10, x: 0, y: 0)
+                .cornerRadius(8)
+                .shadow(color: .yellow, radius: 8, x: 0, y: 0)
 
-            // Descripción de la facción
+            // Descripción de la facción, ajustada para mayor visibilidad
             Text(faction.description)
-                .font(.custom("PressStart2P-Regular", size: 18)) 
+                .font(.custom("PressStart2P-Regular", size: 16))
                 .foregroundColor(.white)
                 .multilineTextAlignment(.center)
-                .padding(16)
-                .background(Color.black.opacity(0.95))
-                .cornerRadius(12)
+                .lineLimit(nil) // Para permitir el texto en varias líneas
+                .fixedSize(horizontal: false, vertical: true) // Evitar que el texto se recorte
+                .padding(12)
+                .background(Color.black.opacity(0.85))
+                .cornerRadius(8)
                 .overlay(
-                    RoundedRectangle(cornerRadius: 12)
+                    RoundedRectangle(cornerRadius: 8)
                         .stroke(Color.gray, lineWidth: 4)
                 )
 
+            // Botón de "Play" en estilo pixel art
             Button(action: {
                 onPlay()
                 isVisible = false
             }) {
                 Text("PLAY")
-                    .font(.custom("PressStart2P-Regular", size: 22))
+                    .font(.custom("PressStart2P-Regular", size: 24))
                     .foregroundColor(.black)
                     .padding(12)
                     .frame(maxWidth: .infinity)
                     .background(Color.green)
-                    .cornerRadius(12)
+                    .cornerRadius(8)
                     .overlay(
-                        RoundedRectangle(cornerRadius: 12)
-                            .stroke(Color.white, lineWidth: 3)
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(Color.white, lineWidth: 4)
                     )
             }
             .padding(.horizontal)
 
+            // Botón de "Close" en estilo pixel art
             Button(action: {
                 withAnimation {
                     isVisible = false
                 }
             }) {
                 Text("CLOSE")
-                    .font(.custom("PressStart2P-Regular", size: 18)) // Fuente más grande
+                    .font(.custom("PressStart2P-Regular", size: 20))
                     .foregroundColor(.white)
                     .padding(10)
                     .background(Color.red)
-                    .cornerRadius(10)
+                    .cornerRadius(8)
                     .overlay(
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.white, lineWidth: 3)
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(Color.white, lineWidth: 4)
                     )
             }
         }
@@ -87,10 +86,10 @@ struct FactionCard: View {
         .background(
             LinearGradient(gradient: Gradient(colors: [Color.blue.opacity(0.9), Color.black]), startPoint: .top, endPoint: .bottom)
         )
-        .cornerRadius(24)
+        .cornerRadius(20)
         .shadow(color: .black, radius: 15, x: 5, y: 5)
         .overlay(
-            RoundedRectangle(cornerRadius: 24)
+            RoundedRectangle(cornerRadius: 20)
                 .stroke(Color.yellow, lineWidth: 6)
         )
         .padding()

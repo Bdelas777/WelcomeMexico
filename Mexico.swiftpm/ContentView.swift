@@ -1,6 +1,6 @@
 import SwiftUI
 import AVFoundation
-// Hay 3 bugs tiempo en el escoger objetos los objetos random del juego 1 y 3
+
 class AudioManager: ObservableObject {
     private var audioPlayer: AVAudioPlayer?
     
@@ -12,7 +12,7 @@ class AudioManager: ObservableObject {
         if let url = Bundle.main.url(forResource: "flamenco", withExtension: "mp3") {
             do {
                 audioPlayer = try AVAudioPlayer(contentsOf: url)
-                audioPlayer?.numberOfLoops = -1 // Loop indefinitely
+                audioPlayer?.numberOfLoops = -1 
                 audioPlayer?.prepareToPlay()
             } catch {
                 print("Error al configurar el audio: \(error.localizedDescription)")
