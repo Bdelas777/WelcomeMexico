@@ -8,7 +8,6 @@
 import SwiftUI
 import AVFoundation
 
-// Clase que maneja la música de fondo
 class BackgroundMusicManager: ObservableObject {
     var audioPlayer: AVAudioPlayer?
     

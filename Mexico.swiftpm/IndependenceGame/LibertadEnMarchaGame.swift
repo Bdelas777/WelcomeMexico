@@ -12,7 +12,7 @@ struct LibertadEnMarchaGame: View {
     @State private var selectedRoute: Route?
     @State private var showMiniGame = false
     @State private var animateRoute = false
-    @ObservedObject var musicManager: BackgroundMusicManager // Recibe la instancia de música
+    @ObservedObject var musicManager: BackgroundMusicManager
     
     var body: some View {
         GeometryReader { geometry in

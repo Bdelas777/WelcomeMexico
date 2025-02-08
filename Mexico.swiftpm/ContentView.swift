@@ -1,6 +1,6 @@
 import SwiftUI
 import AVFoundation
-
+// Hay 3 bugs tiempo en el escoger objetos los objetos random del juego 1 y 3
 class AudioManager: ObservableObject {
     private var audioPlayer: AVAudioPlayer?
     

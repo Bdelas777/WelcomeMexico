@@ -1,10 +1,3 @@
-//
-//  SwiftUIView.swift
-//  
-//
-//  Created by Alumno on 12/01/25.
-//
-
 import SwiftUI
 
 struct FinalQuestionView: View {
@@ -12,11 +5,11 @@ struct FinalQuestionView: View {
     @State private var selectedAnswer: String?
     
     let question = "Which document marked the end of the Mexican War of Independence?"
-        let options = [
-            "Treaty of Soledad",
-            "Treaty of Córdoba",
-            "Treaty of Guadalupe-Hidalgo"
-        ]
+    let options = [
+        "Treaty of Soledad",
+        "Treaty of Córdoba",
+        "Treaty of Guadalupe-Hidalgo"
+    ]
     
     var body: some View {
         ZStack {
@@ -37,11 +30,7 @@ struct FinalQuestionView: View {
                         Text(option)
                             .padding()
                             .frame(maxWidth: .infinity)
-                            .background(
-                                selectedAnswer == option ?
-                                    (option == "Treaty of Córdoba" ? Color.green : Color.red) :
-                                    Color.blue.opacity(0.8)
-                            )
+                            .background(Color.green)
                             .foregroundColor(.white)
                             .cornerRadius(15)
                             .shadow(radius: 5)
@@ -58,9 +47,7 @@ struct FinalQuestionView: View {
     
     private func handleAnswer(_ answer: String) {
         selectedAnswer = answer
-        if answer == "Tratado de Córdoba" {
-            viewModel.score += 30
-        }
+        viewModel.score += 30
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             viewModel.gameState = .gameOver
         }

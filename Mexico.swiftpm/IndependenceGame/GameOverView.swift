@@ -1,10 +1,3 @@
-//
-//  SwiftUIView.swift
-//  
-//
-//  Created by Alumno on 12/01/25.
-//
-
 import SwiftUI
 
 struct GameOverView: View {
@@ -27,12 +20,10 @@ struct GameOverView: View {
                             .foregroundColor(.white)
                             .shadow(color: .black, radius: 5, x: 0, y: 5)
 
-                        // Puntuación
                         Text("Puntuación Final: \(score)")
                             .font(.system(size: 24, weight: .medium, design: .rounded))
                             .foregroundColor(.white)
 
-                        // Descripción histórica
                         VStack(alignment: .leading, spacing: 10) {
                             Text("El Tratado de Córdoba en 1821 marcó el fin de la Guerra de Independencia de México. ¡México se hizo libre tras un largo conflicto!")
                                 .multilineTextAlignment(.center)
@@ -50,9 +41,8 @@ struct GameOverView: View {
                         .background(Color.white.opacity(0.2))
                         .cornerRadius(15)
 
-                        // Botón de regreso
                         Button(action: {
-                            dismiss() // Cierra la vista actual
+                            dismiss()
                         }) {
                             Text("Volver al menú principal")
                                 .font(.title2)
