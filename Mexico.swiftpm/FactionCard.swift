@@ -54,10 +54,9 @@ struct FactionCard: View {
                     .padding()
                     .background(Color.black.opacity(0.85))
                     .cornerRadius(8)
-                    .frame(maxWidth: .infinity) // Permitir que se expanda correctamente
+                    .frame(maxWidth: .infinity)
             }
-            .frame(maxHeight: 150) // Ajustar altura máxima del ScrollView
-
+            .frame(maxHeight: 150)
             Button(action: {
                 onPlay()
                 isVisible = false

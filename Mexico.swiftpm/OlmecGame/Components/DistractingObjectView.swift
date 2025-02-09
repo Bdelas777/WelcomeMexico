@@ -15,7 +15,7 @@ struct DistractingObjectView: View {
         VStack {
             Image(object.imageName)
                 .resizable()
-                .frame(width: 80, height: 80)
+                .frame(width: 160, height: 160)
                 .overlay(
                     showWrongEffect ?
                     Image(systemName: "xmark.circle.fill")

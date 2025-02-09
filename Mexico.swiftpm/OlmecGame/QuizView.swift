@@ -16,37 +16,31 @@ struct QuizView: View {
     var body: some View {
         VStack(spacing: 20) {
             Text(question)
-                .font(.custom("PressStart2P-Regular", size: 14))
+                .font(.system(size: 26, weight: .bold))
                 .multilineTextAlignment(.center)
                 .foregroundColor(.white)
-                .padding(10)
-                .background(
-                    LinearGradient(gradient: Gradient(colors: [.brown, .yellow]), startPoint: .top, endPoint: .bottom)
-                )
-                .cornerRadius(10)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 10)
-                        .stroke(Color.gray, lineWidth: 2)
-                )
+                .padding(12)
+                .background(Color.black.opacity(0.7))
+                .cornerRadius(12)
             
             ForEach(options, id: \.self) { option in
                 Button(action: {
                     handleAnswer(option: option)
                 }) {
                     Text(option)
-                        .font(.custom("PressStart2P-Regular", size: 12))
-                        .padding(12)
+                        .font(.system(size: 20, weight: .bold))
+                        .padding(14)
                         .frame(maxWidth: .infinity)
                         .background(
                             selectedOption == option ?
                             (selectedOption == correctAnswer ? Color.green : Color.red) :
-                            Color.gray
+                            Color.gray.opacity(0.8)
                         )
                         .foregroundColor(.white)
-                        .cornerRadius(10)
+                        .cornerRadius(12)
                         .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.gray, lineWidth: 2)
+                            RoundedRectangle(cornerRadius: 12)
+                                .stroke(Color.black, lineWidth: 2)
                         )
                         .offset(x: selectedOption == option && selectedOption != correctAnswer && shake ? -5 : 0)
                         .animation(
@@ -58,31 +52,26 @@ struct QuizView: View {
             
             if showFeedback {
                 Text(feedbackMessage)
-                    .font(.custom("PressStart2P-Regular", size: 14))
+                    .font(.system(size: 22, weight: .bold))
                     .foregroundColor(feedbackMessage == "Correct!" ? .green : .red)
-                    .padding(10)
-                    .background(
-                        LinearGradient(gradient: Gradient(colors: [.brown, .yellow]), startPoint: .top, endPoint: .bottom)
-                    )
-                    .cornerRadius(10)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.gray, lineWidth: 2)
-                    )
+                    .padding(12)
+                    .background(Color.black.opacity(0.7))
+                    .cornerRadius(12)
             }
         }
         .padding()
         .background(
-            Image("OlmecStoneBackground") // Asegúrate de tener una imagen de fondo adecuada para darle el toque olmeca
-                .resizable()
-                .scaledToFill()
+            ZStack {
+              
+                Color.black.opacity(0.6) // Capa adicional para mejorar la legibilidad
+            }
         )
         .cornerRadius(20)
         .overlay(
             RoundedRectangle(cornerRadius: 20)
                 .stroke(Color.gray, lineWidth: 3)
         )
-        .shadow(color: .gray, radius: 8, x: 4, y: 4)
+        .shadow(color: .black, radius: 10, x: 5, y: 5)
     }
     
     private func handleAnswer(option: String) {

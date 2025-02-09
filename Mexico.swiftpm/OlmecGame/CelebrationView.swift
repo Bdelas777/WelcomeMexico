@@ -1,11 +1,3 @@
-//
-//  File.swift
-//  
-//
-//  Created by Alumno on 14/01/25.
-//
-
-
 import SwiftUI
 
 struct CelebrationView: View {
@@ -19,12 +11,11 @@ struct CelebrationView: View {
     
     var body: some View {
         ZStack {
-          
             Color.black.opacity(0.7)
                 .edgesIgnoringSafeArea(.all)
             
             VStack(spacing: 20) {
-                Text("¡Congratulations!")
+                Text("Congratulations!")
                     .font(.system(size: 50, weight: .bold, design: .rounded))
                     .foregroundColor(.yellow)
                     .shadow(color: .white, radius: 10, x: 0, y: 0)
@@ -53,19 +44,13 @@ struct CelebrationView: View {
                         .foregroundColor(.white)
                         .cornerRadius(15)
                         .shadow(radius: 10)
-                        .scaleEffect(animateButton ? 1.1 : 1.0)
-                        .onAppear {
-                            withAnimation(.easeInOut(duration: 0.2).repeatForever(autoreverses: true)) {
-                                animateButton.toggle()
-                            }
-                        }
                 }
                 .padding(.top, 30)
             }
-            .padding()
+            .padding(.vertical, 30)
+            .padding(.horizontal, 80)
             .background(Color.black.opacity(0.6))
             .cornerRadius(20)
-            .padding()
         }
     }
 }
