@@ -20,7 +20,7 @@ struct FactionCard: View {
                 )
                 .shadow(color: .black, radius: 5, x: 0, y: 5)
 
-            // Nombre de la facción en estilo pixel art
+
             Text(faction.name.uppercased())
                 .font(.custom("PressStart2P-Regular", size: 28))
                 .foregroundColor(.yellow)

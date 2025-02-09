@@ -8,12 +8,15 @@
 import Foundation
 import SwiftUI
 
-struct Faction: Identifiable {
+struct Faction: Identifiable, Equatable {
     let id = UUID()
     let name: String
     let imageName: String
     let description: String
     let destination: AnyView
+    static func ==(lhs: Faction, rhs: Faction) -> Bool {
+           return lhs.id == rhs.id && lhs.name == rhs.name // Compare based on unique properties
+       }
 }
 
 let factions = [

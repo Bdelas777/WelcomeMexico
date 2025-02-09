@@ -28,9 +28,7 @@ struct ColossalHeadView: View {
                     }
                 }
             
-            Text(head.name)
-                .font(.caption)
-                .foregroundColor(.white)
+         
         }
     }
 }

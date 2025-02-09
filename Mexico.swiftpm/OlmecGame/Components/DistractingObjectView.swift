@@ -34,10 +34,6 @@ struct DistractingObjectView: View {
                 .onTapGesture {
                     handleTap()
                 }
-            
-            Text(object.name)
-                .font(.caption)
-                .foregroundColor(.white)
         }
     }
     

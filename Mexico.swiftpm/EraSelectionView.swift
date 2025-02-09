@@ -1,11 +1,3 @@
-//
-//  SwiftUIView.swift
-//  Mexico
-//
-//  Created by Alumno on 09/01/25.
-//
-
-
 import SwiftUI
 
 struct EraSelectionView: View {
@@ -20,7 +12,7 @@ struct EraSelectionView: View {
         NavigationStack {
             GeometryReader { geometry in
                 ZStack {
-                    Image("mexMap")
+                    Image("mexicoMap")
                         .resizable()
                         .scaledToFill()
                         .edgesIgnoringSafeArea(.all)
@@ -46,13 +38,18 @@ struct EraSelectionView: View {
                         
                         Spacer()
                         
-                        Button("Ver Logros") {
+                        Button(" 🎖️ Show achievements 🎖️ ") {
                             showAchievements = true
                         }
-                        .padding()
+                        .padding(.vertical, 20)
+                        .frame(maxWidth: .infinity)
                         .background(Color.blue)
                         .foregroundColor(.white)
-                        .cornerRadius(10)
+                        .cornerRadius(12)
+                        .font(.title)
+                        .shadow(radius: 10)  
+                        .padding(.bottom, 60) 
+
                     }
                     
                     if let faction = selectedFaction, showModal {

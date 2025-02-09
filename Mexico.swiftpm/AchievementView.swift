@@ -1,9 +1,3 @@
-//
-//  SwiftUIView.swift
-//  Mexico
-//
-//  Created by Alumno on 17/01/25.
-//
 import SwiftUI
 
 struct AchievementView: View {
@@ -14,7 +8,7 @@ struct AchievementView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 16) {
-                Text("🎮 Logros Épicos 🎖️")
+                Text("🎮 Epic Achievements 🎖️")
                     .font(.largeTitle)
                     .bold()
                     .padding()
@@ -33,55 +27,53 @@ struct AchievementView: View {
                                     .font(.headline)
                                     .foregroundColor(.primary)
 
-                                // Mensaje de logro dependiendo de si está completado o no
                                 if completedGames.contains(faction.id) {
                                     switch faction.name {
                                     case "Olmecs":
-                                        Text("🪙 ¡Los Olmecas te han coronado!")
+                                        Text("🪙 The Olmecs have crowned you!")
                                             .font(.subheadline)
                                             .foregroundColor(.green)
                                     case "Teotihuacán":
-                                        Text("⛩️ ¡Has alcanzado la cima de la pirámide de Teotihuacán!")
+                                        Text("⛩️ You've reached the top of the Teotihuacán pyramid!")
                                             .font(.subheadline)
                                             .foregroundColor(.green)
                                     case "Tlaxcaltecas":
-                                        Text("⚔️ ¡La fuerza Tlaxcalteca ha sido conquistada!")
+                                        Text("⚔️ The Tlaxcaltec force has been conquered!")
                                             .font(.subheadline)
                                             .foregroundColor(.green)
                                     case "Realistas":
-                                        Text("⚔️ ¡La Corona te aplaude por tu conquista!")
+                                        Text("⚔️ The Crown applauds your conquest!")
                                             .font(.subheadline)
                                             .foregroundColor(.green)
                                     default:
-                                        Text("🎉 ¡Conquistaste todo!")
+                                        Text("🎉 You conquered everything!")
                                     }
                                 } else {
                                     switch faction.name {
                                     case "Olmecs":
-                                        Text("🚫 Necesitas tallar más cabezas gigantes para desbloquearlo.")
+                                        Text("🚫 You need to carve more giant heads to unlock it.")
                                             .font(.subheadline)
                                             .foregroundColor(.red)
                                     case "Teotihuacán":
-                                        Text("🚫 Aún te falta escalar un par de pirámides.")
+                                        Text("🚫 You still need to climb a couple of pyramids.")
                                             .font(.subheadline)
                                             .foregroundColor(.red)
                                     case "Tlaxcaltecas":
-                                        Text("🚫 Todavía no eres un guerrero legendario.")
+                                        Text("🚫 You are not a legendary warrior yet.")
                                             .font(.subheadline)
                                             .foregroundColor(.red)
                                     case "Realistas":
-                                        Text("🚫 Necesitas más batallas para reclamar el oro.")
+                                        Text("🚫 You need more battles to claim the gold.")
                                             .font(.subheadline)
                                             .foregroundColor(.red)
                                     default:
-                                        Text("🔒 ¡Desbloquea el logro!")
+                                        Text("🔒 Unlock the achievement!")
                                     }
                                 }
                             }
 
                             Spacer()
 
-                            // Indicador de estado del logro
                             Text(completedGames.contains(faction.id) ? "✅" : "🔒")
                                 .font(.title)
                                 .padding(10)
@@ -101,7 +93,7 @@ struct AchievementView: View {
                 Button(action: {
                     dismiss()
                 }) {
-                    Text("Cerrar")
+                    Text("Close")
                         .font(.headline)
                         .padding()
                         .frame(maxWidth: .infinity)
@@ -109,7 +101,9 @@ struct AchievementView: View {
                         .foregroundColor(.white)
                         .cornerRadius(10)
                         .padding(.horizontal)
+                        .padding(.vertical, 12) 
                 }
+
             }
             .padding(.top)
         }

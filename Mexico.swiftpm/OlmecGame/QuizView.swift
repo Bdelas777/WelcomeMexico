@@ -1,10 +1,3 @@
-//
-//  SwiftUIView.swift
-//  
-//
-//  Created by Alumno on 09/01/25.
-//
-
 import SwiftUI
 
 struct QuizView: View {
@@ -26,12 +19,14 @@ struct QuizView: View {
                 .font(.custom("PressStart2P-Regular", size: 14))
                 .multilineTextAlignment(.center)
                 .foregroundColor(.white)
-                .padding(8)
-                .background(Color.black)
-                .cornerRadius(5)
+                .padding(10)
+                .background(
+                    LinearGradient(gradient: Gradient(colors: [.brown, .yellow]), startPoint: .top, endPoint: .bottom)
+                )
+                .cornerRadius(10)
                 .overlay(
-                    RoundedRectangle(cornerRadius: 5)
-                        .stroke(Color.white, lineWidth: 2)
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color.gray, lineWidth: 2)
                 )
             
             ForEach(options, id: \.self) { option in
@@ -40,7 +35,7 @@ struct QuizView: View {
                 }) {
                     Text(option)
                         .font(.custom("PressStart2P-Regular", size: 12))
-                        .padding(10)
+                        .padding(12)
                         .frame(maxWidth: .infinity)
                         .background(
                             selectedOption == option ?
@@ -48,10 +43,10 @@ struct QuizView: View {
                             Color.gray
                         )
                         .foregroundColor(.white)
-                        .cornerRadius(5)
+                        .cornerRadius(10)
                         .overlay(
-                            RoundedRectangle(cornerRadius: 5)
-                                .stroke(Color.white, lineWidth: 2)
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color.gray, lineWidth: 2)
                         )
                         .offset(x: selectedOption == option && selectedOption != correctAnswer && shake ? -5 : 0)
                         .animation(
@@ -65,23 +60,29 @@ struct QuizView: View {
                 Text(feedbackMessage)
                     .font(.custom("PressStart2P-Regular", size: 14))
                     .foregroundColor(feedbackMessage == "Correct!" ? .green : .red)
-                    .padding(8)
-                    .background(Color.black)
-                    .cornerRadius(5)
+                    .padding(10)
+                    .background(
+                        LinearGradient(gradient: Gradient(colors: [.brown, .yellow]), startPoint: .top, endPoint: .bottom)
+                    )
+                    .cornerRadius(10)
                     .overlay(
-                        RoundedRectangle(cornerRadius: 5)
-                            .stroke(Color.white, lineWidth: 2)
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color.gray, lineWidth: 2)
                     )
             }
         }
         .padding()
-        .background(Color.black)
-        .cornerRadius(10)
-        .overlay(
-            RoundedRectangle(cornerRadius: 10)
-                .stroke(Color.white, lineWidth: 3)
+        .background(
+            Image("OlmecStoneBackground") // Asegúrate de tener una imagen de fondo adecuada para darle el toque olmeca
+                .resizable()
+                .scaledToFill()
         )
-        .shadow(color: .gray, radius: 5, x: 2, y: 2)
+        .cornerRadius(20)
+        .overlay(
+            RoundedRectangle(cornerRadius: 20)
+                .stroke(Color.gray, lineWidth: 3)
+        )
+        .shadow(color: .gray, radius: 8, x: 4, y: 4)
     }
     
     private func handleAnswer(option: String) {

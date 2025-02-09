@@ -1,10 +1,3 @@
-//
-//  SwiftUIView.swift
-//  Mexico
-//
-//  Created by Alumno on 09/01/25.
-//
-
 import SwiftUI
 
 struct FactionButton: View {
