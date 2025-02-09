@@ -56,7 +56,7 @@ struct EraSelectionView: View {
                         FactionCard(faction: faction, isVisible: $showModal, onPlay: {
                             showGameView = true
                         })
-                        .frame(width: geometry.size.width * 0.7, height: geometry.size.height * 0.5)
+                        .frame(width: geometry.size.width * 0.7, height: geometry.size.height * 0.6)
                         .transition(
                             .asymmetric(
                                 insertion: .opacity.combined(with: .scale(scale: 0.8, anchor: .center)),

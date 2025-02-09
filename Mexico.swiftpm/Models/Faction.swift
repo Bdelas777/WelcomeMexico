@@ -15,14 +15,14 @@ struct Faction: Identifiable, Equatable {
     let description: String
     let destination: AnyView
     static func ==(lhs: Faction, rhs: Faction) -> Bool {
-           return lhs.id == rhs.id && lhs.name == rhs.name // Compare based on unique properties
+           return lhs.id == rhs.id && lhs.name == rhs.name
        }
 }
 
 let factions = [
     Faction(
-        name: "Olmecs",
-        imageName: "olmec",
+        name: "Olmecas",
+        imageName: "Olmecas",
         description: "Uncover the origins of Mesoamerican civilization! The Olmecs, known as the 'Mother Culture,' invite you into a world of mystery and monumental art. Can you unravel the secrets behind their colossal stone heads?",
         destination: AnyView(OlmecGameView())
     ),
@@ -40,12 +40,8 @@ let factions = [
     ),
     Faction(
         name: "Realistas",
-        imageName: "goal",
+        imageName: "realistas",
         description: "Experience the tension and drama of the fight for independence. Step into the shoes of the Realists, loyal to the Spanish crown, as they battle to preserve their cause. Can you hold your ground against the roar of revolution?",
         destination: AnyView(IndepeView())
     )
 ]
-
-/*
-
-*/
