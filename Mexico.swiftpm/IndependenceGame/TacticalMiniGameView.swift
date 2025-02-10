@@ -1,32 +1,22 @@
-//
-//  SwiftUIView.swift
-//  
-//
-//  Created by Alumno on 12/01/25.
-//
-
 import SwiftUI
-
-enum ArmyType: String {
-    case realistic = "Realistic Army"
-    case insurgent = "Insurgent Army"
-}
 
 struct TacticalMiniGameView: View {
     @ObservedObject var viewModel: GameViewModelIndependence
     @State private var currentDecision: String?
-    @State private var realisticArmyHealth: Int = 100
-    @State private var insurgentArmyHealth: Int = 100
-    @State private var playerHealth: Int = 100
-    @State private var isPlayerTurn: Bool = true
-    @State private var battleMessage: String = ""
-    @State private var showEndGameModal: Bool = false
-    @State private var endGameMessage: String = ""
-    @State private var playerAction: String = ""
-    @State private var enemyAction: String = ""
+    @State private var realisticArmyHealth = 100
+    @State private var insurgentArmyHealth = 100
+    @State private var playerHealth = 100
+    @State private var isPlayerTurn = true
+    @State private var battleMessage = ""
+    @State private var showEndGameModal = false
+    @State private var endGameMessage = ""
+    @State private var playerAction = ""
+    @State private var enemyAction = ""
+    @State private var showActionEffect = false
+    
 
     let decisions = [
-        ("Realistic Attack", "Defend"),
+        ("Attack", "Defend"),
         ("Recover", "Wait")
     ]
 
@@ -36,104 +26,160 @@ struct TacticalMiniGameView: View {
                 .resizable()
                 .scaledToFill()
                 .edgesIgnoringSafeArea(.all)
+                .overlay(Color.black.opacity(0.5))
 
-            VStack(spacing: 20) {
-                Text("Battle Against the Insurgent Army!")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .foregroundColor(.white)
-                    .multilineTextAlignment(.center)
-                    .padding()
+            VStack(spacing: 30) {
+                // Title and Health Bars Section
+                VStack(spacing: 20) {
+                    Text("Battle for Independence")
+                        .font(.system(size: 40, weight: .bold, design: .rounded))
+                        .foregroundColor(.yellow)
+                        .shadow(color: .black, radius: 5)
 
-                ProgressView("Insurgent Army", value: Float(insurgentArmyHealth), total: 100)
-                    .progressViewStyle(LinearProgressViewStyle(tint: .red))
-                    .padding(.horizontal)
-
-                ProgressView("Your Health (Realistic Army)", value: Float(playerHealth), total: 100)
-                    .progressViewStyle(LinearProgressViewStyle(tint: .green))
-                    .padding(.horizontal)
-
-                Text(battleMessage)
-                    .font(.body)
-                    .foregroundColor(.white)
-                    .multilineTextAlignment(.center)
-                    .padding(.bottom, 20)
-
-                HStack(spacing: 40) {
-                    VStack {
-                        Image("player")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 120, height: 120)
-                            .scaleEffect(playerAction == "Defend" ? 1.1 : 1)
-                            .rotationEffect(.degrees(playerAction == "Attack" ? 30 : 0))
-                            .animation(.easeInOut(duration: 0.3), value: playerAction)
-                            .opacity(playerAction == "Recover" ? 0.7 : 1)
-                            .animation(.easeInOut(duration: 0.3), value: playerAction)
-                        Text("Player")
-                            .foregroundColor(.white)
-                            .fontWeight(.bold)
-                    }
-
-                    VStack {
-                        Image("enemy")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 120, height: 120)
-                            .scaleEffect(enemyAction == "Defend" ? 1.1 : 1)
-                            .rotationEffect(.degrees(enemyAction == "Attack" ? -30 : 0))
-                            .animation(.easeInOut(duration: 0.3), value: enemyAction)
-                            .opacity(enemyAction == "Recover" ? 0.7 : 1)
-                            .animation(.easeInOut(duration: 0.3), value: enemyAction)
-                        Text("Enemy")
-                            .foregroundColor(.white)
-                            .fontWeight(.bold)
-                    }
+                    healthBars
                 }
 
-                ForEach(decisions, id: \ .0) { decision in
-                    HStack(spacing: 20) {
-                        tacticalButton(decision.0, color: .blue)
-                        tacticalButton(decision.1, color: .orange)
-                    }
-                    
-                    
-                }
+                // Battle Message Display
+                battleMessageView
+                
+                // Character Images (Player vs Enemy)
+                characterDisplay
+
+                // Action Buttons Section
+                actionButtons
             }
-            .background(Color.black.opacity(0.8))
-            .cornerRadius(20)
-            .shadow(radius: 10)
             .padding()
-            .onAppear {
-                battleMessage = "The battle begins... Choose your action."
-            }
-            .alert(isPresented: $showEndGameModal) {
-                Alert(
-                    title: Text("Game Over"),
-                    message: Text(endGameMessage),
-                    dismissButton: .default(Text("Continue").foregroundColor(.blue)) {
-                        viewModel.gameState = .finalQuestion
-                    }
-                )
-            }
+            .background(Color.black.opacity(0.7))
+            .cornerRadius(30)
+            .shadow(radius: 15)
+            .padding()
 
+            if showActionEffect {
+                actionEffectOverlay
+            }
+        }
+        .alert(isPresented: $showEndGameModal) {
+            Alert(
+                title: Text("Battle Concluded"),
+                message: Text(endGameMessage),
+                dismissButton: .default(Text("Continue")) {
+                    viewModel.gameState = .finalQuestion
+                }
+            )
+        }
+        .onAppear {
+            battleMessage = "Choose your strategy wisely, Commander."
         }
     }
 
-    private func tacticalButton(_ text: String, color: Color) -> some View {
-        Button(action: {
-            handleDecision(text)
-        }) {
-            Text(text)
-                .padding()
-                .frame(width: 150)
-                .background(color.opacity(0.8))
+    private var healthBars: some View {
+        VStack(spacing: 15) {
+            healthBar(label: "Enemy Forces", value: insurgentArmyHealth, color: .red)
+            healthBar(label: "Your Forces", value: playerHealth, color: .green)
+        }
+    }
+
+    private func healthBar(label: String, value: Int, color: Color) -> some View {
+        VStack(alignment: .leading, spacing: 5) {
+            Text(label)
                 .foregroundColor(.white)
-                .cornerRadius(12)
+                .font(.title3)
+
+            GeometryReader { geometry in
+                ZStack(alignment: .leading) {
+                    Rectangle()
+                        .fill(Color.gray.opacity(0.3))
+
+                    Rectangle()
+                        .fill(color)
+                        .frame(width: geometry.size.width * CGFloat(value) / 100)
+                }
+            }
+            .frame(height: 20)
+            .cornerRadius(12)
+            .overlay(
+                Text("\(value)%")
+                    .foregroundColor(.white)
+                    .font(.headline)
+            )
+        }
+    }
+
+    private var battleMessageView: some View {
+        Text(battleMessage)
+            .font(.title3)
+            .foregroundColor(.white)
+            .multilineTextAlignment(.center)
+            .padding()
+            .background(Color.black.opacity(0.6))
+            .cornerRadius(20)
+    }
+
+    private var characterDisplay: some View {
+        HStack(spacing: 60) {
+            characterImage("player", action: playerAction, label: "Your Forces")
+            characterImage("enemy", action: enemyAction, label: "Enemy")
+        }
+        .padding(.top, 20)
+    }
+
+    private func characterImage(_ image: String, action: String, label: String) -> some View {
+        VStack {
+            Image(image)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 160, height: 160)
+                .scaleEffect(action == "Defend" ? 1.1 : 1)
+                .rotationEffect(.degrees(action == "Attack" ? (image == "player" ? 30 : -30) : 0))
+                .opacity(action == "Recover" ? 0.7 : 1)
+                .animation(.easeInOut(duration: 0.3), value: action)
+
+            Text(label)
+                .foregroundColor(.white)
+                .font(.headline)
+                .padding(.top, 10)
+        }
+    }
+
+    private var actionButtons: some View {
+        VStack(spacing: 20) {
+            ForEach(decisions, id: \.0) { decision in
+                HStack(spacing: 20) {
+                    tacticalButton(decision.0)
+                    tacticalButton(decision.1)
+                }
+            }
+        }
+        .padding(.top, 30)
+    }
+
+    private func tacticalButton(_ text: String) -> some View {
+        Button(action: { handleDecision(text) }) {
+            Text(text)
+                .font(.title3)
+                .bold()
+                .frame(width: 160)
+                .padding()
+                .background(
+                    LinearGradient(
+                        gradient: Gradient(colors: [.blue, .purple]),
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    )
+                )
+                .foregroundColor(.white)
+                .cornerRadius(15)
                 .shadow(radius: 5)
         }
-        .scaleEffect(isPlayerTurn ? 1 : 0.95)
-        .animation(.spring(), value: isPlayerTurn)
+        .disabled(!isPlayerTurn)
+        .opacity(isPlayerTurn ? 1 : 0.6)
+    }
+
+    private var actionEffectOverlay: some View {
+        Color.white
+            .opacity(0.3)
+            .edgesIgnoringSafeArea(.all)
+            .transition(.opacity)
     }
 
     private func handleDecision(_ decision: String) {
@@ -151,9 +197,8 @@ struct TacticalMiniGameView: View {
         }
     }
 
-
     private func playerTurn(_ decision: String) {
-        if decision == "Realistic Attack" {
+        if decision == "Attack" {
             playerAction = "Attack"
             let damage = Int.random(in: 20...35)
             insurgentArmyHealth -= damage
@@ -193,6 +238,7 @@ struct TacticalMiniGameView: View {
             }
         }
     }
+    
 
     private func endGame(with message: String) {
         endGameMessage = message

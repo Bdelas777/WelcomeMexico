@@ -175,7 +175,7 @@ struct InstructionsView: View {
             case .tactical:
                 VStack(spacing: 15) {
                     Text("Command your forces using tactical decisions:")
-                    Text("• Realistic Attack: Launch an offensive\n• Defend: Protect your position\n• Recover: Restore forces\n• Wait: Observe enemy movements")
+                    Text("• Attack: Launch an offensive\n• Defend: Protect your position\n• Recover: Restore forces\n• Wait: Observe enemy movements")
                 }
             }
         }
