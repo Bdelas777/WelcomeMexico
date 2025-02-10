@@ -1,6 +1,5 @@
 
 import SwiftUI
-import SwiftUI
 
 struct PantallaInicioView: View {
     @ObservedObject var estado: EstadoJuego
@@ -15,9 +14,8 @@ struct PantallaInicioView: View {
                 .padding(.horizontal)
 
             Text("""
-            First, you must gather all the necessary materials to construct the Pyramid of the Sun.
-            
-            Once you have everything, you can start building the magnificent pyramid!
+            Gather all the materials needed to build the Pyramid of the Sun.
+            Once ready, begin constructing this magnificent monument!
             """)
                 .font(.title)
                 .foregroundColor(.white.opacity(0.9))
@@ -50,4 +48,3 @@ struct PantallaInicioView: View {
         .padding()
     }
 }
-

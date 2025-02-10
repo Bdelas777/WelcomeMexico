@@ -25,13 +25,13 @@ let factions = [
         imageName: "Olmecas",
         description: "Uncover the origins of Mesoamerican civilization! The Olmecs, known as the 'Mother Culture,' invite you into a world of mystery and monumental art. Can you unravel the secrets behind their colossal stone heads?",
         destination: AnyView(OlmecGameView())
-    ),*/
+    ),
     Faction(
         name: "Teotihuacán",
         imageName: "teo",
         description: "Step into the majestic City of the Gods. Climb the towering Pyramid of the Sun and uncover the mysteries of Teotihuacán, where religion, science, and power collide. Are you ready to walk among giants?",
         destination: AnyView(JuegoPiramideView())
-    ),
+    ),*/
     Faction(
         name: "Tlaxcaltecas",
         imageName: "tlax",

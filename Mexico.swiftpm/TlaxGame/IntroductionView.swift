@@ -1,75 +1,72 @@
-//
-//  SwiftUIView.swift
-//
-//
-//  Created by Alumno on 11/01/25.
-//
-
 import SwiftUI
 
 struct IntroductionView: View {
     @ObservedObject var viewModel: GameViewModel
-    
+
     var body: some View {
         ZStack {
+            // Background Image with Blur Effect
             Image("citytlax")
                 .resizable()
                 .scaledToFill()
                 .edgesIgnoringSafeArea(.all)
                 .blur(radius: 5)
-            
+
+            // Semi-transparent Overlay
             Color.black.opacity(0.6)
                 .edgesIgnoringSafeArea(.all)
-            
-            VStack {
-                Spacer()
-                
-                Text("The Tlaxcaltecs saw Cortés arrive and said, 'Freedom may be near.'")
-                    .font(.custom("PressStart2P-Regular", size: 28))
+
+            // Content
+            VStack(spacing: 25) {
+                Text("Welcome to the Tlaxcaltec Journey!")
+                    .font(.largeTitle)
                     .foregroundColor(.white)
+                    .bold()
                     .multilineTextAlignment(.center)
-                    .padding()
-                    .background(Color.black.opacity(0.5))
-                    .cornerRadius(10)
-                    .shadow(radius: 5)
+                    .padding(.horizontal)
+
+                Text("""
+                The Tlaxcaltecs saw Cortés arrive and said, 'Freedom may be near.'
                 
-                Text("They saw him as a chance to break free from Aztec rule.")
-                    .font(.custom("PressStart2P-Regular", size: 28))
-                    .foregroundColor(.white)
+                Choose your allies wisely to free the Tlaxcaltecs from Aztec rule!
+                """)
+                    .font(.title)
+                    .foregroundColor(.white.opacity(0.9))
                     .multilineTextAlignment(.center)
-                    .padding()
-                    .background(Color.black.opacity(0.5))
-                    .cornerRadius(10)
-                    .shadow(radius: 5)
-                
-                // Instrucciones con un toque más cálido
-                Text("Choose your allies to save the Tlaxcaltecas")
-                    .font(.custom("PressStart2P-Regular", size: 24))
+                    .padding(.horizontal)
+
+                Text("Place your allies in the green zone and enemies in the red zone to save the Tlaxcaltecs. Make sure to overlap the icons for validation!")
+                    .font(.title2)
                     .foregroundColor(.yellow)
-                    .padding()
-                    .background(Color.black.opacity(0.5))
+                    .padding(.horizontal)
+                    .background(Color.black.opacity(0.6))
                     .cornerRadius(10)
                     .shadow(radius: 5)
-                
-                Button("Start Game") {
+
+                Button(action: {
                     withAnimation {
                         viewModel.startGame()
                     }
+                }) {
+                    Text("Start the Game")
+                        .font(.title2)
+                        .bold()
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(
+                            LinearGradient(gradient: Gradient(colors: [Color.green, Color.blue]),
+                                           startPoint: .leading, endPoint: .trailing)
+                        )
+                        .foregroundColor(.white)
+                        .cornerRadius(12)
+                        .shadow(radius: 5)
                 }
-                .font(.custom("PressStart2P-Regular", size: 20))
-                .padding()
-                .background(Color.blue)
-                .foregroundColor(.white)
-                .cornerRadius(12)
-                .shadow(radius: 10)
-                .scaleEffect(1.1)
-                .animation(.easeInOut, value: 1)
-                
-                Spacer()
+                .padding(.horizontal, 40)
             }
             .padding()
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .transition(.opacity)
+            .background(Color.black.opacity(0.85))
+            .cornerRadius(20)
+            .padding()
         }
     }
 }

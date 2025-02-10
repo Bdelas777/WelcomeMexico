@@ -36,7 +36,7 @@ struct PantallaFinalView: View {
                     .shadow(radius: 10)
                 
                 Text("Final score: \(estado.puntuacion)")
-                    .font(.headline)
+                    .font(.title)
                     .foregroundColor(.white)
                     .scaleEffect(isAppearing ? 1 : 0.5)
                     .opacity(isAppearing ? 1 : 0)
