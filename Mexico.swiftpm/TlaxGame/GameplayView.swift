@@ -1,9 +1,3 @@
-//
-//  SwiftUIView.swift
-//  
-//
-//  Created by Alumno on 11/01/25.
-//
 import SwiftUI
 
 struct GameplayView: View {
@@ -11,34 +5,45 @@ struct GameplayView: View {
     
     var body: some View {
         ZStack {
-    
             Image("mesoamerica_map")
                 .resizable()
                 .scaledToFill()
                 .ignoresSafeArea()
+                .blur(radius: 5)
             
             VStack {
                 ProgressView(value: viewModel.timeRemaining, total: viewModel.gameDuration)
                     .padding()
                 
-                Text(String(format: "Time: %.1f seconds", viewModel.timeRemaining))
-                    .font(.headline)
+                Text("Time: \(Int(viewModel.timeRemaining)) seconds")  // Mostrar tiempo como int
+                    .font(.title)  // Cambiar a tipo title
                     .padding(.bottom)
+                    .background(Color.black.opacity(0.5))
+                    .cornerRadius(8)
+                    .foregroundColor(.white)
                 
                 Text("Score: \(viewModel.score)")
                     .font(.title)
                     .bold()
                     .padding()
+                    .background(Color.black.opacity(0.5))
+                    .cornerRadius(8)
+                    .foregroundColor(.white)
                 
                 ZStack {
                     ForEach(viewModel.cultures) { culture in
                         CultureIcon(culture: culture)
                             .position(viewModel.culturePositions[culture.id] ?? culture.position)
+                            .shadow(radius: 5) // Mantener la sombra
+                            .padding(4)
                             .gesture(
                                 DragGesture()
                                     .onChanged { value in
                                         viewModel.draggedCulture = culture
-                                        viewModel.updateCulturePosition(culture.id, position: value.location)
+                                        // Limitar el movimiento a la parte superior 3/4 de la pantalla
+                                        let screenHeight = UIScreen.main.bounds.height
+                                        let yPosition = min(value.location.y, screenHeight * 0.75)  // Limitar la posición Y
+                                        viewModel.updateCulturePosition(culture.id, position: CGPoint(x: value.location.x, y: yPosition))
                                     }
                                     .onEnded { value in
                                         let dropPoint = value.location
@@ -72,23 +77,37 @@ struct GameplayView: View {
                             )
                     }
                 }
+                .zIndex(1) // Asegura que los iconos de las culturas estén detrás de las zonas de caída
                 
                 Spacer()
                 
                 HStack {
                     DropZone(title: "Allies")
+                        .padding()
+                        .background(Color.green.opacity(0.7))
+                        .cornerRadius(10)
+                        .foregroundColor(.white)
+                        .border(Color.white, width: 2)
+                        .zIndex(2) // Asegura que la zona de "Allies" esté sobre los iconos de cultura
+                    
                     DropZone(title: "Non-Allies")
+                        .padding()
+                        .background(Color.red.opacity(0.7))
+                        .cornerRadius(10)
+                        .foregroundColor(.white)
+                        .border(Color.white, width: 2)
+                        .zIndex(2) // Asegura que la zona de "Non-Allies" esté sobre los iconos de cultura
                 }
                 
-            
                 if let message = viewModel.message {
                     Text(message)
                         .font(.title)
                         .padding()
                         .foregroundColor(viewModel.isCorrectPlacement ? .green : .red)
-                        .background(Color.white)
+                        .background(viewModel.isCorrectPlacement ? Color.green.opacity(0.3) : Color.red.opacity(0.3))
                         .cornerRadius(10)
                         .transition(.opacity)
+                        .animation(.easeInOut(duration: 0.5))
                 }
             }
         }

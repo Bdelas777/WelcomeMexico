@@ -96,9 +96,11 @@ struct TacticalMiniGameView: View {
                         tacticalButton(decision.0, color: .blue)
                         tacticalButton(decision.1, color: .orange)
                     }
+                    
+                    
                 }
             }
-            .background(LinearGradient(gradient: Gradient(colors: [.blue, .purple]), startPoint: .top, endPoint: .bottom))
+            .background(Color.black.opacity(0.8))
             .cornerRadius(20)
             .shadow(radius: 10)
             .padding()
@@ -109,11 +111,12 @@ struct TacticalMiniGameView: View {
                 Alert(
                     title: Text("Game Over"),
                     message: Text(endGameMessage),
-                    dismissButton: .default(Text("Continue")) {
+                    dismissButton: .default(Text("Continue").foregroundColor(.blue)) {
                         viewModel.gameState = .finalQuestion
                     }
                 )
             }
+
         }
     }
 
@@ -140,11 +143,14 @@ struct TacticalMiniGameView: View {
             playerTurn(decision)
             isPlayerTurn = false
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                enemyTurn()
+                if insurgentArmyHealth > 0 {  // Solo permite que el enemigo juegue si sigue vivo
+                    enemyTurn()
+                }
                 isPlayerTurn = true
             }
         }
     }
+
 
     private func playerTurn(_ decision: String) {
         if decision == "Realistic Attack" {

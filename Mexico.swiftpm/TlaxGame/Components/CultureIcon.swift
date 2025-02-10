@@ -12,7 +12,6 @@ struct CultureIcon: View {
     
     var body: some View {
         VStack {
-            // Imagen del ícono
             Image(culture.name)
                 .resizable()
                 .frame(width: 150, height: 150) // Tamaño aún más grande para tablets

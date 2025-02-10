@@ -1,10 +1,3 @@
-//
-//  SwiftUIView 2.swift
-//  
-//
-//  Created by Alumno on 12/01/25.
-//
-
 import SwiftUI
 
 struct RouteCardView: View {
@@ -14,35 +7,41 @@ struct RouteCardView: View {
     var body: some View {
         VStack {
             Text(route.name)
-                .font(.title2)
-                .bold()
+                .font(.largeTitle)  // Aumentar el tamaño de la fuente
+                .fontWeight(.semibold)
                 .foregroundColor(isSelected ? .yellow : .primary)
-                .padding(.top, 10)
+                .padding(.top, 40)  // Aumentar el padding superior
+                .padding(.horizontal, 32)  // Aumentar el espaciado horizontal
             
             Text(route.description)
-                .font(.body)
+                .font(.title)  // Aumentar el tamaño de la fuente para la descripción
                 .multilineTextAlignment(.center)
                 .foregroundColor(.secondary)
-                .padding([.top, .bottom], 8)
-                .frame(maxWidth: 180) 
-            
+                .padding([.top, .bottom], 20)  // Aumentar el padding superior e inferior
+                .frame(maxWidth: 400)  // Aumentar el ancho máximo de la descripción
+                .lineLimit(3)  // Mantener el límite de líneas
+
             Image(systemName: route.difficulty == .safe ? "shield.fill" : "exclamationmark.triangle.fill")
-                .font(.title)
+                .font(.system(size: 100))  // Aumentar el tamaño del icono
                 .foregroundColor(route.difficulty == .safe ? .green : .red)
-                .padding(.top, 10)
+                .padding(.top, 32)  // Aumentar el padding superior
+                .frame(height: 100)  // Ajustar el tamaño del icono
         }
         .padding()
-        .frame(width: 220, height: 280)
+        .frame(width: 400, height: 500)  // Duplicar el tamaño de la tarjeta
         .background(
-            RoundedRectangle(cornerRadius: 15)
-                .fill(isSelected ? Color.yellow.opacity(0.3) : Color.white.opacity(0.9))
-                .shadow(radius: 10)
+            RoundedRectangle(cornerRadius: 30)  // Borde más redondeado
+                .fill(isSelected ? Color.yellow.opacity(0.2) : Color.white.opacity(0.8))
+                .shadow(radius: 20, x: 0, y: 10)  // Sombra más pronunciada
         )
         .overlay(
-            RoundedRectangle(cornerRadius: 15)
-                .stroke(isSelected ? Color.yellow : Color.clear, lineWidth: 3)
+            RoundedRectangle(cornerRadius: 30)
+                .stroke(isSelected ? Color.yellow : Color.clear, lineWidth: 6)  // Borde más grueso cuando está seleccionado
         )
-        .animation(.easeInOut(duration: 0.2), value: isSelected)
+        .animation(.easeInOut(duration: 0.3), value: isSelected)  // Animación suave para la selección
+        .cornerRadius(30)  // Borde redondeado
+        .shadow(radius: 20)  // Sombras más sutiles
+        .accessibilityLabel("Route card for \(route.name)")  // Mejor accesibilidad con nombre
     }
 }
 

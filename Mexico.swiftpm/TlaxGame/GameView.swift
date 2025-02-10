@@ -21,8 +21,6 @@ struct GameView: View {
             } catch {
                 print("Error al reproducir la música: \(error.localizedDescription)")
             }
-        } else {
-            print("No se encontró el archivo de audio en Resources")
         }
     }
     
@@ -33,16 +31,15 @@ struct GameView: View {
                 IntroductionView(viewModel: viewModel)
             case .playing:
                 GameplayView(viewModel: viewModel)
-            case .facts:
-                FactsView(viewModel: viewModel)
-             case .victory:
+            case .victory:
                 VictoryView(viewModel: viewModel)
             }
-        }.onAppear {
+        }
+        .onAppear {
             playBackgroundMusic()
         }
         .onDisappear {
-                audioPlayer?.stop()
-            }
+            audioPlayer?.stop()
+        }
     }
 }

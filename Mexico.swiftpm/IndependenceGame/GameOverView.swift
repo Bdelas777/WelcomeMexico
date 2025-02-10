@@ -7,12 +7,7 @@ struct GameOverView: View {
     
     var body: some View {
         ZStack {
-                    LinearGradient(
-                        gradient: Gradient(colors: isVictory ? [Color.green, Color.blue] : [Color.red, Color.black]),
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
-                    .ignoresSafeArea()
+                  
 
                     VStack(spacing: 20) {
                         Text(isVictory ? "🏆 ¡Victoria! 🏆" : "🚫 ¡Fin del Juego! 🚫")

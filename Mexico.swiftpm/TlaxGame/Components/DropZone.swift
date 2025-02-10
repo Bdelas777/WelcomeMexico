@@ -13,12 +13,17 @@ struct DropZone: View {
     var body: some View {
         VStack {
             Text(title)
-                .font(.headline)
+                .font(.title)
+                .foregroundColor(.white)
                 .padding()
                 .frame(maxWidth: .infinity)
-                .background(title == "Allies" ? Color.green.opacity(0.3) : Color.red.opacity(0.3))
+               
                 .cornerRadius(10)
+                
         }
         .padding()
+        .frame(minWidth: 500)
+        .background(title == "Allies" ? Color.green.opacity(0.3) : Color.red.opacity(0.3))
+
     }
 }

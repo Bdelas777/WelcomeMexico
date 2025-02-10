@@ -6,7 +6,6 @@
 //
 
 import Foundation
-
 struct Culture: Identifiable {
     let id = UUID()
     let name: String
@@ -14,3 +13,7 @@ struct Culture: Identifiable {
     let description: String
     let position: CGPoint
 }
+
+
+
+

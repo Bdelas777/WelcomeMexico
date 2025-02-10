@@ -1,10 +1,3 @@
-//
-//  SwiftUIView.swift
-//  
-//
-//  Created by Alumno on 12/01/25.
-//
-
 import SwiftUI
 
 struct EscapeMiniGameView: View {
@@ -17,7 +10,7 @@ struct EscapeMiniGameView: View {
     ]
     @State private var playerImage = "player"
     @State private var enemyImage = "enemy"
-    @State private var goalImage = "goal"
+    @State private var goalImage = "castle"
     @State private var moveTimer: Timer? = nil
 
     var body: some View {
@@ -28,10 +21,11 @@ struct EscapeMiniGameView: View {
                     .scaledToFill()
                     .edgesIgnoringSafeArea(.all)
 
+                // Aumentar el tamaño del castillo (4 veces más grande)
                 Image(goalImage)
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 100, height: 100)
+                    .frame(width: 500, height: 500) // Ajustado 4 veces más grande
                     .position(
                         x: goalPosition.width * geometry.size.width,
                         y: goalPosition.height * geometry.size.height
@@ -39,10 +33,11 @@ struct EscapeMiniGameView: View {
                     .shadow(radius: 10)
                     .padding(.trailing, 80)
 
+                // Aumentar la altura del jugador (el doble de grande)
                 Image(playerImage)
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 80, height: 80)
+                    .frame(width: 160, height: 160) // Ajustado al doble de grande
                     .position(
                         x: playerPosition.width * geometry.size.width,
                         y: playerPosition.height * geometry.size.height
@@ -56,11 +51,12 @@ struct EscapeMiniGameView: View {
                     .shadow(radius: 10)
                     .padding(.leading, 40)
 
+                // Aumentar la altura de los enemigos (el doble de grande)
                 ForEach(0..<enemyPositions.count, id: \.self) { index in
                     Image(enemyImage)
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 80, height: 80)
+                        .frame(width: 160, height: 160) // Ajustado al doble de grande
                         .position(
                             x: enemyPositions[index].width * geometry.size.width,
                             y: enemyPositions[index].height * geometry.size.height
@@ -88,8 +84,9 @@ struct EscapeMiniGameView: View {
             }
             .onReceive(Timer.publish(every: 0.02, on: .main, in: .common).autoconnect()) { _ in
                 checkCollision()
-                checkWin()
+                checkWin(geometrySize: geometry.size) // Pasar geometry.size
             }
+
         }
     }
 
@@ -132,13 +129,22 @@ struct EscapeMiniGameView: View {
         }
     }
 
-    private func checkWin() {
-        if abs(playerPosition.width - goalPosition.width) < 0.05 &&
-            abs(playerPosition.height - goalPosition.height) < 0.05 {
+    private func checkWin(geometrySize: CGSize) {
+        // Tamaño de la meta (ajustado al tamaño escalado)
+        let goalWidth: CGFloat = 500 // El tamaño actualizado del castillo
+        let goalHeight: CGFloat = 500
+
+        // Ajustar la distancia en función del tamaño de la meta
+        let distanceThreshold: CGFloat = goalWidth * 0.3 // 10% del tamaño de la meta como umbral
+
+        // Comparar la distancia entre el jugador y la meta, considerando el tamaño
+        if abs(playerPosition.width * geometrySize.width - goalPosition.width * geometrySize.width) < distanceThreshold &&
+           abs(playerPosition.height * geometrySize.height - goalPosition.height * geometrySize.height) < distanceThreshold {
             viewModel.score += 10
             endGame()
         }
     }
+
 
     private func endGame() {
         stopEnemyMovement()

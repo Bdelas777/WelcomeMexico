@@ -28,7 +28,7 @@ class GameViewModel: ObservableObject {
     
     init() {
         let initialCultures = [
-            Culture(name: "Tlaxcaltecas", isAlly: true,
+            Culture(name: "Spanish", isAlly: true,
                     description: "The main allies of Cortés",
                     position: CGPoint(x: 100, y: 200)),
             Culture(name: "Mexicas", isAlly: false,
@@ -73,7 +73,6 @@ class GameViewModel: ObservableObject {
     enum GameState {
         case introduction
         case playing
-        case facts
         case victory
     }
     
@@ -91,7 +90,7 @@ class GameViewModel: ObservableObject {
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
             guard let self = self else { return }
-            
+
             if self.timeRemaining > 0 {
                 self.timeRemaining = max(0, self.timeRemaining - 0.1)
             } else {
@@ -101,12 +100,12 @@ class GameViewModel: ObservableObject {
             }
         }
     }
-    
+
     func showFacts() {
         timer?.invalidate()
-        gameState = .facts
+        self.gameState = .victory // Cambiar el estado del juego
     }
-    
+
     func showVictory() {
         gameState = .victory
     }

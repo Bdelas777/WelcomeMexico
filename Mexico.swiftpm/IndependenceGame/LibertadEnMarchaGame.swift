@@ -90,7 +90,7 @@ struct LibertadEnMarchaGame: View {
             HStack {
                 Spacer()
                 
-                VStack {
+                HStack {
                     Text("Tiempo: \(viewModel.timeRemaining)s")
                         .font(.title)
                         .foregroundColor(.white)
