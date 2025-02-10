@@ -1,13 +1,13 @@
 
 import SwiftUI
-import SwiftUI
 
-struct PantallaInicioView: View {
-    @ObservedObject var estado: EstadoJuego
+struct IntroView: View {
+    @Binding var showIntro: Bool
+    let startGame: () -> Void
     
     var body: some View {
         VStack(spacing: 25) {
-            Text("Welcome to Teotihuacán!")
+            Text("Welcome to the Olmec Jungle!")
                 .font(.largeTitle)
                 .foregroundColor(.white)
                 .bold()
@@ -15,9 +15,11 @@ struct PantallaInicioView: View {
                 .padding(.horizontal)
 
             Text("""
-            First, you must gather all the necessary materials to construct the Pyramid of the Sun.
+            Your adventure begins in the heart of Mesoamerica, where the Olmec civilization once thrived.
             
-            Once you have everything, you can start building the magnificent pyramid!
+            Three colossal Olmec heads are hidden deep within the jungle. To unlock each one, you must answer a question correctly.
+            
+            Can you uncover the secrets of the ancient Olmecs?
             """)
                 .font(.title)
                 .foregroundColor(.white.opacity(0.9))
@@ -26,16 +28,17 @@ struct PantallaInicioView: View {
 
             Button(action: {
                 withAnimation {
-                    estado.iniciarJuego()
+                    showIntro = false
+                    startGame()
                 }
             }) {
-                Text("Start Gathering Materials")
+                Text("Begin Your Quest")
                     .font(.title2)
                     .bold()
                     .frame(maxWidth: .infinity)
                     .padding()
                     .background(
-                        LinearGradient(gradient: Gradient(colors: [Color.orange, Color.red]),
+                        LinearGradient(gradient: Gradient(colors: [Color.blue, Color.purple]),
                                        startPoint: .leading, endPoint: .trailing)
                     )
                     .foregroundColor(.white)
@@ -50,4 +53,3 @@ struct PantallaInicioView: View {
         .padding()
     }
 }
-

@@ -1,9 +1,3 @@
-//
-//  SwiftUIView.swift
-//  
-//
-//  Created by Alumno on 10/01/25.
-//
 
 import SwiftUI
 
@@ -34,17 +28,25 @@ class EstadoJuego: ObservableObject {
     private func iniciarTimer() {
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
+            
             self?.actualizarTiempo()
         }
     }
     
     private func actualizarTiempo() {
+       
         if tiempoRestante > 0 {
             tiempoRestante -= 1
+            if fase == .seleccionMateriales   && tiempoRestante == 0{
+                tiempoRestante = 40
+                fase = .construccion
+                generarBloques()
+            }
         } else {
-            if fase == .seleccionMateriales {
+            if fase == .seleccionMateriales  {
                 iniciarFaseConstruccion()
-            } else {
+            }
+            else {
                 finalizarJuego()
             }
         }
@@ -74,7 +76,7 @@ class EstadoJuego: ObservableObject {
     }
 
     private func verificarFaseConstruccion() {
-        if materialesCorrectosSeleccionados() {
+        if materialesCorrectosSeleccionados()   {
             iniciarFaseConstruccion()
         }
     }
@@ -99,3 +101,5 @@ class EstadoJuego: ObservableObject {
         timer?.invalidate()
     }
 }
+
+

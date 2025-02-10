@@ -1,10 +1,3 @@
-//
-//  SwiftUIView.swift
-//
-//
-//  Created by Alumno on 09/01/25.
-//
-
 import SwiftUI
 import AVFoundation
 
@@ -65,8 +58,8 @@ struct OlmecGameView: View {
             }
             
             VStack {
-                Text("Tiempo restante: \(timeRemaining)s")
-                    .font(.headline)
+                Text("Time remaining: \(timeRemaining)s")
+                    .font(.title)
                     .foregroundColor(.white)
                     .padding()
                     .background(Color.black.opacity(0.5))
@@ -75,8 +68,8 @@ struct OlmecGameView: View {
                 
                 Spacer()
                 
-                Text("Cabezas encontradas: \(foundHeads.count)/\(colossalHeads.count)")
-                    .font(.headline)
+                Text("Heads Found: \(foundHeads.count)/\(colossalHeads.count)")
+                    .font(.title)
                     .foregroundColor(.white)
                     .padding()
                     .background(Color.black.opacity(0.5))
@@ -205,39 +198,3 @@ struct OlmecGameView: View {
     }
 }
 
-struct IntroView: View {
-    @Binding var showIntro: Bool
-    let startGame: () -> Void
-    
-    var body: some View {
-        VStack(spacing: 20) {
-            Text("Welcono to the Olmeca Jungle!")
-                .font(.largeTitle)
-                .foregroundColor(.white)
-                .bold()
-                .padding()
-            
-            Text("Your journey begins in the lush jungles of Mesoamerica. The Olmec civilization, renowned for its monumental stone heads, thrived here. These colossal sculptures hide ancient secrets. Will you be the one to uncover them?")
-                .font(.title3)
-                .foregroundColor(.white)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal)
-            
-            Button("Start") {
-                withAnimation {
-                    showIntro = false
-                    startGame()
-                }
-            }
-            .padding()
-            .background(Color.blue)
-            .foregroundColor(.white)
-            .cornerRadius(10)
-        }
-        .padding()
-        .background(Color.black.opacity(0.8))
-        .cornerRadius(20)
-        .padding()
-    }
-    
-}

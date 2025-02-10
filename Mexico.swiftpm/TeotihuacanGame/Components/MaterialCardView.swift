@@ -18,11 +18,11 @@ struct MaterialCardView: View {
                 Image(material.nombre)
                     .resizable()
                     .scaledToFit()
-                    .frame(height: 250) // Ajustado para mejor proporción
+                    .frame(height: 250)
                     .cornerRadius(8)
                 
                 Text(material.nombre)
-                    .font(.title2) // Ajustado el tamaño de la fuente
+                    .font(.title2)
                     .padding(.top, 5)
                     .foregroundColor(.black)
                 

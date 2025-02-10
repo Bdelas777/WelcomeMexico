@@ -1,9 +1,4 @@
-//
-//  SwiftUIView.swift
-//  
-//
-//  Created by Alumno on 10/01/25.
-//
+
 import SwiftUI
 
 extension Array {
@@ -25,9 +20,9 @@ struct SeleccionMaterialesView: View {
     
     var body: some View {
         VStack {
-            Text("Select the correct materials and avoid choosing the wrong ones.")
-                .font(.title2)
-                .padding(.bottom, 10)
+            Text("Select the all correct materials and avoid choosing the wrong ones.")
+                .font(.title)
+                .padding(.bottom,5)
                 .foregroundColor(.white)
             
             ScrollView {
@@ -68,3 +63,6 @@ struct SeleccionMaterialesView: View {
         }
     }
 }
+
+
+
