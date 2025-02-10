@@ -1,10 +1,3 @@
-//
-//  File.swift
-//  
-//
-//  Created by Alumno on 16/01/25.
-//
-
 import SwiftUI
 
 struct IndepeView: View {
@@ -14,86 +7,67 @@ struct IndepeView: View {
     
     var body: some View {
         ZStack {
-            backgroundView
+            Image("Indepe")
+                .resizable()
+                .scaledToFill()
+                .edgesIgnoringSafeArea(.all)
+                .blur(radius: 10)
             
-            VStack {
-                Spacer()
-                
+            VStack(spacing: 25) {
                 Text("Welcome to Córdoba!")
                     .font(.largeTitle)
-                    .fontWeight(.bold)
                     .foregroundColor(.white)
-                    .scaleEffect(animateText ? 1 : 0.5) 
-                    .opacity(animateText ? 1 : 0)
-                    .animation(.easeOut(duration: 1).delay(0.5), value: animateText)
-                Text("In this game, you’ll step into the boots of Agustín de Iturbide, leading the Realists during the Mexican War of Independence.")
-                                   .font(.title2)
-                                   .foregroundColor(.white)
-                                   .multilineTextAlignment(.center)
-                                   .padding(.top, 20)
-                                   .scaleEffect(animateText ? 1 : 0.5)
-                                   .opacity(animateText ? 1 : 0)
-                                   .animation(.easeOut(duration: 1).delay(1), value: animateText)
-                
-                Text("Your mission: choose one of three exciting mini-games to strategize, negotiate, or outsmart the insurgents! But be warned, surprises await at every turn.")
-                    .font(.title2)
-                    .foregroundColor(.white)
+                    .bold()
                     .multilineTextAlignment(.center)
-                    .padding(.top, 20)
-                    .scaleEffect(animateText ? 1 : 0.5)
-                    .opacity(animateText ? 1 : 0)
-                    .animation(.easeOut(duration: 1).delay(1), value: animateText)
+                    .padding(.horizontal)
+
+                Text("""
+                Step into the boots of Agustín de Iturbide, leading the Realists during the Mexican War of Independence.
                 
-                Text("At the end, you’ll face a tricky quiz to see if you’ve mastered the art of leadership. Will you secure your place in history?")
-                    .font(.title3)
-                    .font(.title3)
-                    .foregroundColor(.white)
+                Choose one of three exciting mini-games to strategize, negotiate, or outsmart the insurgents!
+                
+                Face a final challenge to test your leadership skills and secure your place in history.
+                """)
+                    .font(.title)
+                    .foregroundColor(.white.opacity(0.9))
                     .multilineTextAlignment(.center)
-                    .padding(.top, 20)
-                    .scaleEffect(animateText ? 1 : 0.5)
-                    .opacity(animateText ? 1 : 0)
-                    .animation(.easeOut(duration: 1).delay(1.5), value: animateText)
-                
-                Spacer()
-                
+                    .padding(.horizontal)
+
                 Button(action: {
                     withAnimation {
                         showMainGame = true
                     }
                 }) {
-                    Text("Start")
-                        .font(.title)
-                        .foregroundColor(.white)
+                    Text("Begin the Campaign")
+                        .font(.title2)
+                        .bold()
+                        .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.blue)
-                        .cornerRadius(10)
+                        .background(
+                            LinearGradient(gradient: Gradient(colors: [Color.blue, Color.purple]),
+                                         startPoint: .leading, endPoint: .trailing)
+                        )
+                        .foregroundColor(.white)
+                        .cornerRadius(12)
                         .shadow(radius: 5)
                 }
-                .padding(.bottom, 50)
-                .opacity(animateText ? 1 : 0)
-                .animation(.easeOut(duration: 1).delay(2), value: animateText)
+                .padding(.horizontal, 40)
             }
             .padding()
+            .background(Color.black.opacity(0.85))
+            .cornerRadius(20)
+            .padding()
             .onAppear {
-                            animateText = true
-                            musicManager.playMusic(named: "indepe")
-                        }
-                        .onDisappear {
-                            musicManager.stopMusic()
-                        }
-              
-  
+                animateText = true
+                musicManager.playMusic(named: "indepe")
+            }
+            .onDisappear {
+                musicManager.stopMusic()
+            }
+            
             if showMainGame {
                 LibertadEnMarchaGame(musicManager: musicManager)
             }
         }
-    }
-    
-    private var backgroundView: some View {
-        Image("Indepe")
-            .resizable()
-            .scaledToFill()
-            .edgesIgnoringSafeArea(.all)
-            .overlay(Color.black.opacity(0.5))
     }
 }
