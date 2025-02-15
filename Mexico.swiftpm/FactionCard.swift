@@ -21,14 +21,14 @@ struct FactionCard: View {
                         .background(Circle().fill(Color.black.opacity(0.7)))
                 }
                 .padding(2)
-                .padding(.bottom, 20)
+                
             }
 
             Image(faction.imageName)
                 .resizable()
                 .scaledToFit()
-                .frame(height: 140)
-                .padding(8)
+                .frame(height: 120)
+                .padding(2)
                 .background(Color.black.opacity(0.8))
                 .cornerRadius(12)
                 .overlay(
@@ -41,14 +41,13 @@ struct FactionCard: View {
                 .font(.custom("PressStart2P-Regular", size: 22))
                 .foregroundColor(.yellow)
                 .padding(.horizontal, 10)
-                .padding(.vertical, 6)
+                .padding(.vertical, 2)
                 .background(Color.black.opacity(0.8))
                 .cornerRadius(8)
 
-            // Envuelve la descripción en un ScrollView para evitar recortes
             ScrollView {
                 Text(faction.description)
-                    .font(.system(size: 20, weight: .medium, design: .monospaced))
+                    .font(.system(size: 18, weight: .medium, design: .monospaced))
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
                     .padding()
@@ -56,7 +55,7 @@ struct FactionCard: View {
                     .cornerRadius(8)
                     .frame(maxWidth: .infinity)
             }
-            .frame(maxHeight: 150)
+            .frame(maxHeight: 200)
             Button(action: {
                 onPlay()
                 isVisible = false
