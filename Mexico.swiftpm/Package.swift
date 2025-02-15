@@ -17,6 +17,7 @@ let package = Package(
             name: "Mexico",
             targets: ["AppModule"],
             bundleIdentifier: "bernardo.Mexico",
+            teamIdentifier: "X5KY75J3RV",
             displayVersion: "1.0",
             bundleVersion: "1",
             appIcon: .placeholder(icon: .dog),
@@ -30,7 +31,8 @@ let package = Package(
                 .landscapeRight,
                 .landscapeLeft,
                 .portraitUpsideDown(.when(deviceFamilies: [.pad]))
-            ]
+            ],
+            appCategory: .education
         )
     ],
     targets: [
