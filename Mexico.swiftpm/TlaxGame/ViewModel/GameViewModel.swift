@@ -29,14 +29,18 @@ class GameViewModel: ObservableObject {
     init() {
         let initialCultures = [
             Culture(name: "Spanish", isAlly: true,
-                    description: "The main allies of Cortés",
+                    description: "Led by Cortés, they formed alliances and used strategy to conquer Tenochtitlán.",
                     position: CGPoint(x: 100, y: 200)),
             Culture(name: "Mexicas", isAlly: false,
-                    description: "The enemies of Cortés",
+                    description: "Defenders of Tenochtitlán, known for their powerful empire and resistance to the Spanish.",
                     position: CGPoint(x: 200, y: 200)),
-            Culture(name: "Totonacas", isAlly: false,
-                    description: "Later supporters",
-                    position: CGPoint(x: 300, y: 200))
+            Culture(name: "Totonacas", isAlly: true,
+                    description: "Allied with Cortés, helping him fight against the Mexicas.",
+                    position: CGPoint(x: 300, y: 200)),
+            Culture(name: "Tlatelolco", isAlly: false,
+                    description: "Rival Mexica city that fell alongside Tenochtitlán during the conquest.",
+                    position: CGPoint(x: 400, y: 200))
+
         ]
         self.cultures = initialCultures
         let positions = Dictionary(uniqueKeysWithValues: initialCultures.map { ($0.id, $0.position) })
@@ -54,7 +58,6 @@ class GameViewModel: ObservableObject {
         }
     }
     
-    // Renombrado los parámetros para evitar ambigüedad
     func checkPlacement(cultureID id: UUID, location point: CGPoint, zoneName: String) -> Bool {
         guard let culture = cultures.first(where: { $0.id == id }) else { return false }
         
@@ -120,7 +123,7 @@ class GameViewModel: ObservableObject {
         
         for culture in cultures {
             let randomX = CGFloat.random(in: 50...(screenWidth - 50))
-            let randomY = CGFloat.random(in: 100...(screenHeight - 200))
+            let randomY = CGFloat.random(in: 100...(screenHeight - 400))
             culturePositions[culture.id] = CGPoint(x: randomX, y: randomY)
         }
     }

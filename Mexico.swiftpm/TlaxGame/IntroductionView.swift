@@ -42,6 +42,7 @@ struct IntroductionView: View {
                     .background(Color.black.opacity(0.6))
                     .cornerRadius(10)
                     .shadow(radius: 5)
+                    .frame(maxWidth: 1000)
 
                 Button(action: {
                     withAnimation {

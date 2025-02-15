@@ -45,7 +45,7 @@ struct ConstruccionPiramideView: View {
                                                 estado.verificarFinConstruccion()
                                             }
                                         } else {
-                                            estado.bloques[index].posicion = CGPoint(x: 300, y: 800)
+                                            estado.bloques[index].posicion = CGPoint(x: 100, y: 400)
                                         }
                                     }
                             )

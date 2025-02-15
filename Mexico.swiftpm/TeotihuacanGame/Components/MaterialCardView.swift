@@ -18,12 +18,12 @@ struct MaterialCardView: View {
                 Image(material.nombre)
                     .resizable()
                     .scaledToFit()
-                    .frame(height: 250)
+                    .frame(height: 150)
                     .cornerRadius(8)
                 
                 Text(material.nombre)
                     .font(.title2)
-                    .padding(.top, 5)
+                    .padding(.top, 2)
                     .foregroundColor(.black)
                 
             }

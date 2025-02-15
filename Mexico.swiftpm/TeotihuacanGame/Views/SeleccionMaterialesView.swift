@@ -26,7 +26,7 @@ struct SeleccionMaterialesView: View {
                 .foregroundColor(.white)
             
             ScrollView {
-                LazyVGrid(columns: columns, spacing: 30) {
+                LazyVGrid(columns: columns, spacing: 5) {
                     ForEach(materialesBarajados) { material in
                         MaterialCardView(
                             material: material,
@@ -43,10 +43,10 @@ struct SeleccionMaterialesView: View {
                                 }
                             }
                         )
-                        .frame(height: 400)
+                        .frame(height: 250)
                     }
                 }
-                .padding(.horizontal)
+              
             }
             
             if let descripcion = mostrarDescripcion {

@@ -16,7 +16,7 @@ struct GameplayView: View {
                     .padding()
                 
                 Text("Time: \(Int(viewModel.timeRemaining)) seconds")  // Mostrar tiempo como int
-                    .font(.title)  // Cambiar a tipo title
+                    .font(.title)
                     .padding(.bottom)
                     .background(Color.black.opacity(0.5))
                     .cornerRadius(8)
@@ -57,7 +57,7 @@ struct GameplayView: View {
                                             // Verificar si la colocación es correcta
                                             if viewModel.checkPlacement(cultureID: culture.id, location: dropPoint, zoneName: zoneName) {
                                                 viewModel.score += 100
-                                                if viewModel.score >= 300 {
+                                                if viewModel.score >= 400 {
                                                     viewModel.showVictory()
                                                 }
                                                 

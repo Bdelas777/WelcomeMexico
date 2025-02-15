@@ -7,14 +7,14 @@ struct RouteCardView: View {
     var body: some View {
         VStack {
             Text(route.name)
-                .font(.largeTitle)  // Aumentar el tamaño de la fuente
+                .font(.title)
                 .fontWeight(.semibold)
                 .foregroundColor(isSelected ? .yellow : .primary)
                 .padding(.top, 40)  // Aumentar el padding superior
                 .padding(.horizontal, 32)  // Aumentar el espaciado horizontal
             
             Text(route.description)
-                .font(.title)  // Aumentar el tamaño de la fuente para la descripción
+                .font(.title2)  // Aumentar el tamaño de la fuente para la descripción
                 .multilineTextAlignment(.center)
                 .foregroundColor(.secondary)
                 .padding([.top, .bottom], 20)  // Aumentar el padding superior e inferior
@@ -28,7 +28,7 @@ struct RouteCardView: View {
                 .frame(height: 100)  // Ajustar el tamaño del icono
         }
         .padding()
-        .frame(width: 400, height: 500)  // Duplicar el tamaño de la tarjeta
+        .frame(width: 350, height: 450)  // Duplicar el tamaño de la tarjeta
         .background(
             RoundedRectangle(cornerRadius: 30)  // Borde más redondeado
                 .fill(isSelected ? Color.yellow.opacity(0.2) : Color.white.opacity(0.8))

@@ -32,6 +32,7 @@ struct IndepeView: View {
                     .foregroundColor(.white.opacity(0.9))
                     .multilineTextAlignment(.center)
                     .padding(.horizontal)
+                    .frame(maxWidth: 1000)
 
                 Button(action: {
                     withAnimation {

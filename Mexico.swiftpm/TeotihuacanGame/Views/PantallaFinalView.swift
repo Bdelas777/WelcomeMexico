@@ -13,9 +13,9 @@ struct PantallaFinalView: View {
             Color.black.opacity(0.7)
                 .edgesIgnoringSafeArea(.all)
             
-            VStack(spacing: 40) {
+            VStack(spacing: 20) {
                 Text("🎉 Congratulations! 🎉")
-                    .font(.system(size: 55, weight: .bold, design: .rounded))
+                    .font(.system(size: 50, weight: .bold, design: .rounded))
                     .foregroundColor(.yellow)
                     .shadow(color: .white, radius: 10)
                     .scaleEffect(animateText ? 1.1 : 1.0)
@@ -26,17 +26,16 @@ struct PantallaFinalView: View {
                     }
 
                 Text("Amazing work! You've contributed to the creation of one of the grandest pyramids in all of Mesoamerica—a true marvel of ancient ingenuity!")
-                    .font(.title)
+                    .font(.title2)
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
-                    .padding()
                     .frame(maxWidth: 500)
                     .background(Color.black.opacity(0.6))
                     .cornerRadius(15)
                     .shadow(radius: 10)
                 
                 Text("Final score: \(estado.puntuacion)")
-                    .font(.title)
+                    .font(.title2)
                     .foregroundColor(.white)
                     .scaleEffect(isAppearing ? 1 : 0.5)
                     .opacity(isAppearing ? 1 : 0)
@@ -50,7 +49,7 @@ struct PantallaFinalView: View {
                         .multilineTextAlignment(.center)
                     
                     Text("The pyramids of Teotihuacan, one of the largest ancient cities in the Americas, were built with remarkable precision, using sophisticated engineering techniques that were ahead of their time.")
-                        .font(.title2)
+                        .font(.title3)
                         .foregroundColor(.white)
                         .multilineTextAlignment(.center)
                         .padding()
