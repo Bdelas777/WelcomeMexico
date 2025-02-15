@@ -7,6 +7,8 @@ struct EraSelectionView: View {
     @State private var showGameView = false
     @State private var showAchievements = false
     @State private var completedGames: Set<UUID> = []
+    @State private var isPressed = false
+
     
     var body: some View {
         NavigationStack {
@@ -42,13 +44,14 @@ struct EraSelectionView: View {
                             showAchievements = true
                         }
                         .padding(.vertical, 20)
-                        .frame(maxWidth: .infinity)
-                        .background(Color.blue)
+                        .frame(maxWidth: 400)
+                        .background(Color.green)
                         .foregroundColor(.white)
                         .cornerRadius(12)
                         .font(.title)
                         .shadow(radius: 10)  
                         .padding(.bottom, 60) 
+                        .fontWeight(.bold)
 
                     }
                     

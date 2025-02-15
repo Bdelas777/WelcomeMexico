@@ -29,7 +29,7 @@ struct AchievementView: View {
 
                                 if completedGames.contains(faction.id) {
                                     switch faction.name {
-                                    case "Olmecs":
+                                    case "Olmecas":
                                         Text("🪙 The Olmecs have crowned you!")
                                             .font(.subheadline)
                                             .foregroundColor(.green)
@@ -50,7 +50,7 @@ struct AchievementView: View {
                                     }
                                 } else {
                                     switch faction.name {
-                                    case "Olmecs":
+                                    case "Olmecas":
                                         Text("🚫 You need to carve more giant heads to unlock it.")
                                             .font(.subheadline)
                                             .foregroundColor(.red)
