@@ -188,7 +188,7 @@ struct TacticalMiniGameView: View {
             playerTurn(decision)
             isPlayerTurn = false
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                if insurgentArmyHealth > 0 {  // Solo permite que el enemigo juegue si sigue vivo
+                if insurgentArmyHealth > 0 {
                     enemyTurn()
                 }
                 isPlayerTurn = true

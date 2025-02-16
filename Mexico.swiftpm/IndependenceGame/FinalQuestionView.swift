@@ -17,15 +17,14 @@ struct FinalQuestionView: View {
     
     var body: some View {
         VStack(spacing: 30) {
-            // Pregunta con estilo de texto grande y gamificado
             Text(question)
-                .font(.system(size: 26, weight: .bold, design: .rounded))  // Más grande y en negrita
+                .font(.system(size: 26, weight: .bold, design: .rounded))
                 .multilineTextAlignment(.center)
                 .foregroundColor(.white)
                 .padding(15)
                 .background(Color.black)
                 .cornerRadius(10)
-                .shadow(radius: 10)  // Sombra para darle profundidad
+                .shadow(radius: 10)
                 .overlay(
                     RoundedRectangle(cornerRadius: 10)
                         .stroke(Color.white, lineWidth: 2)
@@ -59,10 +58,9 @@ struct FinalQuestionView: View {
                 .padding(.horizontal, 20)  // Espaciado más amplio para evitar que los botones se toquen
             }
             
-            // Retroalimentación visual de si la respuesta es correcta o incorrecta
             if showFeedback {
                 Text(feedbackMessage)
-                    .font(.system(size: 22, weight: .bold, design: .rounded))  // Texto grande para la retroalimentación
+                    .font(.system(size: 22, weight: .bold, design: .rounded))
                     .foregroundColor(feedbackMessage == "Correct!" ? .green : .red)
                     .padding(12)
                     .background(Color.black.opacity(0.7))
@@ -75,16 +73,15 @@ struct FinalQuestionView: View {
             }
         }
         .padding()
-        .background(Color.black.opacity(0.8))  // Fondo oscuro con mayor opacidad para mejor enfoque
+        .background(Color.black.opacity(0.8))
         .cornerRadius(15)
         .overlay(
             RoundedRectangle(cornerRadius: 15)
                 .stroke(Color.white, lineWidth: 3)
         )
-        .shadow(color: .gray, radius: 10, x: 5, y: 5)  // Sombra más profunda para dar efecto de profundidad
+        .shadow(color: .gray, radius: 10, x: 5, y: 5)
     }
     
-    // Función que maneja la selección de respuesta
     private func handleAnswer(option: String) {
         selectedOption = option
         showFeedback = true

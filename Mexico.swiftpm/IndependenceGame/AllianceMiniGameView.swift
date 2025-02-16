@@ -12,50 +12,47 @@ struct AllianceMiniGameView: View {
     
     var body: some View {
         ZStack {
-            Color.black.opacity(0.7).edgesIgnoringSafeArea(.all)  // Fondo oscuro con mayor opacidad para mayor enfoque
+            Color.black.opacity(0.7).edgesIgnoringSafeArea(.all)
 
-            VStack(spacing: 30) {  // Más espacio entre los elementos para mayor claridad
-                // Pregunta
+            VStack(spacing: 30) {
+                
                 Text(viewModel.questions[viewModel.currentQuestionIndex].text)
-                    .font(.system(size: 30, weight: .bold, design: .rounded))  // Mayor tamaño y negrita para mayor impacto
+                    .font(.system(size: 30, weight: .bold, design: .rounded))
                     .multilineTextAlignment(.center)
                     .foregroundColor(.white)
-                    .padding(.horizontal, 40)  // Espaciado horizontal para mayor comodidad
-                    .shadow(radius: 10)  // Sombra más pronunciada para el texto
+                    .padding(.horizontal, 40)
+                    .shadow(radius: 10)
                 
-                // Opciones de respuesta
                 ForEach(viewModel.dialogOptions) { option in
                     Button(action: {
                         viewModel.handleSelection(option)
                     }) {
                         Text(option.text)
-                            .font(.title2)  // Tamaño de fuente grande para las opciones
+                            .font(.title2)
                             .fontWeight(.medium)
                             .padding()
                             .frame(maxWidth: .infinity)
                             .background(Color.blue.opacity(0.8))
                             .foregroundColor(.white)
                             .cornerRadius(20)
-                            .shadow(radius: 10)  // Sombra más fuerte para los botones
+                            .shadow(radius: 10)
                             .scaleEffect(viewModel.showDialog ? 1.05 : 1.0)
                             .animation(.spring(), value: viewModel.showDialog)
                     }
-                    .padding(.horizontal, 40)  // Aseguramos que los botones tengan un buen espaciado
+                    .padding(.horizontal, 40)
                 }
                 
-                // Barra de progreso
                 ProgressBarView(value: viewModel.progressBarValue)
-                    .padding(.horizontal, 40)  // Espaciado horizontal para la barra de progreso
+                    .padding(.horizontal, 40)
                 
-                // Mensaje de diálogo
                 if viewModel.showDialog {
                     Text(viewModel.gameMessage)
-                        .font(.title3)  // Tamaño moderado para el mensaje
+                        .font(.title3)
                         .foregroundColor(.white)
                         .padding(20)
                         .background(Color.black.opacity(0.7))
                         .cornerRadius(15)
-                        .shadow(radius: 10)  // Sombra para dar efecto de profundidad
+                        .shadow(radius: 10)
                 }
             }
             .padding()
@@ -75,17 +72,17 @@ struct ProgressBarView: View {
         GeometryReader { geometry in
             ZStack(alignment: .leading) {
                 Rectangle()
-                    .frame(width: geometry.size.width, height: 12)  // Mayor altura para la barra
+                    .frame(width: geometry.size.width, height: 12)
                     .foregroundColor(.gray.opacity(0.5))
-                    .cornerRadius(6)  // Bordes más suaves
+                    .cornerRadius(6)
 
                 Rectangle()
                     .frame(width: CGFloat(value) * geometry.size.width, height: 12)
                     .foregroundColor(.green)
-                    .cornerRadius(6)  // Bordes redondeados
-                    .shadow(radius: 10)  // Sombra más destacada
+                    .cornerRadius(6)
+                    .shadow(radius: 10)
             }
         }
-        .frame(height: 12)  // Aseguramos que la barra tenga altura
+        .frame(height: 12)
     }
 }

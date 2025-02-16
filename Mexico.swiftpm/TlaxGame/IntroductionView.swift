@@ -5,18 +5,15 @@ struct IntroductionView: View {
 
     var body: some View {
         ZStack {
-            // Background Image with Blur Effect
             Image("citytlax")
                 .resizable()
                 .scaledToFill()
                 .edgesIgnoringSafeArea(.all)
                 .blur(radius: 5)
 
-            // Semi-transparent Overlay
             Color.black.opacity(0.6)
                 .edgesIgnoringSafeArea(.all)
 
-            // Content
             VStack(spacing: 25) {
                 Text("Welcome to the Tlaxcaltec Journey!")
                     .font(.largeTitle)

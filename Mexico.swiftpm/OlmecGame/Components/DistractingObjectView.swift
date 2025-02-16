@@ -1,9 +1,4 @@
-//
-//  File.swift
-//  
-//
-//  Created by Alumno on 14/01/25.
-//
+
 import SwiftUI
 
 struct DistractingObjectView: View {
@@ -41,7 +36,6 @@ struct DistractingObjectView: View {
         isShaking = true
         showWrongEffect = true
         
-        // Reset animations after delay
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             isShaking = false
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {

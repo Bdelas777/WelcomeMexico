@@ -63,7 +63,7 @@ struct QuizView: View {
         .background(
             ZStack {
               
-                Color.black.opacity(0.6) // Capa adicional para mejorar la legibilidad
+                Color.black.opacity(0.6) 
             }
         )
         .cornerRadius(20)

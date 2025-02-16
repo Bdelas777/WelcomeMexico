@@ -97,7 +97,6 @@ struct GameplayView: View {
                 
             }
             
-            // Modal message
             if let message = viewModel.message {
                 VStack {
                     Text(message)
@@ -109,11 +108,11 @@ struct GameplayView: View {
                         .padding(.bottom)
                         .overlay(
                             RoundedRectangle(cornerRadius: 12)
-                                .stroke(Color.white, lineWidth: 3) // Borde blanco
+                                .stroke(Color.white, lineWidth: 3)
                         )
                     
                     Button(action: {
-                        viewModel.message = nil // Cerrar el mensaje
+                        viewModel.message = nil
                     }) {
                         Image(systemName: "xmark.circle.fill")
                             .resizable()
@@ -124,7 +123,7 @@ struct GameplayView: View {
                 }
                 .frame(maxWidth: 300)
                 .padding(20)
-                .zIndex(3) // Asegura que el mensaje esté sobre todo
+                .zIndex(3)
             }
         }
         .onAppear {

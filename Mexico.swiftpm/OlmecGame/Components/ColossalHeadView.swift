@@ -1,9 +1,4 @@
-//
-//  SwiftUIView.swift
-//  
-//
-//  Created by Alumno on 09/01/25.
-//
+
 
 import SwiftUI
 

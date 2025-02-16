@@ -1,9 +1,4 @@
-//
-//  File.swift
-//  
-//
-//  Created by Alumno on 11/01/25.
-//
+
 
 import SwiftUI
 
@@ -14,25 +9,24 @@ struct CultureIcon: View {
         VStack {
             Image(culture.name)
                 .resizable()
-                .frame(width: 150, height: 150) // Tamaño aún más grande para tablets
+                .frame(width: 150, height: 150)
                 .clipShape(Circle())
                 .overlay(
                     Circle()
-                        .stroke(Color.gray.opacity(0.8), lineWidth: 3) // Borde más grueso
+                        .stroke(Color.gray.opacity(0.8), lineWidth: 3)
                 )
             
-            // Fondo detrás del texto
             Text(culture.name)
-                .font(.largeTitle) // Texto mucho más grande
+                .font(.largeTitle)
                 .bold()
-                .foregroundColor(.white) // Texto blanco para destacar
-                .padding(8) // Espaciado dentro del fondo
+                .foregroundColor(.white)
+                .padding(8)
                 .background(
-                    RoundedRectangle(cornerRadius: 10) // Fondo detrás del texto
-                        .fill(Color.black.opacity(0.6)) // Fondo negro con transparencia
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(Color.black.opacity(0.6))
                 )
-                .padding(.top, 10) // Separación entre la imagen y el texto
+                .padding(.top, 10)
         }
-        .padding(20) // Espaciado alrededor del ícono
+        .padding(20) 
     }
 }
