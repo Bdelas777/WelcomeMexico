@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "char_walk3.png",
+      "filename" : "enemy_walk3.png",
       "idiom" : "universal",
       "scale" : "1x"
     },

@@ -20,7 +20,7 @@ struct Faction: Identifiable, Equatable {
 }
 
 let factions = [
- /* Faction(
+ Faction(
         name: "Olmecas",
         imageName: "Olmecas",
         description: "Uncover the origins of Mesoamerican civilization! The Olmecs, known as the 'Mother Culture,' invite you into a world of mystery and monumental art. Can you unravel the secrets behind their colossal stone heads?",
@@ -37,7 +37,7 @@ let factions = [
         imageName: "tlax",
         description: "Become a key strategist in shaping Mesoamerica's destiny. Join the Tlaxcaltecas, daring warriors who forged alliances that changed history forever. Will you dare to face the mighty Mexicas?",
         destination: AnyView(GameView())
-    ),*/
+    ),
     Faction(
         name: "Realistas",
         imageName: "realistas",

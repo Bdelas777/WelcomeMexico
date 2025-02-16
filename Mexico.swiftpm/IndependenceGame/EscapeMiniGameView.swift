@@ -72,12 +72,11 @@ struct EscapeMiniGameView: View {
                     .shadow(radius: 10)
                     .padding(.leading, 40)
 
-                // Animated enemies with flipping
                 ForEach(0..<enemyPositions.count, id: \.self) { index in
                     Image(enemyFrames[currentEnemyFrame])
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 160, height: 160)
+                        .frame(width: 700, height: 700)
                         .scaleEffect(x: playerPosition.width < enemyPositions[index].width ? -1 : 1, y: 1)
                         .position(
                             x: enemyPositions[index].width * geometry.size.width,
@@ -132,21 +131,28 @@ struct EscapeMiniGameView: View {
     private func startEnemyMovement() {
         moveTimer = Timer.scheduledTimer(withTimeInterval: 0.016, repeats: true) { _ in
             for index in enemyPositions.indices {
-                let enemy = enemyPositions[index]
+                var enemy = enemyPositions[index]
+                
+                // Direcciones y velocidad aleatoria para cada enemigo
                 let dx = playerPosition.width - enemy.width
                 let dy = playerPosition.height - enemy.height
                 let distance = sqrt(dx * dx + dy * dy)
                 
+                // Velocidades aleatorias para cada enemigo
+                let randomSpeed: CGFloat = CGFloat.random(in: 0.001...0.004)  // Aleatorizar la velocidad de cada enemigo
+                
                 // Movimiento del enemigo sin animación directa
                 if distance > 0.01 {  // Evitar movimientos muy pequeños que generen parpadeo
-                    let speed: CGFloat = 0.002  // Reducir la velocidad
-                    // Mover al enemigo sin animación directa
-                    enemyPositions[index].width += (dx / distance) * speed
-                    enemyPositions[index].height += (dy / distance) * speed
+                    enemy.width += (dx / distance) * randomSpeed
+                    enemy.height += (dy / distance) * randomSpeed
                 }
+
+                // Actualizar la posición del enemigo
+                enemyPositions[index] = enemy
             }
         }
     }
+
 
 
     private func stopEnemyMovement() {

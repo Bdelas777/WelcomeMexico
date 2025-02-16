@@ -124,6 +124,22 @@ struct InstructionsView: View {
                 }
             
             VStack(spacing: 30) {
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        showInstructions = false
+                        onClose()
+                    }) {
+                        Text("X")
+                            .font(.system(size: 40, weight: .bold))
+                            .foregroundColor(.white)
+                            .padding(10)
+                            .background(Color.black.opacity(0.7))
+                            .clipShape(Circle())
+                    }
+                    .padding()
+                }
+                
                 Text("Mission Briefing")
                     .font(.system(size: 40, weight: .bold, design: .rounded))
                     .foregroundColor(.yellow)
@@ -171,7 +187,7 @@ struct InstructionsView: View {
             case .alliance:
                 Text("Shape Mexico's destiny through diplomatic decisions. Build alliances and influence the path to independence.")
             case .escape:
-                Text("Navigate through the castle avoiding enemy patrols. Use strategy and quick thinking to reach safety.")
+                Text("Navigate through the castle avoiding enemy patrols. Select your character to move it strategically and reach the castle safely to win!")
             case .tactical:
                 VStack(spacing: 15) {
                     Text("Command your forces using tactical decisions:")
@@ -181,3 +197,4 @@ struct InstructionsView: View {
         }
     }
 }
+

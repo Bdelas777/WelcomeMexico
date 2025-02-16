@@ -29,10 +29,9 @@ struct TacticalMiniGameView: View {
                 .overlay(Color.black.opacity(0.5))
 
             VStack(spacing: 30) {
-                // Title and Health Bars Section
-                VStack(spacing: 20) {
+                VStack(spacing: 5) {
                     Text("Battle for Independence")
-                        .font(.system(size: 40, weight: .bold, design: .rounded))
+                        .font(.system(size: 30, weight: .bold, design: .rounded))
                         .foregroundColor(.yellow)
                         .shadow(color: .black, radius: 5)
 
@@ -116,11 +115,11 @@ struct TacticalMiniGameView: View {
     }
 
     private var characterDisplay: some View {
-        HStack(spacing: 60) {
-            characterImage("player", action: playerAction, label: "Your Forces")
+        HStack(spacing: 30) {
+            characterImage("char", action: playerAction, label: "Your Forces")
             characterImage("enemy", action: enemyAction, label: "Enemy")
         }
-        .padding(.top, 20)
+        .padding(.top, 5)
     }
 
     private func characterImage(_ image: String, action: String, label: String) -> some View {
@@ -128,7 +127,7 @@ struct TacticalMiniGameView: View {
             Image(image)
                 .resizable()
                 .scaledToFit()
-                .frame(width: 160, height: 160)
+                .frame(width: 100, height: 100)
                 .scaleEffect(action == "Defend" ? 1.1 : 1)
                 .rotationEffect(.degrees(action == "Attack" ? (image == "player" ? 30 : -30) : 0))
                 .opacity(action == "Recover" ? 0.7 : 1)
