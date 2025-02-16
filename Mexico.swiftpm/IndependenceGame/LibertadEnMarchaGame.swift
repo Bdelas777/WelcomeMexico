@@ -127,18 +127,19 @@ struct InstructionsView: View {
                 HStack {
                     Spacer()
                     Button(action: {
-                        showInstructions = false
-                        onClose()
+                        withAnimation {
+                            showInstructions = false
+                            onClose()
+                        }
                     }) {
-                        Text("X")
-                            .font(.system(size: 40, weight: .bold))
+                        Image(systemName: "xmark.circle.fill")
+                            .resizable()
+                            .frame(width: 32, height: 32)
                             .foregroundColor(.white)
-                            .padding(10)
-                            .background(Color.black.opacity(0.7))
-                            .clipShape(Circle())
+                            .background(Circle().fill(Color.black.opacity(0.7)))
                     }
-                    .padding()
-                }
+                    .padding(2)
+                                    }
                 
                 Text("Mission Briefing")
                     .font(.system(size: 40, weight: .bold, design: .rounded))

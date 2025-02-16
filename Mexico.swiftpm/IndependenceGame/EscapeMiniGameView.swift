@@ -132,22 +132,19 @@ struct EscapeMiniGameView: View {
         moveTimer = Timer.scheduledTimer(withTimeInterval: 0.016, repeats: true) { _ in
             for index in enemyPositions.indices {
                 var enemy = enemyPositions[index]
-                
-                // Direcciones y velocidad aleatoria para cada enemigo
+
                 let dx = playerPosition.width - enemy.width
                 let dy = playerPosition.height - enemy.height
                 let distance = sqrt(dx * dx + dy * dy)
-                
-                // Velocidades aleatorias para cada enemigo
-                let randomSpeed: CGFloat = CGFloat.random(in: 0.001...0.004)  // Aleatorizar la velocidad de cada enemigo
-                
-                // Movimiento del enemigo sin animación directa
-                if distance > 0.01 {  // Evitar movimientos muy pequeños que generen parpadeo
+
+                let randomSpeed: CGFloat = CGFloat.random(in: 0.001...0.004)
+
+                if distance > 0.01 {
+                    // Asegurarse de que el enemigo siempre se mueva, incluso si el jugador está cerca
                     enemy.width += (dx / distance) * randomSpeed
                     enemy.height += (dy / distance) * randomSpeed
                 }
 
-                // Actualizar la posición del enemigo
                 enemyPositions[index] = enemy
             }
         }
@@ -175,13 +172,21 @@ struct EscapeMiniGameView: View {
         let goalHeight: CGFloat = 800
         let distanceThreshold: CGFloat = goalWidth * 0.3
 
-        if abs(playerPosition.width * geometrySize.width - goalPosition.width * geometrySize.width) < distanceThreshold &&
-           abs(playerPosition.height * geometrySize.height - goalPosition.height * geometrySize.height) < distanceThreshold {
+        // Usar distancia entre las posiciones en vez de comparar las posiciones absolutas
+        let playerX = playerPosition.width * geometrySize.width
+        let playerY = playerPosition.height * geometrySize.height
+        let goalX = goalPosition.width * geometrySize.width
+        let goalY = goalPosition.height * geometrySize.height
+
+        let distance = sqrt(pow(playerX - goalX, 2) + pow(playerY - goalY, 2))
+
+        if distance < distanceThreshold {
             viewModel.score += 10
             endGame()
         }
     }
 
+   
     private func endGame() {
         stopEnemyMovement()
         viewModel.gameState = .finalQuestion

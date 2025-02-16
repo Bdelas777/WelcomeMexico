@@ -15,7 +15,7 @@ struct GameplayView: View {
                 ProgressView(value: viewModel.timeRemaining, total: viewModel.gameDuration)
                     .padding()
                 
-                Text("Time: \(Int(viewModel.timeRemaining)) seconds")  // Mostrar tiempo como int
+                Text("Time: \(Int(viewModel.timeRemaining)) seconds")
                     .font(.title)
                     .padding(.bottom)
                     .background(Color.black.opacity(0.5))
@@ -34,15 +34,14 @@ struct GameplayView: View {
                     ForEach(viewModel.cultures) { culture in
                         CultureIcon(culture: culture)
                             .position(viewModel.culturePositions[culture.id] ?? culture.position)
-                            .shadow(radius: 5) // Mantener la sombra
+                            .shadow(radius: 5)
                             .padding(4)
                             .gesture(
                                 DragGesture()
                                     .onChanged { value in
                                         viewModel.draggedCulture = culture
-                                        // Limitar el movimiento a la parte superior 3/4 de la pantalla
                                         let screenHeight = UIScreen.main.bounds.height
-                                        let yPosition = min(value.location.y, screenHeight * 0.75)  // Limitar la posición Y
+                                        let yPosition = min(value.location.y, screenHeight * 0.75)
                                         viewModel.updateCulturePosition(culture.id, position: CGPoint(x: value.location.x, y: yPosition))
                                     }
                                     .onEnded { value in
@@ -54,17 +53,14 @@ struct GameplayView: View {
                                             let isLeftZone = dropPoint.x < screenWidth / 2
                                             let zoneName = isLeftZone ? "Allies" : "Non-Allies"
                                             
-                                            // Verificar si la colocación es correcta
                                             if viewModel.checkPlacement(cultureID: culture.id, location: dropPoint, zoneName: zoneName) {
                                                 viewModel.score += 100
                                                 if viewModel.score >= 400 {
                                                     viewModel.showVictory()
                                                 }
                                                 
-                                                // Mostrar la descripción de la cultura
                                                 viewModel.showMessage(message: culture.description, isCorrect: true)
                                             } else {
-                                                // Mensaje de "wrong side"
                                                 viewModel.showMessage(message: "Wrong side!", isCorrect: false)
                                                 
                                                 viewModel.resetCulturePosition(culture.id)
@@ -77,7 +73,7 @@ struct GameplayView: View {
                             )
                     }
                 }
-                .zIndex(1) // Asegura que los iconos de las culturas estén detrás de las zonas de caída
+                .zIndex(1)
                 
                 Spacer()
                 
@@ -88,7 +84,7 @@ struct GameplayView: View {
                         .cornerRadius(10)
                         .foregroundColor(.white)
                         .border(Color.white, width: 2)
-                        .zIndex(2) // Asegura que la zona de "Allies" esté sobre los iconos de cultura
+                        .zIndex(2)
                     
                     DropZone(title: "Non-Allies")
                         .padding()
@@ -96,19 +92,39 @@ struct GameplayView: View {
                         .cornerRadius(10)
                         .foregroundColor(.white)
                         .border(Color.white, width: 2)
-                        .zIndex(2) // Asegura que la zona de "Non-Allies" esté sobre los iconos de cultura
+                        .zIndex(2)
                 }
                 
-                if let message = viewModel.message {
+            }
+            
+            // Modal message
+            if let message = viewModel.message {
+                VStack {
                     Text(message)
-                        .font(.title)
+                        .font(.title2)
                         .padding()
                         .foregroundColor(viewModel.isCorrectPlacement ? .green : .red)
-                        .background(viewModel.isCorrectPlacement ? Color.green.opacity(0.3) : Color.red.opacity(0.3))
-                        .cornerRadius(10)
-                        .transition(.opacity)
-                        .animation(.easeInOut(duration: 0.5))
+                        .background(viewModel.isCorrectPlacement ? Color.white : Color.white)
+                        .cornerRadius(12)
+                        .padding(.bottom)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12)
+                                .stroke(Color.white, lineWidth: 3) // Borde blanco
+                        )
+                    
+                    Button(action: {
+                        viewModel.message = nil // Cerrar el mensaje
+                    }) {
+                        Image(systemName: "xmark.circle.fill")
+                            .resizable()
+                            .frame(width: 30, height: 30)
+                            .foregroundColor(.white)
+                            .padding()
+                    }
                 }
+                .frame(maxWidth: 300)
+                .padding(20)
+                .zIndex(3) // Asegura que el mensaje esté sobre todo
             }
         }
         .onAppear {
