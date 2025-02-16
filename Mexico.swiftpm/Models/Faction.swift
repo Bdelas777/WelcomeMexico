@@ -24,13 +24,13 @@ let factions = [
         imageName: "teo",
         description: "Step into the majestic City of the Gods. Climb the towering Pyramid of the Sun and uncover the mysteries of Teotihuacán, where religion, science, and power collide. Are you ready to walk among giants?",
         destination: AnyView(JuegoPiramideView())
-    ),*/
+    ),
     Faction(
         name: "Tlaxcaltecas",
         imageName: "tlax",
         description: "Become a key strategist in shaping Mesoamerica's destiny. Join the Tlaxcaltecas, daring warriors who forged alliances that changed history forever. Will you dare to face the mighty Mexicas?",
         destination: AnyView(GameView())
-    ),
+    ),*/
     Faction(
         name: "Realistas",
         imageName: "realistas",

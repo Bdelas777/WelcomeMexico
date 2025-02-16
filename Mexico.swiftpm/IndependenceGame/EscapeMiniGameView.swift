@@ -63,12 +63,14 @@ struct EscapeMiniGameView: View {
                                 }
                                 movePlayer(to: value.location, bounds: geometry.size)
                             }
-                            .onEnded { _ in
+                            .onEnded { value in
                                 isPlayerMoving = false
                                 currentPlayerFrame = 0
                                 lastX = 0
+                                checkWin(geometrySize: geometry.size) // Comprobar la victoria aquí
                             }
                     )
+
                     .shadow(radius: 10)
                     .padding(.leading, 40)
 
@@ -132,19 +134,22 @@ struct EscapeMiniGameView: View {
         moveTimer = Timer.scheduledTimer(withTimeInterval: 0.016, repeats: true) { _ in
             for index in enemyPositions.indices {
                 var enemy = enemyPositions[index]
-
+                
+                // Direcciones y velocidad aleatoria para cada enemigo
                 let dx = playerPosition.width - enemy.width
                 let dy = playerPosition.height - enemy.height
                 let distance = sqrt(dx * dx + dy * dy)
-
-                let randomSpeed: CGFloat = CGFloat.random(in: 0.001...0.004)
-
-                if distance > 0.01 {
-                    // Asegurarse de que el enemigo siempre se mueva, incluso si el jugador está cerca
+                
+                // Velocidades aleatorias para cada enemigo
+                let randomSpeed: CGFloat = CGFloat.random(in: 0.001...0.004)  // Aleatorizar la velocidad de cada enemigo
+                
+                // Movimiento del enemigo sin animación directa
+                if distance > 0.01 {  // Evitar movimientos muy pequeños que generen parpadeo
                     enemy.width += (dx / distance) * randomSpeed
                     enemy.height += (dy / distance) * randomSpeed
                 }
 
+                // Actualizar la posición del enemigo
                 enemyPositions[index] = enemy
             }
         }
