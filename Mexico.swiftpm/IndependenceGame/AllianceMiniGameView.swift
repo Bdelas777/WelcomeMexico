@@ -22,6 +22,7 @@ struct AllianceMiniGameView: View {
                     .foregroundColor(.white)
                     .padding(.horizontal, 40)
                     .shadow(radius: 10)
+                    .frame(maxWidth: 1000)
                 
                 ForEach(viewModel.dialogOptions) { option in
                     Button(action: {

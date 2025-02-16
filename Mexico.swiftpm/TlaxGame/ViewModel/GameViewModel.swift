@@ -25,14 +25,14 @@ class GameViewModel: ObservableObject {
             Culture(name: "Spanish", isAlly: true,
                     description: "Led by Cortés, they formed alliances and used strategy to conquer Tenochtitlán.",
                     position: CGPoint(x: 100, y: 200)),
-            Culture(name: "Mexicas", isAlly: false,
+            Culture(name: "Aztecs", isAlly: false,
                     description: "Defenders of Tenochtitlán, known for their powerful empire and resistance to the Spanish.",
                     position: CGPoint(x: 200, y: 200)),
             Culture(name: "Totonacas", isAlly: true,
-                    description: "Allied with Cortés, helping him fight against the Mexicas.",
+                    description: "Allied with Cortés, helping him fight against the Aztecs.",
                     position: CGPoint(x: 300, y: 200)),
             Culture(name: "Tlatelolco", isAlly: false,
-                    description: "Rival Mexica city that fell alongside Tenochtitlán during the conquest.",
+                    description: "Allie Aztec city that fell alongside Tenochtitlán during the conquest.",
                     position: CGPoint(x: 400, y: 200))
 
         ]
