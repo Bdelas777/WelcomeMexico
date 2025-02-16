@@ -28,7 +28,7 @@ let factions = [
     Faction(
         name: "Tlaxcaltecas",
         imageName: "tlax",
-        description: "Become a key strategist in shaping Mesoamerica's destiny. Join the Tlaxcaltecas, daring warriors who forged alliances that changed history forever. Will you dare to face the mighty Mexicas?",
+        description: "Become a key strategist in shaping Mesoamerica's destiny. Join the Tlaxcaltecas, daring warriors who forged alliances that changed history forever. Will you dare to face the mighty Aztecs?",
         destination: AnyView(GameView())
     ),
     Faction(

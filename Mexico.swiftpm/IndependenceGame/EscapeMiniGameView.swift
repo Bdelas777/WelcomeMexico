@@ -16,6 +16,7 @@ struct EscapeMiniGameView: View {
     @State private var isPlayerMoving = false
     @State private var isMovingLeft = false
     @State private var lastX: CGFloat = 0
+    @State private var isDragging = false
     
     // Animation frames
     let playerFrames = ["char_walk1", "char_walk2", "char_walk3", "char_walk4"]
@@ -41,7 +42,6 @@ struct EscapeMiniGameView: View {
                     .shadow(radius: 10)
                     .padding(.trailing, 80)
 
-                // Animated player with flipping
                 Image(isPlayerMoving ? playerFrames[currentPlayerFrame] : playerFrames[0])
                     .resizable()
                     .scaledToFit()
@@ -52,22 +52,24 @@ struct EscapeMiniGameView: View {
                         y: playerPosition.height * geometry.size.height
                     )
                     .gesture(
-                        DragGesture()
+                        DragGesture(minimumDistance: 0)
                             .onChanged { value in
-                                isPlayerMoving = true
-                                if lastX == 0 {
-                                    lastX = value.location.x
-                                } else {
-                                    isMovingLeft = value.location.x < lastX
-                                    lastX = value.location.x
+                                if !isDragging {
+                                    isDragging = true // Reactiva el arrastre al tocar de nuevo
                                 }
+                                isPlayerMoving = true
+                                isMovingLeft = value.location.x < lastX
+                                lastX = value.location.x
+                                
                                 movePlayer(to: value.location, bounds: geometry.size)
                             }
-                            .onEnded { value in
+                            .onEnded { _ in
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                    isDragging = false // Permite que el jugador pueda moverse de nuevo en el futuro
+                                }
                                 isPlayerMoving = false
                                 currentPlayerFrame = 0
-                                lastX = 0
-                                checkWin(geometrySize: geometry.size) // Comprobar la victoria aquí
+                                checkWin(geometrySize: geometry.size)
                             }
                     )
 
@@ -87,7 +89,6 @@ struct EscapeMiniGameView: View {
                         .shadow(radius: 10)
                         .padding(.leading, 40)
                 }
-
 
                 VStack {
                     Spacer()
@@ -114,6 +115,7 @@ struct EscapeMiniGameView: View {
         }
     }
     
+    // El resto de las funciones permanecen igual...
     private func startAnimations() {
         Timer.scheduledTimer(withTimeInterval: 0.08, repeats: true) { _ in
             if isPlayerMoving {
@@ -134,28 +136,19 @@ struct EscapeMiniGameView: View {
         moveTimer = Timer.scheduledTimer(withTimeInterval: 0.016, repeats: true) { _ in
             for index in enemyPositions.indices {
                 var enemy = enemyPositions[index]
-                
-                // Direcciones y velocidad aleatoria para cada enemigo
                 let dx = playerPosition.width - enemy.width
                 let dy = playerPosition.height - enemy.height
                 let distance = sqrt(dx * dx + dy * dy)
+                let randomSpeed: CGFloat = CGFloat.random(in: 0.001...0.004)
                 
-                // Velocidades aleatorias para cada enemigo
-                let randomSpeed: CGFloat = CGFloat.random(in: 0.001...0.004)  // Aleatorizar la velocidad de cada enemigo
-                
-                // Movimiento del enemigo sin animación directa
-                if distance > 0.01 {  // Evitar movimientos muy pequeños que generen parpadeo
+                if distance > 0.01 {
                     enemy.width += (dx / distance) * randomSpeed
                     enemy.height += (dy / distance) * randomSpeed
                 }
-
-                // Actualizar la posición del enemigo
                 enemyPositions[index] = enemy
             }
         }
     }
-
-
 
     private func stopEnemyMovement() {
         moveTimer?.invalidate()
@@ -177,7 +170,6 @@ struct EscapeMiniGameView: View {
         let goalHeight: CGFloat = 800
         let distanceThreshold: CGFloat = goalWidth * 0.3
 
-        // Usar distancia entre las posiciones en vez de comparar las posiciones absolutas
         let playerX = playerPosition.width * geometrySize.width
         let playerY = playerPosition.height * geometrySize.height
         let goalX = goalPosition.width * geometrySize.width
@@ -191,7 +183,6 @@ struct EscapeMiniGameView: View {
         }
     }
 
-   
     private func endGame() {
         stopEnemyMovement()
         viewModel.gameState = .finalQuestion

@@ -8,7 +8,11 @@ struct EraSelectionView: View {
     @State private var showAchievements = false
     @State private var completedGames: Set<UUID> = []
     @State private var isPressed = false
-
+    @State private var showCompletionModal = false
+    
+    var allAchievementsCompleted: Bool {
+        completedGames.count == factions.count
+    }
     
     var body: some View {
         NavigationStack {
@@ -49,10 +53,9 @@ struct EraSelectionView: View {
                         .foregroundColor(.white)
                         .cornerRadius(12)
                         .font(.title)
-                        .shadow(radius: 10)  
-                        .padding(.bottom, 60) 
+                        .shadow(radius: 10)
+                        .padding(.bottom, 60)
                         .fontWeight(.bold)
-
                     }
                     
                     if let faction = selectedFaction, showModal {
@@ -60,13 +63,15 @@ struct EraSelectionView: View {
                             showGameView = true
                         })
                         .frame(width: geometry.size.width * 0.7, height: geometry.size.height * 0.6)
-                        .transition(
-                            .asymmetric(
-                                insertion: .opacity.combined(with: .scale(scale: 0.8, anchor: .center)),
-                                removal: .opacity.combined(with: .move(edge: .bottom))
-                            )
-                        )
+                        .transition(.asymmetric(
+                            insertion: .opacity.combined(with: .scale(scale: 0.8, anchor: .center)),
+                            removal: .opacity.combined(with: .move(edge: .bottom))
+                        ))
                         .animation(.spring(response: 0.5, dampingFraction: 0.7), value: showModal)
+                    }
+                    
+                    if showCompletionModal {
+                        CompletionModalView(isPresented: $showCompletionModal, showAchievements: $showAchievements)
                     }
                 }
                 .frame(width: geometry.size.width, height: geometry.size.height)
@@ -78,6 +83,11 @@ struct EraSelectionView: View {
                         .onDisappear {
                             if let faction = selectedFaction {
                                 completedGames.insert(faction.id)
+                                
+                                // Check if all achievements are completed after adding new one
+                                if allAchievementsCompleted {
+                                    showCompletionModal = true
+                                }
                             }
                             audioManager.play()
                         }
