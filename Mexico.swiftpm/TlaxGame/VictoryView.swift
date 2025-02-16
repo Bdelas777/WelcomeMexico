@@ -17,12 +17,10 @@ struct VictoryView: View {
                 .edgesIgnoringSafeArea(.all)
                 .blur(radius: 5)
             
-            // Fondo oscuro con opacidad
             Color.black.opacity(0.7)
                 .edgesIgnoringSafeArea(.all)
             
             VStack(spacing: 40) {
-                // Título de victoria con animación
                 Text("🎉 Congratulations! 🎉")
                     .font(.system(size: 55, weight: .bold, design: .rounded))
                     .foregroundColor(.yellow)
@@ -45,7 +43,6 @@ struct VictoryView: View {
                     .cornerRadius(15)
                     .shadow(radius: 10)
                 
-                // Dato curioso sobre los Tlaxcaltecas
                 VStack(spacing: 20) {
                     Text("💡 Did you know?")
                         .font(.title)
@@ -65,7 +62,6 @@ struct VictoryView: View {
                 }
                 .padding(.horizontal, 30)
                 
-                // Botón para regresar al menú principal con animación
                 Button(action: {
                     dismiss()
                 }) {

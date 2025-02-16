@@ -38,13 +38,8 @@ struct TacticalMiniGameView: View {
                     healthBars
                 }
 
-                // Battle Message Display
                 battleMessageView
-                
-                // Character Images (Player vs Enemy)
                 characterDisplay
-
-                // Action Buttons Section
                 actionButtons
             }
             .padding()
@@ -119,7 +114,7 @@ struct TacticalMiniGameView: View {
             characterImage("char", action: playerAction, label: "Your Forces")
             characterImage("enemy", action: enemyAction, label: "Enemy")
         }
-        .padding(.top, 5)
+      
     }
 
     private func characterImage(_ image: String, action: String, label: String) -> some View {
@@ -128,15 +123,15 @@ struct TacticalMiniGameView: View {
                 .resizable()
                 .scaledToFit()
                 .frame(width: 100, height: 100)
-                .scaleEffect(action == "Defend" ? 1.1 : 1)
-                .rotationEffect(.degrees(action == "Attack" ? (image == "player" ? 30 : -30) : 0))
-                .opacity(action == "Recover" ? 0.7 : 1)
-                .animation(.easeInOut(duration: 0.3), value: action)
+                .scaleEffect(action == "Defend" ? 1.2 : (action == "Attack" ? 1.4 : 1))
+                                .rotationEffect(.degrees(action == "Attack" ? (image == "char" ? -10 : 10) : 0))
+                                .opacity(action == "Recover" ? 0.5 : 1)
+                                .animation(.spring(response: 0.4, dampingFraction: 0.6), value: action)
 
             Text(label)
                 .foregroundColor(.white)
                 .font(.headline)
-                .padding(.top, 10)
+                .padding(.top, 2)
         }
     }
 
@@ -149,7 +144,7 @@ struct TacticalMiniGameView: View {
                 }
             }
         }
-        .padding(.top, 30)
+        .padding(.top, 10)
     }
 
     private func tacticalButton(_ text: String) -> some View {

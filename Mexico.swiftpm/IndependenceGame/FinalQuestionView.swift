@@ -30,14 +30,13 @@ struct FinalQuestionView: View {
                         .stroke(Color.white, lineWidth: 2)
                 )
             
-            // Opciones de respuesta con retroalimentación visual
+
             ForEach(options, id: \.self) { option in
                 Button(action: {
                     handleAnswer(option: option)
                 }) {
                     Text(option)
-                        .font(.system(size: 20, weight: .medium, design: .rounded))  // Tamaño más grande
-                        .padding(15)
+                        .font(.system(size: 20, weight: .medium, design: .rounded))                        .padding(15)
                         .frame(maxWidth: .infinity)
                         .background(
                             selectedOption == option ?
@@ -46,16 +45,16 @@ struct FinalQuestionView: View {
                         )
                         .foregroundColor(.white)
                         .cornerRadius(10)
-                        .shadow(radius: 8)  // Sombra más notoria
-                        .scaleEffect(selectedOption == option ? 1.05 : 1.0)  // Efecto de escala al seleccionar
+                        .shadow(radius: 8)
+                        .scaleEffect(selectedOption == option ? 1.05 : 1.0) 
                         .animation(.spring(), value: selectedOption)
-                        .offset(x: selectedOption == option && selectedOption != correctAnswer && shake ? -10 : 0)  // Efecto de vibración si es incorrecto
+                        .offset(x: selectedOption == option && selectedOption != correctAnswer && shake ? -10 : 0)
                         .animation(
                             shake ? Animation.default.repeatCount(5).speed(4) : .default,
                             value: shake
                         )
                 }
-                .padding(.horizontal, 20)  // Espaciado más amplio para evitar que los botones se toquen
+                .padding(.horizontal, 20)
             }
             
             if showFeedback {

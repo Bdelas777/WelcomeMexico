@@ -34,7 +34,7 @@ struct GameOverView: View {
                     .shadow(radius: 10)
                 
                 VStack(spacing: 20) {
-                    Text("📜 History")
+                    Text("💡 Did you know?")
                         .font(.title)
                         .bold()
                         .foregroundColor(.orange)
